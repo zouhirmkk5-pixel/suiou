@@ -3,164 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OGAM STORE | Premium Asset Vault</title>
+    <title>OGAM STORE | Professional Asset Vault</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg: #080808;
-            --accent: #00D1FF;
-            --surface: #121214;
-            --border: rgba(255, 255, 255, 0.06);
+            --bg: #050505;
+            --surface: #0e0e10;
+            --azure: #007AFF;
+            --border: rgba(255, 255, 255, 0.05);
         }
 
         body {
             background-color: var(--bg);
-            color: #ffffff;
+            color: #f5f5f7;
             font-family: 'Plus Jakarta Sans', sans-serif;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Professional Hex-Portal Logo */
+        /* Ambient Studio Lighting */
+        .studio-light {
+            position: fixed;
+            top: -10%; right: -5%;
+            width: 60vw; height: 60vh;
+            background: radial-gradient(circle, rgba(0, 122, 255, 0.07) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1; filter: blur(100px);
+        }
+
+        /* OGAM Hex Logo */
         .ogam-logo {
-            width: 44px; height: 44px;
-            background: linear-gradient(135deg, var(--accent), #0055FF);
+            width: 42px; height: 42px;
+            background: linear-gradient(135deg, var(--azure), #0044ff);
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 25px rgba(0, 209, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 122, 255, 0.4);
         }
 
-        /* Glass Surface Effects */
-        .glass-card {
+        /* High-End Bento Card */
+        .vault-card {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 32px;
-            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
         }
 
-        .glass-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-10px);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 20px rgba(0, 209, 255, 0.1);
+        .vault-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.9);
+        }
+
+        .hero-title {
+            background: linear-gradient(to bottom, #ffffff 50%, #636366 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.04em;
         }
 
         .mono { font-family: 'JetBrains Mono', monospace; }
 
-        .btn-premium {
+        .btn-action {
             background: #ffffff;
-            color: #000000;
+            color: #000;
             font-weight: 800;
             transition: all 0.3s ease;
         }
 
-        .btn-premium:hover {
-            background: var(--accent);
-            color: #ffffff;
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(0, 209, 255, 0.4);
+        .btn-action:hover {
+            background: var(--azure);
+            color: #fff;
+            box-shadow: 0 0 30px rgba(0, 122, 255, 0.5);
         }
 
-        #app-viewer {
+        #vault-overlay {
             position: fixed; inset: 0;
-            background: rgba(8, 8, 8, 0.98);
+            background: var(--bg);
             z-index: 1000; display: none;
-            backdrop-filter: blur(20px);
+            overflow-y: auto;
         }
 
-        /* Aurora Background Glow */
-        .aurora {
-            position: fixed;
-            top: -20%; left: -10%;
-            width: 60vw; height: 60vh;
-            background: radial-gradient(circle, rgba(0, 209, 255, 0.08) 0%, rgba(0,0,0,0) 70%);
-            z-index: -1; filter: blur(100px);
+        .status-pill {
+            background: rgba(0, 122, 255, 0.1);
+            border: 1px solid rgba(0, 122, 255, 0.2);
+            color: var(--azure);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            padding: 4px 12px;
+            border-radius: 100px;
         }
     </style>
 </head>
 <body>
 
-    <div class="aurora"></div>
+    <div class="studio-light"></div>
 
-    <nav class="fixed top-0 w-full z-[100] px-8 py-6 border-b border-white/5 bg-black/40 backdrop-blur-xl">
+    <nav class="fixed top-0 w-full z-[100] px-8 py-6 backdrop-blur-2xl border-b border-white/5 bg-black/40">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-4">
                 <div class="ogam-logo">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3">
-                        <circle cx="12" cy="12" r="8" />
-                        <path d="M12 8v8M8 12h8" />
-                    </svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                 </div>
                 <span class="text-2xl font-black tracking-tighter">OGAM STORE</span>
             </div>
             <div class="flex items-center gap-6">
-                <div class="hidden md:flex items-center gap-2 mono text-[10px] text-green-400 bg-green-400/10 px-3 py-1 rounded-full border border-green-400/20">
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
-                    LIVE_USERS: 1,248
+                <div class="hidden md:block mono text-[10px] text-gray-500 uppercase tracking-widest">
+                    Verified Global Downloads: <span class="text-white">1.2M+</span>
                 </div>
-                <div class="mono text-[10px] text-gray-500 font-bold tracking-widest uppercase">SECURE_VAULT_2026</div>
+                <div class="status-pill">STABLE_CONNECT</div>
             </div>
         </div>
     </nav>
 
-    <main class="pt-44 pb-32 px-8 max-w-7xl mx-auto">
-        <header class="mb-24 text-center md:text-left">
-            <h1 class="text-7xl md:text-9xl font-black tracking-tighter leading-none mb-8">
-                The Elite <br><span class="text-gray-600 italic">Repository.</span>
-            </h1>
-            <p class="text-xl text-gray-400 max-w-2xl font-medium leading-relaxed">
-                OGAM STORE provides verified, high-performance access to the world's most powerful AI and creative engines.
-            </p>
-        </header>
+    <main class="pt-48 pb-32 px-8">
+        <div class="max-w-7xl mx-auto text-center md:text-left">
+            <header class="mb-24">
+                <h1 class="text-7xl md:text-9xl font-extrabold hero-title leading-[0.9] mb-10">
+                    Precision <br>Intelligence.
+                </h1>
+                <p class="text-2xl text-gray-500 font-medium max-w-2xl leading-relaxed">
+                    Access the world’s most advanced digital toolset. Curated, verified, and engineered for high-performance output.
+                </p>
+            </header>
 
-        <div id="store-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            <div id="grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </div>
     </main>
 
-    <div id="app-viewer">
-        <div class="max-w-6xl mx-auto px-8 py-24 flex flex-col h-full">
-            <button onclick="closeViewer()" class="mb-12 flex items-center gap-3 text-gray-500 hover:text-white mono text-xs tracking-widest transition-all">
-                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                EXIT_VAULT_SESSION
+    <div id="vault-overlay">
+        <div class="max-w-7xl mx-auto px-8 py-20">
+            <button onclick="closeVault()" class="mb-16 flex items-center gap-4 text-gray-500 hover:text-white font-bold transition-all text-sm tracking-widest uppercase">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                Return to Repository
             </button>
-            <div id="viewer-content" class="flex-grow"></div>
+            <div id="overlay-content"></div>
         </div>
     </div>
 
-    <div id="locker-modal" class="fixed inset-0 z-[2000] bg-black/95 hidden items-center justify-center p-6" onclick="this.style.display='none'">
+    <div id="locker-modal" class="fixed inset-0 z-[2000] bg-black/98 hidden items-center justify-center p-6" onclick="this.style.display='none'">
         <div class="w-full max-w-md h-[70vh] bg-white rounded-[40px] overflow-hidden shadow-2xl" onclick="event.stopPropagation()">
             <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0" class="w-full h-full"></iframe>
         </div>
     </div>
 
     <script>
-        const appList = [
-            { name: 'Claude 3.5 Sonnet', tag: 'Intelligence', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', desc: 'Anthropic\'s reasoning masterpiece. Unmatched in technical coding and deep document analysis.' },
-            { name: 'DeepSeek R1', tag: 'Reasoning', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', desc: 'Advanced open-source logic engine. Optimized for mathematics and structural architecture.' },
-            { name: 'ChatGPT Plus', tag: 'Neural Node', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', desc: 'Instant access to GPT-4o and DALL-E 3 synthesis tools with real-time web vision.' },
-            { name: 'CapCut Pro', tag: 'Production', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', desc: 'Unlocked social production suite. 4K high-bitrate exports with all premium VFX filters.' },
-            { name: 'Perplexity Pro', tag: 'Verification', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', desc: 'The definitive search engine for creators. Real-time citations for every generated answer.' },
-            { name: 'Canva Pro', tag: 'Asset Design', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', desc: 'Magic Studio 2026 build. Full access to premium enterprise assets and branding tools.' }
+        const appRegistry = [
+            { 
+                name: 'Claude 3.5 Sonnet', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', 
+                tag: 'Deep Reasoning',
+                desc: 'Specialized for high-context coding and industrial analysis. Featuring the 2026 Artifacts UI for seamless collaborative engineering.',
+                features: ['Artifacts V2 UI', '200k Context Token', 'Code Analysis Mode']
+            },
+            { 
+                name: 'DeepSeek R1', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', 
+                tag: 'Elite Logic',
+                desc: 'The leading 2026 open-source model. Optimized for complex mathematics, architectural logic, and real-time debugging.',
+                features: ['DeepThink Protocol', 'Low-Latency Reasoning', 'Advanced Math Engine']
+            },
+            { 
+                name: 'ChatGPT Plus', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', 
+                tag: 'Universal Node',
+                desc: 'Full priority access to GPT-4o and DALL-E 3. Integrated web-vision and advanced voice reasoning protocols.',
+                features: ['GPT-4o Native', 'SearchGPT Mode', 'DALL-E 3 Synthesis']
+            },
+            { 
+                name: 'CapCut Pro', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', 
+                tag: 'Video Production',
+                desc: 'The social production standard. Unlocked 4K 60FPS raw exports, AI-driven motion tracking, and enterprise smart VFX.',
+                features: ['4K RAW Unlocked', 'AI Motion Tracking', 'No Watermark Build']
+            },
+            { 
+                name: 'Perplexity Pro', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', 
+                tag: 'Research Engine',
+                desc: 'Real-time search with zero hallucination. Verified citations for every answer with model-switching capability.',
+                features: ['Live Citation Engine', 'PDF Analysis Pro', 'Pro Search Access']
+            },
+            { 
+                name: 'Canva Pro', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', 
+                tag: 'Creative Assets',
+                desc: 'Enterprise visual toolkit. Full access to Magic Studio and the 100M+ premium high-resolution asset repository.',
+                features: ['Magic Resizer Pro', 'Brand Kit Access', 'Unlimited Cloud Exports']
+            }
         ];
 
         function init() {
-            const grid = document.getElementById('store-grid');
-            appList.forEach((app, i) => {
-                grid.innerHTML += `
-                    <div class="glass-card p-10 flex flex-col justify-between cursor-pointer group" onclick="openViewer(${i})">
+            const container = document.getElementById('grid-container');
+            appRegistry.forEach((app, i) => {
+                container.innerHTML += `
+                    <div class="vault-card p-10 flex flex-col justify-between cursor-pointer group" onclick="openVault(${i})">
                         <div>
-                            <div class="w-16 h-16 bg-black rounded-2xl border border-white/5 flex items-center justify-center mb-10">
-                                <img src="${app.icon}" class="w-10 h-10 object-contain" onerror="this.src='https://ui-avatars.com/api/?name=${app.name}&background=121214&color=00D1FF'">
+                            <div class="w-16 h-16 bg-black border border-white/5 rounded-2xl flex items-center justify-center mb-10 overflow-hidden shadow-lg">
+                                <img src="${app.logo}" alt="${app.name}" class="w-10 h-10 object-contain" onerror="this.src='https://ui-avatars.com/api/?name=${app.name}&background=121214&color=007AFF'">
                             </div>
-                            <span class="mono text-[10px] text-cyan-400 tracking-[0.3em] uppercase mb-3 block">${app.tag}</span>
-                            <h3 class="text-3xl font-extrabold tracking-tighter">${app.name}</h3>
+                            <div class="mono text-[10px] text-blue-500 font-bold tracking-[0.3em] uppercase mb-3">${app.tag}</div>
+                            <h3 class="text-3xl font-bold tracking-tighter mb-4">${app.name}</h3>
                         </div>
-                        <div class="mt-16 flex justify-between items-center opacity-40 group-hover:opacity-100 transition-all">
-                            <span class="mono text-[10px] font-bold">AVAILABILITY: STABLE</span>
-                            <div class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
-                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+                        <div class="flex justify-between items-center pt-8 border-t border-white/5 opacity-40 group-hover:opacity-100 transition-all">
+                            <span class="mono text-[10px] font-bold">VERIFIED_BUILD_2026</span>
+                            <div class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
                             </div>
                         </div>
                     </div>
@@ -168,52 +220,56 @@
             });
         }
 
-        function openViewer(idx) {
-            const app = appList[idx];
-            const viewer = document.getElementById('app-viewer');
-            document.getElementById('viewer-content').innerHTML = `
-                <div class="grid lg:grid-cols-2 gap-20 items-center">
+        function openVault(idx) {
+            const app = appRegistry[idx];
+            const overlay = document.getElementById('vault-overlay');
+            document.getElementById('overlay-content').innerHTML = `
+                <div class="grid lg:grid-cols-2 gap-24 items-center">
                     <div>
-                        <div class="flex items-center gap-6 mb-12">
-                            <div class="w-24 h-24 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center p-4">
-                                <img src="${app.icon}" class="w-full h-full object-contain">
-                            </div>
-                            <h2 class="text-6xl font-black tracking-tighter leading-none">${app.name}</h2>
+                        <div class="w-24 h-24 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center mb-12 shadow-2xl">
+                            <img src="${app.logo}" class="w-14 h-14 object-contain">
                         </div>
-                        <p class="text-2xl text-gray-500 font-medium mb-16 leading-relaxed">${app.desc}</p>
+                        <h2 class="text-7xl font-extrabold hero-title mb-8 leading-tight">${app.name}</h2>
+                        <p class="text-2xl text-gray-400 font-medium leading-relaxed mb-16">${app.desc}</p>
+                        
                         <div class="flex flex-col sm:flex-row gap-6">
-                            <button onclick="showLocker()" class="btn-premium px-12 py-6 rounded-2xl text-lg uppercase tracking-widest">Deploy Access</button>
-                            <button onclick="showLocker()" class="border border-white/10 hover:bg-white/5 px-12 py-6 rounded-2xl text-lg uppercase tracking-widest font-bold transition-all">iOS Provision</button>
+                            <button onclick="document.getElementById('locker-modal').style.display='flex'" class="btn-action px-12 py-6 rounded-2xl text-lg uppercase tracking-widest">Deploy Install</button>
+                            <button onclick="document.getElementById('locker-modal').style.display='flex'" class="border border-white/20 hover:bg-white/5 px-12 py-6 rounded-2xl text-lg uppercase tracking-widest font-bold transition-all">iOS Provisioning</button>
                         </div>
                     </div>
-                    <div class="bg-white/5 border border-white/10 p-12 rounded-[40px] shadow-2xl">
-                        <div class="mono text-xs text-cyan-400 space-y-6">
-                            <p class="opacity-50">> Initializing OGAM Secure Handshake...</p>
-                            <p>> Authentication: VERIFIED</p>
-                            <p>> Status: PORTAL_OPEN</p>
-                            <div class="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                                <div class="h-full bg-cyan-400 w-3/4 animate-pulse"></div>
-                            </div>
-                            <p class="text-white text-lg font-bold mt-10">THE SYSTEM IS READY FOR YOUR DOWNLOAD.</p>
+                    
+                    <div class="bg-[#111] border border-white/5 p-12 rounded-[40px] shadow-2xl">
+                        <div class="flex items-center gap-3 mb-10">
+                            <div class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
+                            <span class="mono text-[11px] text-blue-500 uppercase tracking-widest">Protocol Verification</span>
+                        </div>
+                        <div class="space-y-8">
+                            ${app.features.map(f => `
+                                <div class="flex items-center gap-6">
+                                    <div class="w-6 h-6 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-500 text-[10px] font-black">✓</div>
+                                    <span class="text-xl font-semibold text-gray-200">${f}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="mt-16 pt-8 border-t border-white/5 mono text-[10px] text-gray-500">
+                            MD5_SHA256: 8f9a2c3b4d5e6f7a...VERIFIED
                         </div>
                     </div>
                 </div>
             `;
-            viewer.style.display = 'block';
-            gsap.from("#viewer-content", { opacity: 0, y: 40, duration: 0.7, ease: "power4.out" });
+            overlay.style.display = 'block';
+            gsap.from("#overlay-content", { opacity: 0, y: 50, duration: 0.8, ease: "power4.out" });
+            window.scrollTo(0, 0);
         }
 
-        function closeViewer() {
-            gsap.to("#viewer-content", { opacity: 0, y: 20, duration: 0.4, onComplete: () => {
-                document.getElementById('app-viewer').style.display = 'none';
+        function closeVault() {
+            gsap.to("#overlay-content", { opacity: 0, y: 30, duration: 0.4, onComplete: () => {
+                document.getElementById('vault-overlay').style.display = 'none';
             }});
-        }
-
-        function showLocker() {
-            document.getElementById('locker-modal').style.display = 'flex';
         }
 
         init();
     </script>
 </body>
 </html>
+

@@ -1,176 +1,292 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NEXUS | Premium AI Hub</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus | Intelligence Hub</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #000000;
+            --surface: #0a0a0c;
+            --border: rgba(255, 255, 255, 0.08);
+            --indigo: #6366f1;
+        }
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdn.tailwindcss.com"></script>
+        body {
+            background-color: var(--bg);
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+        /* Ambient Background Glows */
+        .ambient-light {
+            position: fixed;
+            width: 70vw; height: 70vw;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1; filter: blur(100px);
+            pointer-events: none;
+        }
 
-<style>
-body{
-    background:#050505;
-    color:white;
-    font-family:Inter;
-    overflow-x:hidden;
-}
+        /* Typography & Effects */
+        .hero-gradient {
+            background: linear-gradient(to bottom, #ffffff 40%, #71717a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-/* soft premium background */
-.bg-glow{
-    position:fixed;
-    width:600px;
-    height:600px;
-    background:radial-gradient(circle, rgba(99,102,241,0.15), transparent 60%);
-    filter:blur(120px);
-    top:-200px;
-    left:-200px;
-    z-index:-1;
-}
+        .glass-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
 
-/* glass card */
-.card{
-    background:rgba(255,255,255,0.03);
-    border:1px solid rgba(255,255,255,0.08);
-    backdrop-filter: blur(18px);
-    border-radius:24px;
-    transition:0.4s ease;
-}
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
 
-.card:hover{
-    transform:translateY(-8px) scale(1.02);
-    border-color:rgba(99,102,241,0.5);
-    box-shadow:0 30px 80px rgba(0,0,0,0.6);
-}
+        .glass-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 40px 80px -20px rgba(0,0,0,0.8);
+        }
 
-/* gradient title */
-.title{
-    background:linear-gradient(90deg,#fff,#888);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
+        .glass-card:hover::before {
+            opacity: 1;
+        }
 
-.btn{
-    background:linear-gradient(135deg,#6366f1,#a855f7);
-    transition:0.3s;
-}
-.btn:hover{
-    transform:scale(1.03);
-    filter:brightness(1.2);
-}
-</style>
+        .icon-box {
+            width: 60px; height: 60px;
+            border-radius: 16px;
+            background: #161618;
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Modal Overlay Transition */
+        #app-overlay {
+            position: fixed; inset: 0;
+            background: #000;
+            z-index: 100; display: none;
+            overflow-y: auto;
+        }
+
+        .btn-primary {
+            background: #ffffff;
+            color: #000000;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255,255,255,0.2);
+        }
+
+        .tag-pill {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+        }
+    </style>
 </head>
+<body class="antialiased">
 
-<body>
+    <div class="ambient-light" style="top: -20%; right: -10%;"></div>
+    <div class="ambient-light" style="bottom: -20%; left: -10%; background: radial-gradient(circle, rgba(168, 85, 247, 0.05) 0%, rgba(0,0,0,0) 70%);"></div>
 
-<div class="bg-glow"></div>
+    <nav class="fixed top-0 w-full z-[100] px-8 py-6 backdrop-blur-md bg-black/20 border-b border-white/5">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
+                    <div class="w-4 h-4 bg-black rounded-sm rotate-45"></div>
+                </div>
+                <span class="text-xl font-extrabold tracking-tighter">NEXUS</span>
+            </div>
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
+                <a href="#" class="hover:text-white transition-colors">Directory</a>
+                <a href="#" class="hover:text-white transition-colors">Changelog</a>
+                <a href="#" class="px-5 py-2 rounded-full border border-white/10 hover:bg-white hover:text-black transition-all">Developer Portal</a>
+            </div>
+        </div>
+    </nav>
 
-<div class="max-w-7xl mx-auto px-6 py-20">
+    <main class="pt-48 pb-32 px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="max-w-4xl mb-32">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full tag-pill mb-8">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                    </span>
+                    <span class="text-[10px] font-bold tracking-widest text-indigo-300 uppercase">System Status: Optimal</span>
+                </div>
+                <h1 class="text-6xl md:text-8xl font-extrabold hero-gradient tracking-tighter leading-[0.9] mb-8">
+                    Creative <br>Ecosystem.
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-500 font-light max-w-2xl leading-relaxed mb-12">
+                    Access the world's most powerful artificial intelligence engines through a unified, high-performance interface. 
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <button class="btn-primary px-10 py-5 rounded-2xl font-bold text-lg">Explore Intelligence</button>
+                    <button class="px-10 py-5 rounded-2xl font-bold text-lg border border-white/10 hover:bg-white/5 transition-all">Documentation</button>
+                </div>
+            </div>
 
-<!-- HEADER -->
-<div id="hero" class="opacity-0 mb-20">
-    <h1 class="text-6xl md:text-8xl font-black title leading-none">
-        Creative AI<br> Ecosystem
-    </h1>
-    <p class="text-gray-400 mt-6 max-w-xl text-lg">
-        Premium collection of next-gen AI tools for creation, design, and intelligence workflows.
-    </p>
-</div>
+            <div id="grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                </div>
+        </div>
+    </main>
 
-<!-- GRID -->
-<div id="grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+    <div id="app-overlay">
+        <div class="max-w-5xl mx-auto px-8 py-24">
+            <button onclick="hideDetails()" class="mb-16 group flex items-center gap-3 text-gray-500 hover:text-white transition-all">
+                <div class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:border-white">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                </div>
+                <span class="font-bold tracking-tight">Return to Hub</span>
+            </button>
+            <div id="overlay-content"></div>
+        </div>
+    </div>
 
-</div>
+    <script>
+        const appData = [
+            { 
+                name: 'DeepSeek R1', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', 
+                tag: 'Deep Reasoning',
+                desc: 'Specialized in high-order logic and mathematical verification. The 2026 standard for technical architecture.',
+                features: ['Chain-of-Thought V3', 'Neural Logic Synthesis', 'Zero-Latency Response'],
+                category: 'Technical'
+            },
+            { 
+                name: 'Midjourney v7', 
+                logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png', 
+                tag: 'Neural Art',
+                desc: 'Hyper-realistic visual generation with full spatial awareness and temporal consistency.',
+                features: ['Photorealistic Engine', '4D Composition', 'Style Transfer Pro'],
+                category: 'Creative'
+            },
+            { 
+                name: 'Claude 3.5', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', 
+                tag: 'Logic Hub',
+                desc: 'The most nuanced large language model for creative writing and code documentation.',
+                features: ['Artifacts 2.0', 'Massive Context Window', 'Human-Centric Safety'],
+                category: 'Intelligence'
+            },
+            { 
+                name: 'Gemini Ultra', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', 
+                tag: 'Multi-Modal',
+                desc: 'Google’s powerhouse engine with native video and audio reasoning capabilities.',
+                features: ['Google Workspace Sync', 'Real-time Vision', 'Multi-modal Search'],
+                category: 'Productivity'
+            },
+            { 
+                name: 'CapCut AI', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', 
+                tag: 'Video Studio',
+                desc: 'Revolutionary video editing powered by generative scene reconstruction.',
+                features: ['AI Script-to-Video', 'Auto-Frame Logic', 'Neural VFX'],
+                category: 'Video'
+            },
+            { 
+                name: 'Canva Magic', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', 
+                tag: 'Design Core',
+                desc: 'Democratic design tools with integrated generative asset creation for enterprise.',
+                features: ['Magic Resizer', 'AI Asset Generation', 'Brand Voice Sync'],
+                category: 'Design'
+            }
+        ];
 
-<script>
+        function init() {
+            const container = document.getElementById('grid-container');
+            appData.forEach((app, i) => {
+                container.innerHTML += `
+                    <div class="glass-card p-10 cursor-pointer group" onclick="showDetails(${i})">
+                        <div class="flex justify-between items-start mb-12">
+                            <div class="icon-box">
+                                <img src="${app.logo}" alt="${app.name}" class="w-10 h-10 object-contain brightness-110">
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-gray-400 uppercase tracking-widest">${app.category}</span>
+                        </div>
+                        <h3 class="text-2xl font-bold tracking-tight mb-3 group-hover:text-indigo-400 transition-colors">${app.name}</h3>
+                        <p class="text-gray-500 font-medium leading-relaxed mb-8">${app.tag}</p>
+                        <div class="flex items-center gap-2 text-sm font-bold text-indigo-400 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all">
+                            View Engine Details
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                        </div>
+                    </div>
+                `;
+            });
 
-const apps = [
-{
-name:"DeepSeek R1",
-tag:"Logic AI",
-desc:"Advanced reasoning model for coding & math",
-logo:"https://ui-avatars.com/api/?name=DeepSeek&background=111&color=6366f1",
-features:["V3 Reasoning","Coder Engine","Local Context"]
-},
-{
-name:"Midjourney",
-tag:"AI Art",
-desc:"Hyper-realistic image generation engine",
-logo:"https://ui-avatars.com/api/?name=Midjourney&background=111&color=fff",
-features:["V6 Engine","4K Render","Fast GPU"]
-},
-{
-name:"ChatGPT",
-tag:"Assistant",
-desc:"Universal AI assistant for everything",
-logo:"https://ui-avatars.com/api/?name=ChatGPT&background=111&color=10a37f",
-features:["GPT-4o","Vision","Voice Mode"]
-},
-{
-name:"CapCut Pro",
-tag:"Video AI",
-desc:"Professional video editing suite",
-logo:"https://ui-avatars.com/api/?name=CapCut&background=111&color=ff4d6d",
-features:["No Watermark","4K Export","AI Effects"]
-},
-{
-name:"Gemini Ultra",
-tag:"Google AI",
-desc:"Multimodal intelligence system",
-logo:"https://ui-avatars.com/api/?name=Gemini&background=111&color=4f46e5",
-features:["Live Data","Workspace","AI Search"]
-},
-{
-name:"Canva Pro",
-tag:"Design",
-desc:"All-in-one design platform",
-logo:"https://ui-avatars.com/api/?name=Canva&background=111&color=06b6d4",
-features:["Magic Design","Brand Kit","Assets"]
-}
-];
+            gsap.from(".glass-card", {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                stagger: 0.1,
+                ease: "power4.out"
+            });
+        }
 
-function render(){
-const grid=document.getElementById("grid");
+        function showDetails(idx) {
+            const app = appData[idx];
+            const overlay = document.getElementById('app-overlay');
+            document.getElementById('overlay-content').innerHTML = `
+                <div class="grid lg:grid-cols-2 gap-20 items-center">
+                    <div>
+                        <div class="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-10">
+                            <img src="${app.logo}" class="w-12 h-12 object-contain">
+                        </div>
+                        <h2 class="text-6xl font-black tracking-tighter mb-6">${app.name}</h2>
+                        <p class="text-2xl text-gray-400 font-light leading-relaxed mb-10">${app.desc}</p>
+                        <button class="btn-primary px-12 py-5 rounded-2xl font-bold text-lg">Initialize Access</button>
+                    </div>
+                    <div class="bg-[#0c0c0e] border border-white/5 p-12 rounded-[40px]">
+                        <h4 class="text-xs font-black tracking-[0.3em] text-gray-500 uppercase mb-8">Engine Capabilities</h4>
+                        <div class="space-y-6">
+                            ${app.features.map(f => `
+                                <div class="flex items-center gap-4">
+                                    <div class="w-2 h-2 rounded-full bg-indigo-500"></div>
+                                    <span class="text-lg font-medium text-gray-300">${f}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            overlay.style.display = 'block';
+            gsap.from("#overlay-content", { duration: 0.8, y: 30, opacity: 0, ease: "power4.out" });
+        }
 
-apps.forEach((app,i)=>{
-grid.innerHTML+=`
-<div class="card p-6 cursor-pointer" onclick="openApp(${i})">
+        function hideDetails() {
+            gsap.to("#overlay-content", { 
+                duration: 0.4, 
+                y: 30, 
+                opacity: 0, 
+                onComplete: () => {
+                    document.getElementById('app-overlay').style.display = 'none';
+                } 
+            });
+        }
 
-<div class="flex items-center gap-4 mb-6">
-<img src="${app.logo}" class="w-14 h-14 rounded-xl"
-onerror="this.src='https://ui-avatars.com/api/?name=${app.name}'">
-
-<div>
-<h3 class="text-xl font-bold">${app.name}</h3>
-<p class="text-xs text-indigo-400 uppercase tracking-widest">${app.tag}</p>
-</div>
-</div>
-
-<p class="text-gray-400 text-sm mb-6">${app.desc}</p>
-
-<div class="space-y-2">
-${app.features.map(f=>`
-<div class="text-xs text-gray-300 flex items-center gap-2">
-<span class="text-indigo-400">●</span>${f}
-</div>`).join("")}
-</div>
-
-</div>`;
-});
-
-gsap.to("#hero",{opacity:1,duration:1});
-gsap.to(".card",{opacity:1,y:0,stagger:0.1,duration:1});
-}
-
-function openApp(i){
-alert(apps[i].name + " opened (you can connect your locker here)");
-}
-
-render();
-
-</script>
-
+        init();
+    </script>
 </body>
 </html>
+

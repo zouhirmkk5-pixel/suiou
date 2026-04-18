@@ -3,290 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus | Intelligence Hub</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <title>NEXUS // 2026 Intelligence Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg: #000000;
-            --surface: #0a0a0c;
-            --border: rgba(255, 255, 255, 0.08);
-            --indigo: #6366f1;
+            --accent: #818cf8;
+            --bg: #050505;
         }
 
         body {
             background-color: var(--bg);
-            color: #ffffff;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
+            color: #fafafa;
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.02em;
         }
 
-        /* Ambient Background Glows */
-        .ambient-light {
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Animated Mesh Gradient Background */
+        .mesh-gradient {
             position: fixed;
-            width: 70vw; height: 70vw;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, rgba(0,0,0,0) 70%);
-            z-index: -1; filter: blur(100px);
-            pointer-events: none;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+            opacity: 0.6;
         }
 
-        /* Typography & Effects */
-        .hero-gradient {
-            background: linear-gradient(to bottom, #ffffff 40%, #71717a 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .glass-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 32px;
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        .bento-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
         }
 
-        .glass-card::before {
+        .bento-card::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.1) 0%, transparent 50%);
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.3s;
         }
 
-        .glass-card:hover {
-            transform: translateY(-12px) scale(1.02);
-            border-color: rgba(99, 102, 241, 0.4);
-            box-shadow: 0 40px 80px -20px rgba(0,0,0,0.8);
+        .bento-card:hover::before { opacity: 1; }
+
+        .bento-card:hover {
+            border-color: var(--accent);
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.1);
         }
 
-        .glass-card:hover::before {
-            opacity: 1;
+        .category-pill {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 10px;
+            text-transform: uppercase;
+            font-weight: 700;
         }
 
-        .icon-box {
-            width: 60px; height: 60px;
-            border-radius: 16px;
-            background: #161618;
-            display: flex; align-items: center; justify-content: center;
-            border: 1px solid rgba(255,255,255,0.05);
+        #overlay {
+            clip-path: circle(0% at 50% 50%);
+            transition: clip-path 0.6s ease-in-out;
         }
 
-        /* Modal Overlay Transition */
-        #app-overlay {
-            position: fixed; inset: 0;
-            background: #000;
-            z-index: 100; display: none;
-            overflow-y: auto;
-        }
-
-        .btn-primary {
-            background: #ffffff;
-            color: #000000;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .btn-primary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(255,255,255,0.2);
-        }
-
-        .tag-pill {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            backdrop-filter: blur(10px);
+        #overlay.active {
+            clip-path: circle(150% at 50% 50%);
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="p-4 md:p-8">
+    <div class="mesh-gradient"></div>
 
-    <div class="ambient-light" style="top: -20%; right: -10%;"></div>
-    <div class="ambient-light" style="bottom: -20%; left: -10%; background: radial-gradient(circle, rgba(168, 85, 247, 0.05) 0%, rgba(0,0,0,0) 70%);"></div>
-
-    <nav class="fixed top-0 w-full z-[100] px-8 py-6 backdrop-blur-md bg-black/20 border-b border-white/5">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                    <div class="w-4 h-4 bg-black rounded-sm rotate-45"></div>
-                </div>
-                <span class="text-xl font-extrabold tracking-tighter">NEXUS</span>
+    <nav class="max-w-7xl mx-auto flex justify-between items-center mb-20 px-4">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                <div class="w-4 h-4 bg-black rounded-sm rotate-45"></div>
             </div>
-            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
-                <a href="#" class="hover:text-white transition-colors">Directory</a>
-                <a href="#" class="hover:text-white transition-colors">Changelog</a>
-                <a href="#" class="px-5 py-2 rounded-full border border-white/10 hover:bg-white hover:text-black transition-all">Developer Portal</a>
-            </div>
+            <span class="font-bold text-xl tracking-tight">NEXUS.</span>
+        </div>
+        <div class="mono text-[10px] opacity-50 border border-white/20 px-3 py-1 rounded-full">
+            SYSTEM_STATUS: OPTIMIZED
         </div>
     </nav>
 
-    <main class="pt-48 pb-32 px-8">
-        <div class="max-w-7xl mx-auto">
-            <div class="max-w-4xl mb-32">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full tag-pill mb-8">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
-                    </span>
-                    <span class="text-[10px] font-bold tracking-widest text-indigo-300 uppercase">System Status: Optimal</span>
-                </div>
-                <h1 class="text-6xl md:text-8xl font-extrabold hero-gradient tracking-tighter leading-[0.9] mb-8">
-                    Creative <br>Ecosystem.
-                </h1>
-                <p class="text-xl md:text-2xl text-gray-500 font-light max-w-2xl leading-relaxed mb-12">
-                    Access the world's most powerful artificial intelligence engines through a unified, high-performance interface. 
-                </p>
-                <div class="flex flex-wrap gap-4">
-                    <button class="btn-primary px-10 py-5 rounded-2xl font-bold text-lg">Explore Intelligence</button>
-                    <button class="px-10 py-5 rounded-2xl font-bold text-lg border border-white/10 hover:bg-white/5 transition-all">Documentation</button>
-                </div>
-            </div>
+    <header class="max-w-7xl mx-auto mb-16 px-4">
+        <h1 class="text-5xl md:text-8xl font-bold mb-6 tracking-tight">
+            The <span class="text-indigo-400 italic">Future</span> <br>Stored Locally.
+        </h1>
+        <p class="max-w-xl text-gray-400 text-lg mono">
+            // Accessing high-performance neural engines and creative toolkits for the 2026 architecture.
+        </p>
+    </header>
 
-            <div id="grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                </div>
+    <div id="nexus-grid" class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-4">
         </div>
-    </main>
 
-    <div id="app-overlay">
-        <div class="max-w-5xl mx-auto px-8 py-24">
-            <button onclick="hideDetails()" class="mb-16 group flex items-center gap-3 text-gray-500 hover:text-white transition-all">
-                <div class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:border-white">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-                </div>
-                <span class="font-bold tracking-tight">Return to Hub</span>
-            </button>
-            <div id="overlay-content"></div>
+    <div id="overlay" class="fixed inset-0 z-[1000] bg-black hidden flex-col p-8 overflow-y-auto">
+        <button onclick="closeDetails()" class="mono text-xs mb-12 hover:text-indigo-400 flex items-center gap-2">
+            [ ESC ] RETURN_TO_CORE
+        </button>
+        <div id="overlay-content" class="max-w-5xl mx-auto w-full"></div>
+    </div>
+
+    <div id="locker-modal" class="fixed inset-0 z-[2000] bg-black/95 hidden items-center justify-center p-4">
+        <div class="w-full max-w-lg aspect-[3/4] bg-white rounded-3xl overflow-hidden shadow-2xl relative">
+            <button onclick="closeLocker()" class="absolute top-4 right-4 text-black bg-gray-100 w-10 h-10 rounded-full font-bold">X</button>
+            <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0" class="w-full h-full"></iframe>
         </div>
     </div>
 
     <script>
         const appData = [
-            { 
-                name: 'DeepSeek R1', 
-                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', 
-                tag: 'Deep Reasoning',
-                desc: 'Specialized in high-order logic and mathematical verification. The 2026 standard for technical architecture.',
-                features: ['Chain-of-Thought V3', 'Neural Logic Synthesis', 'Zero-Latency Response'],
-                category: 'Technical'
-            },
-            { 
-                name: 'Midjourney v7', 
-                logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png', 
-                tag: 'Neural Art',
-                desc: 'Hyper-realistic visual generation with full spatial awareness and temporal consistency.',
-                features: ['Photorealistic Engine', '4D Composition', 'Style Transfer Pro'],
-                category: 'Creative'
-            },
-            { 
-                name: 'Claude 3.5', 
-                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', 
-                tag: 'Logic Hub',
-                desc: 'The most nuanced large language model for creative writing and code documentation.',
-                features: ['Artifacts 2.0', 'Massive Context Window', 'Human-Centric Safety'],
-                category: 'Intelligence'
-            },
-            { 
-                name: 'Gemini Ultra', 
-                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', 
-                tag: 'Multi-Modal',
-                desc: 'Google’s powerhouse engine with native video and audio reasoning capabilities.',
-                features: ['Google Workspace Sync', 'Real-time Vision', 'Multi-modal Search'],
-                category: 'Productivity'
-            },
-            { 
-                name: 'CapCut AI', 
-                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', 
-                tag: 'Video Studio',
-                desc: 'Revolutionary video editing powered by generative scene reconstruction.',
-                features: ['AI Script-to-Video', 'Auto-Frame Logic', 'Neural VFX'],
-                category: 'Video'
-            },
-            { 
-                name: 'Canva Magic', 
-                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', 
-                tag: 'Design Core',
-                desc: 'Democratic design tools with integrated generative asset creation for enterprise.',
-                features: ['Magic Resizer', 'AI Asset Generation', 'Brand Voice Sync'],
-                category: 'Design'
-            }
+            { name: 'DeepSeek R1', tag: 'AI Logic', span: 'md:col-span-2 md:row-span-2', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', desc: 'V3.2 Reasoning engine for architectural code logic and math.', features: ['DeepThink V3', 'Coder-V2', 'Local Context'] },
+            { name: 'Midjourney', tag: 'Visuals', span: 'md:col-span-2', logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png', desc: 'Hyper-realistic visual generation.', features: ['V6.1 Engine', 'Stealth Mode'] },
+            { name: 'Claude 3.5', tag: 'Reasoning', span: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', desc: 'Technical project analysis flagship.', features: ['200k Context', 'Artifacts'] },
+            { name: 'ChatGPT+', tag: 'Suite', span: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', desc: 'GPT-4o Multi-modal access.', features: ['DALL-E 3', 'Voice Pro'] },
+            { name: 'CapCut Pro', tag: 'Creative', span: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', desc: '4K Smart VFX editing.', features: ['No Watermark', 'AI VFX'] },
+            { name: 'Perplexity', tag: 'Research', span: 'md:col-span-2', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', desc: 'Real-time research with citations.', features: ['Model Switcher', 'Live Sources'] },
+            { name: 'Gemini Ultra', tag: 'Productivity', span: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', desc: 'Workspace ecosystem powerhouse.', features: ['Ultra Logic', 'Sync'] }
         ];
 
         function init() {
-            const container = document.getElementById('grid-container');
+            const grid = document.getElementById('nexus-grid');
             appData.forEach((app, i) => {
-                container.innerHTML += `
-                    <div class="glass-card p-10 cursor-pointer group" onclick="showDetails(${i})">
-                        <div class="flex justify-between items-start mb-12">
-                            <div class="icon-box">
-                                <img src="${app.logo}" alt="${app.name}" class="w-10 h-10 object-contain brightness-110">
+                grid.innerHTML += `
+                    <div class="bento-card ${app.span} p-8 cursor-pointer flex flex-col justify-between group" 
+                         onclick="openDetails(${i})"
+                         onmousemove="handleHover(event, this)">
+                        <div class="flex justify-between items-start">
+                            <div class="w-12 h-12 bg-white/5 rounded-xl p-2 border border-white/10">
+                                <img src="${app.logo}" class="w-full h-full object-contain">
                             </div>
-                            <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-gray-400 uppercase tracking-widest">${app.category}</span>
+                            <span class="category-pill mono">${app.tag}</span>
                         </div>
-                        <h3 class="text-2xl font-bold tracking-tight mb-3 group-hover:text-indigo-400 transition-colors">${app.name}</h3>
-                        <p class="text-gray-500 font-medium leading-relaxed mb-8">${app.tag}</p>
-                        <div class="flex items-center gap-2 text-sm font-bold text-indigo-400 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all">
-                            View Engine Details
-                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                        <div class="mt-12">
+                            <h3 class="text-2xl font-bold group-hover:text-indigo-400 transition-colors">${app.name}</h3>
+                            <p class="text-sm text-gray-500 mt-2 line-clamp-2 mono">${app.desc}</p>
                         </div>
                     </div>
                 `;
             });
-
-            gsap.from(".glass-card", {
-                duration: 1,
-                y: 50,
-                opacity: 0,
-                stagger: 0.1,
-                ease: "power4.out"
-            });
         }
 
-        function showDetails(idx) {
+        function handleHover(e, el) {
+            const rect = el.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / el.clientWidth) * 100;
+            const y = ((e.clientY - rect.top) / el.clientHeight) * 100;
+            el.style.setProperty('--x', `${x}%`);
+            el.style.setProperty('--y', `${y}%`);
+        }
+
+        function openDetails(idx) {
             const app = appData[idx];
-            const overlay = document.getElementById('app-overlay');
-            document.getElementById('overlay-content').innerHTML = `
-                <div class="grid lg:grid-cols-2 gap-20 items-center">
+            const overlay = document.getElementById('overlay');
+            const content = document.getElementById('overlay-content');
+            
+            content.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-16">
                     <div>
-                        <div class="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-10">
-                            <img src="${app.logo}" class="w-12 h-12 object-contain">
+                        <span class="text-indigo-400 mono text-sm mb-4 block underline">APP_ID: 00${idx + 1}</span>
+                        <h2 class="text-6xl md:text-8xl font-bold mb-8 tracking-tighter">${app.name}</h2>
+                        <p class="text-xl text-gray-400 mb-12 mono leading-relaxed">${app.desc}</p>
+                        <div class="flex flex-wrap gap-4">
+                            <button onclick="openLocker()" class="px-8 py-4 bg-indigo-600 rounded-full font-bold hover:bg-indigo-500 transition-all">DEPLOY ACCESS</button>
+                            <button onclick="openLocker()" class="px-8 py-4 border border-white/20 rounded-full font-bold hover:bg-white hover:text-black transition-all">PROVISION IOS</button>
                         </div>
-                        <h2 class="text-6xl font-black tracking-tighter mb-6">${app.name}</h2>
-                        <p class="text-2xl text-gray-400 font-light leading-relaxed mb-10">${app.desc}</p>
-                        <button class="btn-primary px-12 py-5 rounded-2xl font-bold text-lg">Initialize Access</button>
                     </div>
-                    <div class="bg-[#0c0c0e] border border-white/5 p-12 rounded-[40px]">
-                        <h4 class="text-xs font-black tracking-[0.3em] text-gray-500 uppercase mb-8">Engine Capabilities</h4>
-                        <div class="space-y-6">
-                            ${app.features.map(f => `
-                                <div class="flex items-center gap-4">
-                                    <div class="w-2 h-2 rounded-full bg-indigo-500"></div>
-                                    <span class="text-lg font-medium text-gray-300">${f}</span>
-                                </div>
-                            `).join('')}
-                        </div>
+                    <div class="space-y-4">
+                        <p class="mono text-xs opacity-30 mb-8 uppercase tracking-widest">Core Capabilities</p>
+                        ${app.features.map(f => `
+                            <div class="p-6 bg-white/5 border border-white/10 rounded-2xl flex justify-between items-center group hover:bg-white/10 transition-colors">
+                                <span class="mono text-lg">${f}</span>
+                                <span class="text-indigo-500">→</span>
+                            </div>
+                        `).join('')}
                     </div>
                 </div>
             `;
-            overlay.style.display = 'block';
-            gsap.from("#overlay-content", { duration: 0.8, y: 30, opacity: 0, ease: "power4.out" });
+            overlay.classList.remove('hidden');
+            setTimeout(() => overlay.classList.add('active'), 10);
         }
 
-        function hideDetails() {
-            gsap.to("#overlay-content", { 
-                duration: 0.4, 
-                y: 30, 
-                opacity: 0, 
-                onComplete: () => {
-                    document.getElementById('app-overlay').style.display = 'none';
-                } 
-            });
+        function closeDetails() {
+            const overlay = document.getElementById('overlay');
+            overlay.classList.remove('active');
+            setTimeout(() => overlay.classList.add('hidden'), 600);
         }
+
+        function openLocker() { document.getElementById('locker-modal').style.display = 'flex'; }
+        function closeLocker() { document.getElementById('locker-modal').style.display = 'none'; }
 
         init();
     </script>
 </body>
 </html>
+
 

@@ -3,221 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ONYX | Premium Digital Asset Repository</title>
+    <title>AXON | Intelligence Protocol</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --carbon: #080808;
-            --onyx-gold: #D4AF37;
-            --gold-glow: rgba(212, 175, 55, 0.3);
-            --glass: rgba(255, 255, 255, 0.03);
+            --bg: #000000;
+            --accent: #2997FF;
+            --card-bg: rgba(22, 22, 23, 0.8);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
         body {
-            background-color: var(--carbon);
-            color: #ffffff;
-            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg);
+            color: #f5f5f7;
+            font-family: 'Inter', -apple-system, sans-serif;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Carbon Fiber Background Effect */
-        .bg-overlay {
+        /* Smooth Gradient Background */
+        .ambient-glow {
             position: fixed;
-            inset: 0;
+            top: -10%; left: 50%;
+            transform: translateX(-50%);
+            width: 80vw; height: 60vh;
+            background: radial-gradient(circle, rgba(41, 151, 255, 0.15) 0%, rgba(0,0,0,0) 70%);
             z-index: -1;
-            background: 
-                radial-gradient(circle at 50% 0%, #1a1a1a 0%, var(--carbon) 70%);
+            filter: blur(80px);
         }
 
-        .bg-pattern {
-            position: absolute;
-            inset: 0;
-            opacity: 0.05;
-            background-image:  linear-gradient(45deg, #ffffff 25%, transparent 25%), linear-gradient(-45deg, #ffffff 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ffffff 75%), linear-gradient(-45deg, transparent 75%, #ffffff 75%);
-            background-size: 4px 4px;
-            background-position: 0 0, 0 2px, 2px 2px, 2px 0;
-        }
-
-        /* Navigation & Logo */
-        nav {
-            background: rgba(8, 8, 8, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-        }
-
-        .onyx-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-shape {
-            width: 35px; height: 35px;
-            background: var(--onyx-gold);
-            clip-path: polygon(50% 0%, 90% 20%, 90% 80%, 50% 100%, 10% 80%, 10% 20%);
+        /* AXON PRISM LOGO */
+        .prism-logo {
+            width: 42px; height: 42px;
+            background: linear-gradient(135deg, #2997FF, #0055FF);
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
             display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 30px rgba(41, 151, 255, 0.4);
         }
 
-        /* Premium App Cards */
-        .app-card {
-            background: var(--glass);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+        /* Bento Card Styling */
+        .axon-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
-            overflow: hidden;
         }
 
-        .app-card:hover {
-            border-color: var(--onyx-gold);
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 15px var(--gold-glow);
+        .axon-card:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.02);
+            background: rgba(28, 28, 30, 0.9);
         }
 
-        .app-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            transition: 0.5s;
+        /* Typography */
+        .hero-text {
+            background: linear-gradient(to bottom, #ffffff 40%, #a1a1a6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.04em;
         }
 
-        .app-card:hover::before {
-            left: 100%;
+        .btn-primary {
+            background: #ffffff;
+            color: #000000;
+            transition: all 0.3s ease;
+            font-weight: 600;
         }
 
-        .gold-text { color: var(--onyx-gold); }
-        .bebas { font-family: 'Bebas Neue', cursive; }
-
-        .btn-gold {
-            background: var(--onyx-gold);
-            color: #000;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: 0.3s;
+        .btn-primary:hover {
+            background: var(--accent);
+            color: #ffffff;
+            box-shadow: 0 0 25px rgba(41, 151, 255, 0.5);
         }
 
-        .btn-gold:hover {
-            background: #fff;
-            box-shadow: 0 0 25px var(--onyx-gold);
-        }
-
-        #detail-overlay {
+        /* Overlay System */
+        #view-overlay {
             position: fixed; inset: 0;
-            background: rgba(8, 8, 8, 0.98);
+            background: #000;
             z-index: 1000; display: none;
             overflow-y: auto;
+        }
+
+        .terminal-text {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            color: #2997FF;
+            font-size: 13px;
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-overlay"><div class="bg-pattern"></div></div>
+    <div class="ambient-glow"></div>
 
-    <nav class="fixed top-0 w-full z-[100] px-8 py-5 flex justify-between items-center">
-        <div class="onyx-logo">
-            <div class="logo-shape">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="black"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    <nav class="fixed top-0 w-full z-[100] px-8 py-6 backdrop-blur-md bg-black/40 border-b border-white/5">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <div class="prism-logo">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                </div>
+                <span class="text-2xl font-extrabold tracking-tighter">AXON</span>
             </div>
-            <span class="bebas text-3xl tracking-wider">ONYX</span>
-        </div>
-        <div class="hidden md:flex gap-8 text-[11px] font-bold tracking-[3px] text-gray-400">
-            <span>REPOSITORY</span>
-            <span>NETWORK</span>
-            <span class="gold-text">AUTHENTICATED</span>
+            <div class="hidden md:flex gap-10 text-xs font-semibold tracking-widest text-gray-400 uppercase">
+                <a href="#" class="hover:text-white transition-colors">Infrastructure</a>
+                <a href="#" class="hover:text-white transition-colors">Protocol</a>
+                <a href="#" class="text-white border-b border-blue-500">Repository</a>
+            </div>
         </div>
     </nav>
 
-    <main class="pt-40 pb-20 px-8 max-w-7xl mx-auto">
-        <header class="text-center mb-24">
-            <h1 class="bebas text-8xl md:text-9xl leading-none mb-4">The Gold <span class="gold-text">Standard.</span></h1>
-            <p class="text-gray-500 text-lg max-w-xl mx-auto font-light">Curated high-performance tools for professional digital creators.</p>
-        </header>
+    <main class="pt-52 pb-32 px-8">
+        <div class="max-w-7xl mx-auto">
+            <header class="max-w-3xl mb-32">
+                <h1 class="text-7xl md:text-9xl font-extrabold hero-text leading-[0.9] mb-10">
+                    Engineered <br>for Creators.
+                </h1>
+                <p class="text-2xl text-gray-500 font-medium leading-relaxed">
+                    The elite portal for verified digital intelligence and professional creative applications.
+                </p>
+            </header>
 
-        <div id="app-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            <div id="axon-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </div>
     </main>
 
-    <div id="detail-overlay">
+    <div id="view-overlay">
         <div class="max-w-6xl mx-auto px-8 py-20">
-            <button onclick="closeDetails()" class="mb-10 text-gray-500 hover:text-white flex items-center gap-2 font-bold tracking-widest text-xs">
-                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                BACK TO VAULT
+            <button onclick="closeOverlay()" class="mb-20 flex items-center gap-3 text-gray-500 hover:text-white font-bold transition-all text-sm tracking-widest uppercase">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                Disconnect Session
             </button>
-            <div id="detail-content"></div>
+            <div id="overlay-content"></div>
         </div>
     </div>
 
-    <div id="locker" class="fixed inset-0 z-[2000] bg-black/95 hidden items-center justify-center p-4" onclick="this.style.display='none'">
-        <div class="w-full max-w-md h-[70vh] bg-white rounded-2xl overflow-hidden" onclick="event.stopPropagation()">
+    <div id="locker-modal" class="fixed inset-0 z-[2000] bg-black/95 hidden items-center justify-center p-6" onclick="this.style.display='none'">
+        <div class="w-full max-w-lg h-[75vh] bg-white rounded-[40px] overflow-hidden shadow-2xl" onclick="event.stopPropagation()">
             <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0" class="w-full h-full"></iframe>
         </div>
     </div>
 
     <script>
         const apps = [
-            { name: 'Claude 3.5 Sonnet', tag: 'Intelligence', desc: 'Anthropic\'s most powerful reasoning model. Expert at coding and complex creative writing.', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png' },
-            { name: 'DeepSeek R1', tag: 'Reasoning', desc: 'Elite open-source logic for 2026. Specialized in high-level math and technical architecture.', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png' },
-            { name: 'ChatGPT Plus', tag: 'Neural Hub', desc: 'Priority access to GPT-4o and DALL-E 3 visual synthesis tools.', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png' },
-            { name: 'CapCut Pro', tag: 'Video Edit', desc: 'Full production suite. Unlock 4K 60FPS exports and all premium motion templates.', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png' },
-            { name: 'Perplexity Pro', tag: 'Research', desc: 'Cites every source in real-time. The ultimate tool for verified information gathering.', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png' },
-            { name: 'Canva Pro', tag: 'Design', desc: 'Enterprise-grade visual tools. Magic Studio and 100M+ assets fully unlocked.', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png' }
+            { name: 'Claude 3.5 Sonnet', tag: 'Logic', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', desc: 'Anthropic\'s flagship reasoning model. Specialized in complex architectural code and high-level analysis.' },
+            { name: 'DeepSeek R1', tag: 'Reasoning', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', desc: 'Deep-thinking logic engine. Verified for 2026 technical frameworks and open-source intelligence.' },
+            { name: 'ChatGPT Plus', tag: 'Universal', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', desc: 'Premium access to GPT-4o, DALL-E 3, and advanced voice reasoning protocols.' },
+            { name: 'CapCut Pro', tag: 'Video', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', desc: 'The professional standard for social production. Unlocked 4K 60FPS raw output.' },
+            { name: 'Perplexity Pro', tag: 'Search', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', desc: 'Real-time verified search engine. Providing instant source citations for creators.' },
+            { name: 'Canva Pro', tag: 'Design', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', desc: 'Full Enterprise Magic Studio access. Over 100M premium assets and branding kits.' }
         ];
 
         function init() {
-            const grid = document.getElementById('app-grid');
+            const grid = document.getElementById('axon-grid');
             apps.forEach((app, i) => {
                 grid.innerHTML += `
-                    <div class="app-card p-10 cursor-pointer" onclick="openDetails(${i})">
-                        <div class="flex justify-between items-start mb-12">
-                            <div class="w-16 h-16 bg-black rounded-2xl border border-white/5 p-3">
-                                <img src="${app.icon}" class="w-full h-full object-contain" onerror="this.src='https://ui-avatars.com/api/?name=${app.name}&background=D4AF37&color=000'">
+                    <div class="axon-card p-10 flex flex-col justify-between cursor-pointer group" onclick="openOverlay(${i})">
+                        <div>
+                            <div class="w-16 h-16 bg-black rounded-2xl border border-white/10 flex items-center justify-center mb-10 overflow-hidden">
+                                <img src="${app.icon}" class="w-10 h-10 object-contain" onerror="this.src='https://ui-avatars.com/api/?name=${app.name}&background=1c1c1e&color=2997FF'">
                             </div>
-                            <span class="text-[10px] font-bold tracking-[2px] text-gray-500 uppercase">${app.tag}</span>
+                            <div class="text-[10px] font-bold text-blue-500 tracking-[0.3em] uppercase mb-3">${app.tag}</div>
+                            <h3 class="text-3xl font-bold tracking-tighter">${app.name}</h3>
                         </div>
-                        <h3 class="bebas text-4xl mb-2 tracking-wide">${app.name}</h3>
-                        <p class="text-xs text-gray-400 font-light uppercase tracking-widest">Premium Build Unlocked</p>
+                        <div class="mt-20 flex justify-between items-center pt-8 border-t border-white/5 opacity-40 group-hover:opacity-100 transition-all">
+                            <span class="text-[11px] font-semibold tracking-widest text-gray-400">ACCESS_GRANTED</span>
+                            <div class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+                            </div>
+                        </div>
                     </div>
                 `;
             });
         }
 
-        function openDetails(i) {
-            const app = apps[i];
-            const overlay = document.getElementById('detail-overlay');
-            document.getElementById('detail-content').innerHTML = `
-                <div class="grid lg:grid-cols-2 gap-16 items-center">
+        function openOverlay(idx) {
+            const app = apps[idx];
+            const overlay = document.getElementById('view-overlay');
+            document.getElementById('overlay-content').innerHTML = `
+                <div class="grid lg:grid-cols-2 gap-24 items-center">
                     <div>
-                        <span class="gold-text font-bold tracking-[5px] text-xs uppercase mb-4 block">Verified Access</span>
-                        <h2 class="bebas text-8xl mb-8">${app.name}</h2>
-                        <p class="text-xl text-gray-400 font-light leading-relaxed mb-12">${app.desc}</p>
-                        <div class="flex gap-6">
-                            <button onclick="document.getElementById('locker').style.display='flex'" class="btn-gold px-10 py-5 rounded-lg text-sm">Download Build</button>
-                            <button onclick="document.getElementById('locker').style.display='flex'" class="border border-white/20 hover:bg-white/5 px-10 py-5 rounded-lg text-sm font-bold uppercase tracking-widest">Verify License</button>
+                        <div class="w-24 h-24 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center mb-10">
+                            <img src="${app.icon}" class="w-14 h-14 object-contain">
+                        </div>
+                        <h2 class="text-7xl font-extrabold hero-text leading-tight mb-8">${app.name}</h2>
+                        <p class="text-2xl text-gray-500 font-medium leading-relaxed mb-12">${app.desc}</p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-6">
+                            <button onclick="showLocker()" class="btn-primary px-12 py-6 rounded-full text-lg">Initialize Download</button>
+                            <button onclick="showLocker()" class="px-12 py-6 rounded-full border border-white/20 text-lg hover:bg-white/5 transition-colors font-bold">iOS Configuration</button>
                         </div>
                     </div>
-                    <div class="bg-white/5 p-12 rounded-3xl border border-white/5">
-                        <h4 class="bebas text-2xl mb-8 tracking-widest">System Specifications</h4>
-                        <div class="space-y-6">
-                            <div class="flex justify-between border-b border-white/5 pb-4"><span class="text-gray-500 text-sm">Status</span><span class="gold-text font-bold">ACTIVE</span></div>
-                            <div class="flex justify-between border-b border-white/5 pb-4"><span class="text-gray-500 text-sm">Security</span><span class="gold-text font-bold">ENCRYPTED</span></div>
-                            <div class="flex justify-between border-b border-white/5 pb-4"><span class="text-gray-500 text-sm">Version</span><span class="text-white font-bold">2026.4.18</span></div>
+                    
+                    <div class="bg-[#111] border border-white/10 p-12 rounded-[40px] shadow-2xl">
+                        <div class="flex items-center gap-3 mb-10">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                        <div class="terminal-text space-y-4">
+                            <p>> Connecting to AXON Secure Repository...</p>
+                            <p class="text-green-500">> Handshake successful.</p>
+                            <p>> Building encrypted tunnel for ${app.name}...</p>
+                            <p>> Patching license headers... [OK]</p>
+                            <p>> Verifying 2026 Protocol... [OK]</p>
+                            <p class="text-blue-400 mt-8 font-bold">> READY FOR DEPLOYMENT.</p>
                         </div>
                     </div>
                 </div>
             `;
             overlay.style.display = 'block';
-            gsap.from("#detail-content", { opacity: 0, y: 30, duration: 0.6 });
+            gsap.from("#overlay-content", { opacity: 0, y: 50, duration: 0.8, ease: "power4.out" });
         }
 
-        function closeDetails() {
-            gsap.to("#detail-content", { opacity: 0, y: 20, duration: 0.3, onComplete: () => {
-                document.getElementById('detail-overlay').style.display = 'none';
+        function closeOverlay() {
+            gsap.to("#overlay-content", { opacity: 0, y: 30, duration: 0.4, onComplete: () => {
+                document.getElementById('view-overlay').style.display = 'none';
             }});
+        }
+
+        function showLocker() {
+            document.getElementById('locker-modal').style.display = 'flex';
         }
 
         init();

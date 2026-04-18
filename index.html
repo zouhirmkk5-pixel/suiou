@@ -24,7 +24,6 @@
             overflow-x: hidden;
         }
 
-        /* 4D Depth & Animated Particles */
         .bg-glow {
             position: fixed;
             width: 60vw;
@@ -35,7 +34,6 @@
             filter: blur(80px);
         }
 
-        /* Premium Glassmorphism */
         .premium-card {
             background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
             backdrop-filter: blur(15px);
@@ -63,7 +61,6 @@
             transform: rotate(-5deg) scale(1.1);
         }
 
-        /* Full-screen Overlay */
         #app-overlay {
             position: fixed;
             inset: 0;
@@ -74,7 +71,6 @@
             overflow-y: auto;
         }
 
-        /* Locker Modal */
         #locker-modal {
             position: fixed;
             inset: 0;
@@ -105,8 +101,6 @@
             filter: brightness(1.2);
             transform: translateY(-2px);
         }
-
-        .rating-stars { color: #facc15; }
     </style>
 </head>
 <body>
@@ -144,7 +138,6 @@
     </div>
 
     <script>
-        // High-Reliability Developer CDN Links (Claude Removed)
         const appData = [
             { name: 'CapCut', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', desc: 'The #1 video editor for mobile creators. Professional transitions, AI tools, and 4K output.', features: ['Auto-Captioning', 'Keyframe Animation', 'Viral Templates'], rating: '4.9' },
             { name: 'Canva', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', desc: 'The gold standard in design. Create anything from high-end social graphics to professional docs.', features: ['Magic Studio AI', 'Brand Management', '100M+ Assets'], rating: '4.8' },
@@ -183,11 +176,11 @@
                         <p class="text-2xl text-gray-300 leading-relaxed mb-10 font-light">${app.desc}</p>
                         <div class="flex flex-col sm:flex-row gap-5">
                             <button onclick="openLocker()" class="cta-btn flex-1 py-6 rounded-2xl font-black text-xl flex items-center justify-center gap-4">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Play_Store_badge_EN.svg" class="h-8" alt="Android">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg" class="w-8 h-8" alt="Android">
                                 GET ON ANDROID
                             </button>
                             <button onclick="openLocker()" class="bg-white text-black flex-1 py-6 rounded-2xl font-black text-xl flex items-center justify-center gap-4 hover:bg-gray-200">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/31/Apple_Logo_Black.svg" class="h-8" alt="iOS">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" class="w-8 h-8" alt="iOS">
                                 GET ON IOS
                             </button>
                         </div>
@@ -231,6 +224,7 @@
     </script>
 </body>
 </html>
+
 
 
 

@@ -2,277 +2,742 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NextGen App Suite | Premium Discovery</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Nexus | Premium App Hub</title>
+    <!-- Google Fonts & Smooth Scroll -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --accent: #6366f1;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #050505;
-            color: white;
+            background: radial-gradient(circle at 10% 20%, #0a0f1e, #03050b);
+            color: #ffffff;
             overflow-x: hidden;
-            margin: 0;
+            scroll-behavior: smooth;
         }
 
-        /* 4D Background Effect */
-        .bg-glow {
+        /* Particle Canvas */
+        #particleCanvas {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% -20%, #1e1b4b 0%, #050505 80%);
-            z-index: -1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
         }
 
-        .orb {
+        .wrapper {
+            position: relative;
+            z-index: 10;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 5rem;
+        }
+
+        /* Floating Glassmorphism Elements */
+        .floating-bg {
             position: fixed;
-            width: 400px; height: 400px;
-            background: var(--accent);
-            filter: blur(120px);
+            width: 40vw;
+            height: 40vw;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.1), rgba(128, 0, 255, 0.05));
+            filter: blur(90px);
             border-radius: 50%;
-            opacity: 0.15;
-            animation: float 20s infinite alternate;
-            z-index: -1;
+            z-index: 0;
+            animation: floatSlow 25s infinite alternate;
         }
 
-        @keyframes float {
-            0% { transform: translate(-10%, -10%); }
-            100% { transform: translate(20%, 30%); }
+        @keyframes floatSlow {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.4; }
+            100% { transform: translate(5%, 10%) scale(1.2); opacity: 0.7; }
         }
 
-        .glass-card {
-            background: var(--glass);
+        /* Header Styles */
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFFFFF, #A0E9FF, #7B2CBF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #cdd9ff;
+            margin-top: 1rem;
+            backdrop-filter: blur(5px);
+        }
+
+        /* App Grid - Premium Modern */
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1.8rem;
+            margin: 3rem 0;
+        }
+
+        .app-card {
+            background: rgba(20, 25, 45, 0.65);
             backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 2rem;
+            padding: 1.5rem 0.8rem;
+            text-align: center;
             cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 20px 35px -15px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+            transform: translateY(0px);
         }
 
-        .glass-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            background: rgba(255, 255, 255, 0.07);
-            border-color: var(--accent);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        .app-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: rgba(0, 255, 255, 0.4);
+            box-shadow: 0 30px 40px -15px rgba(0,0,0,0.6), 0 0 0 2px rgba(0,255,255,0.2);
+            background: rgba(30, 35, 60, 0.8);
         }
 
-        .modal-active {
-            overflow: hidden;
-        }
-
-        #detail-view, #locker-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 50;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(20px);
-            overflow-y: auto;
-        }
-
-        .animate-in {
-            animation: slideUp 0.5s ease forwards;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(100px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .btn-gradient {
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        .app-logo-img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3));
             transition: transform 0.2s;
         }
 
-        .btn-gradient:active { transform: scale(0.95); }
+        .app-card h3 {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin: 0.5rem 0 0.2rem;
+        }
 
-        iframe {
+        .app-card p {
+            font-size: 0.75rem;
+            opacity: 0.7;
+        }
+
+        /* Detail Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 80vh;
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .detail-card {
+            background: rgba(12, 18, 32, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 3rem;
+            max-width: 1100px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,255,255,0.1);
+            transform: scale(0.96);
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .active .detail-card {
+            transform: scale(1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.8rem;
+            font-size: 2rem;
+            cursor: pointer;
+            background: rgba(255,255,255,0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .close-modal:hover {
+            background: rgba(255,80,80,0.6);
+        }
+
+        .app-detail-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 1.5rem;
+        }
+
+        .detail-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            background: rgba(0,0,0,0.3);
+            border-radius: 28px;
+            padding: 0.8rem;
+        }
+
+        .detail-title h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            font-size: 1rem;
+        }
+
+        .stars {
+            color: gold;
+            letter-spacing: 2px;
+        }
+
+        .features-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-tag {
+            background: rgba(0, 255, 255, 0.15);
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
+        }
+
+        .screenshots-area {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+
+        .screenshot {
+            background: #1e243b;
+            border-radius: 24px;
+            width: 140px;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, #1b213a, #11162a);
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.7rem;
+            color: #99aaff;
+            flex-direction: column;
+        }
+
+        .screenshot span {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1.2rem;
+            margin: 2rem 0 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-android, .btn-ios {
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: #222;
+            color: white;
+        }
+
+        .btn-android {
+            background: #3ddc84;
+            color: #051e0e;
+            box-shadow: 0 5px 15px rgba(61,220,132,0.3);
+        }
+
+        .btn-ios {
+            background: #007aff;
+            box-shadow: 0 5px 15px rgba(0,122,255,0.3);
+        }
+
+        .btn-android:hover, .btn-ios:hover {
+            transform: scale(1.02);
+            filter: brightness(1.05);
+        }
+
+        /* Locker Modal (in-page) */
+        .locker-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(15px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.25s;
+        }
+
+        .locker-modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .locker-container {
+            background: #0b0f1c;
+            border-radius: 2rem;
+            width: 90%;
+            max-width: 800px;
+            height: 80%;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(0,255,255,0.4);
+            box-shadow: 0 20px 40px black;
+        }
+
+        .locker-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            background: #03050b;
+            border-bottom: 1px solid #2a2f44;
+            font-weight: 600;
+        }
+
+        .close-locker {
+            cursor: pointer;
+            font-size: 1.6rem;
+            line-height: 1;
+        }
+
+        .locker-iframe {
+            flex: 1;
+            width: 100%;
+            border: none;
+            background: white;
+        }
+
+        @media (max-width: 650px) {
+            .app-grid {
+                gap: 1rem;
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            }
+            .detail-card {
+                padding: 1.5rem;
+            }
+            .screenshot {
+                width: 100px;
+                height: 180px;
+            }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            opacity: 0.6;
+            font-size: 0.8rem;
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-glow"></div>
-    <div class="orb"></div>
+<canvas id="particleCanvas"></canvas>
+<div class="floating-bg" style="top: -10%; left: -10%;"></div>
+<div class="floating-bg" style="bottom: -15%; right: -5%; width: 50vw; height: 50vw; animation-duration: 35s;"></div>
 
-    <nav class="p-6 flex justify-between items-center max-w-6xl mx-auto">
-        <div class="text-2xl font-black tracking-tighter italic">NEXUS<span class="text-indigo-500">.</span></div>
-        <div class="glass-card px-4 py-2 text-xs font-bold uppercase tracking-widest border-none">Premium Access</div>
-    </nav>
+<div class="wrapper">
+    <div class="hero">
+        <h1>Nexus<span style="color: cyan;">⁴ᴰ</span> Hub</h1>
+        <p>Immersive AI & Creativity Suite — One tap, infinite potential</p>
+    </div>
 
-    <main class="max-w-6xl mx-auto px-6 py-12">
-        <header class="mb-12 text-center">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-500">
-                The Future of Intelligence
-            </h1>
-            <p class="text-gray-400 max-w-xl mx-auto">Experience the world's most powerful AI and creative tools in one immersive workspace.</p>
-        </header>
+    <div class="app-grid" id="appGrid"></div>
+    <footer>© 2025 Nexus — Next‑Gen App Experience</footer>
+</div>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="app-grid">
+<!-- Detail Modal -->
+<div id="detailModal" class="modal-overlay">
+    <div class="detail-card">
+        <div class="close-modal" id="closeModalBtn">&times;</div>
+        <div id="dynamicDetailContent">
+            <!-- dynamic content injected -->
+        </div>
+    </div>
+</div>
+
+<!-- Locker (in-page iframe) -->
+<div id="lockerModal" class="locker-modal">
+    <div class="locker-container">
+        <div class="locker-header">
+            <span>🔐 Secure Locker</span>
+            <span class="close-locker" id="closeLockerBtn">✕</span>
+        </div>
+        <iframe id="lockerIframe" class="locker-iframe" src="about:blank" title="Locker"></iframe>
+    </div>
+</div>
+
+<script>
+    // ----- APP DATABASE with REAL LOGOS (reliable CDN sources)
+    const apps = [
+        {
+            id: "capcut",
+            name: "CapCut",
+            logo: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/capcut.svg",
+            fallbackLogo: "https://upload.wikimedia.org/wikipedia/commons/a/a8/CapCut_Logo_2021.svg",
+            description: "All-in-one video editor with AI-powered tools, pro effects, and seamless 4K export. Create viral content effortlessly.",
+            features: ["AI Motion Tracking", "Keyframe Animation", "Auto Captions", "Glitch & 3D Effects", "Smooth Slow-mo"],
+            rating: 4.8,
+            screenshots: ["🎬 Editor", "🎨 Effects", "✂️ Timeline"],
+            previewIcon: "🎥"
+        },
+        {
+            id: "canva",
+            name: "Canva",
+            logo: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/canva.svg",
+            fallbackLogo: "https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg",
+            description: "Design anything: presentations, social posts, videos. Thousands of templates, AI design suggestions.",
+            features: ["Magic Write AI", "Background Remover", "Brand Kit", "Video Editing", "Collaboration"],
+            rating: 4.7,
+            screenshots: ["🖌️ Templates", "📸 AI Edit", "📊 Charts"],
+            previewIcon: "🎨"
+        },
+        {
+            id: "chatgpt",
+            name: "ChatGPT",
+            logo: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/openai.svg",
+            fallbackLogo: "https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg",
+            description: "Advanced conversational AI by OpenAI. Write, code, brainstorm, and get instant answers.",
+            features: ["GPT-4 Access", "Web Browsing", "Code Interpreter", "Voice Input", "Custom GPTs"],
+            rating: 4.9,
+            screenshots: ["💬 Chat", "📝 Code", "🌐 Browse"],
+            previewIcon: "🤖"
+        },
+        {
+            id: "claude",
+            name: "Claude",
+            logo: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/claude.svg",
+            fallbackLogo: "https://upload.wikimedia.org/wikipedia/commons/9/9c/Claude_AI_logo.svg",
+            description: "Anthropic's helpful, harmless assistant. Long context, nuanced reasoning, document analysis.",
+            features: ["100K Context", "File Uploads", "Analytical Depth", "Code Generation", "Ethical AI"],
+            rating: 4.8,
+            screenshots: ["📄 Analysis", "🔍 Research", "💡 Insights"],
+            previewIcon: "🧠"
+        },
+        {
+            id: "gemini",
+            name: "Gemini",
+            logo: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/googlegemini.svg",
+            fallbackLogo: "https://upload.wikimedia.org/wikipedia/commons/8/8a/Google_Gemini_logo.svg",
+            description: "Google's most capable AI model. Multimodal, integrated with Google apps, real-time info.",
+            features: ["Multimodal (Text, Image)", "YouTube Extension", "Google Workspace", "Reasoning", "Coding"],
+            rating: 4.7,
+            screenshots: ["🌍 Search", "🎥 YouTube", "📸 Vision"],
+            previewIcon: "✨"
+        },
+        {
+            id: "perplexity",
+            name: "Perplexity",
+            logo: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/perplexity.svg",
+            fallbackLogo: "https://seeklogo.com/images/P/perplexity-ai-logo-0E68B2B3D6-seeklogo.com.png",
+            description: "AI-powered answer engine with citations. Real-time research, up-to-date knowledge.",
+            features: ["Live Web Search", "Citation Links", "Focus Modes", "File Analysis", "Threads"],
+            rating: 4.6,
+            screenshots: ["🔎 Discover", "📚 Sources", "⚡ Fast"],
+            previewIcon: "🌐"
+        },
+        {
+            id: "deepseek",
+            name: "DeepSeek",
+            logo: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/deepseek.svg",
+            fallbackLogo: "https://avatars.githubusercontent.com/u/149115149?s=200&v=4",
+            description: "Cutting-edge open-source reasoning model. Superb coding, math, and logic with massive context.",
+            features: ["1M Context", "Reasoning Deep", "Code Expert", "Free Tier", "Open Weights"],
+            rating: 4.9,
+            screenshots: ["📊 Math", "⚙️ Code", "📖 LongDoc"],
+            previewIcon: "🔍"
+        }
+    ];
+
+    // Helper to load logo with fallback
+    function getLogoImg(app) {
+        const img = document.createElement('img');
+        img.className = 'app-logo-img';
+        img.alt = app.name;
+        img.src = app.logo;
+        img.onerror = function() {
+            if (this.src !== app.fallbackLogo) {
+                this.src = app.fallbackLogo;
+            } else {
+                this.src = 'https://placehold.co/200x200/1e2a4a/white?text=' + app.name[0];
+            }
+        };
+        return img;
+    }
+
+    // Render grid
+    const gridContainer = document.getElementById('appGrid');
+    function buildGrid() {
+        gridContainer.innerHTML = '';
+        apps.forEach(app => {
+            const card = document.createElement('div');
+            card.className = 'app-card';
+            const logoImg = getLogoImg(app);
+            const title = document.createElement('h3');
+            title.innerText = app.name;
+            const desc = document.createElement('p');
+            desc.innerText = 'Premium AI • Creative';
+            card.appendChild(logoImg);
+            card.appendChild(title);
+            card.appendChild(desc);
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openDetailModal(app);
+            });
+            gridContainer.appendChild(card);
+        });
+    }
+
+    // Modal detail rendering
+    const detailModal = document.getElementById('detailModal');
+    const dynamicContent = document.getElementById('dynamicDetailContent');
+    let currentApp = null;
+
+    function openDetailModal(app) {
+        currentApp = app;
+        // build premium detail view
+        const starRating = '★'.repeat(Math.floor(app.rating)) + (app.rating % 1 >= 0.5 ? '½' : '') + '☆'.repeat(5 - Math.ceil(app.rating));
+        const ratingFloat = app.rating.toFixed(1);
+        const screenshotItems = app.screenshots.map((sc, idx) => `
+            <div class="screenshot">
+                <span>${idx === 0 ? app.previewIcon : (idx === 1 ? '📸' : '🎞️')}</span>
+                <span>${sc}</span>
             </div>
-    </main>
-
-    <div id="detail-view" class="p-4 md:p-12">
-        <div class="max-w-4xl mx-auto bg-[#0a0a0a] rounded-[40px] border border-white/10 overflow-hidden relative animate-in">
-            <button onclick="closeDetail()" class="absolute top-6 right-6 text-gray-400 hover:text-white">
-                <i data-lucide="x-circle"></i>
-            </button>
-            
-            <div class="p-8 md:p-12">
-                <div class="flex flex-col md:flex-row gap-8 items-center md:items-start">
-                    <img id="detail-logo" src="" class="w-32 h-32 rounded-3xl shadow-2xl" alt="App Logo">
-                    <div class="text-center md:text-left">
-                        <h2 id="detail-name" class="text-4xl font-bold mb-2"></h2>
-                        <div class="flex items-center justify-center md:justify-start gap-2 text-yellow-500 mb-4">
-                            <i data-lucide="star" class="fill-current w-4"></i>
-                            <span id="detail-rating" class="text-white font-bold">4.9</span>
-                            <span class="text-gray-500 text-sm">(124k Reviews)</span>
-                        </div>
-                        <p id="detail-desc" class="text-gray-400 leading-relaxed mb-8"></p>
+        `).join('');
+        const featureTags = app.features.map(f => `<span class="feature-tag">${f}</span>`).join('');
+        
+        dynamicContent.innerHTML = `
+            <div class="app-detail-header">
+                <img class="detail-logo" src="${app.logo}" alt="${app.name}" onerror="this.src='${app.fallbackLogo}'; this.onerror=null;">
+                <div class="detail-title">
+                    <h2>${app.name}</h2>
+                    <div class="rating">
+                        <span class="stars">${starRating}</span>
+                        <span>${ratingFloat} / 5</span>
+                        <span style="margin-left: 8px;">⭐ ${app.rating} global</span>
                     </div>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-8" id="detail-features"></div>
-
-                <div class="flex flex-col md:flex-row gap-4 mt-12">
-                    <button onclick="openLocker()" class="flex-1 btn-gradient py-5 rounded-2xl font-bold flex items-center justify-center gap-3">
-                        <i data-lucide="play"></i> Get for Android
-                    </button>
-                    <button onclick="openLocker()" class="flex-1 bg-white text-black py-5 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-gray-200 transition">
-                        <i data-lucide="apple"></i> Get for iOS
-                    </button>
-                </div>
             </div>
-        </div>
-    </div>
-
-    <div id="locker-modal" class="flex items-center justify-center p-4">
-        <div class="w-full max-w-2xl bg-black rounded-3xl border border-indigo-500/30 overflow-hidden relative shadow-[0_0_50px_rgba(99,102,241,0.2)]">
-            <div class="p-4 border-b border-white/10 flex justify-between items-center bg-gray-900/50">
-                <span class="text-sm font-bold tracking-widest uppercase">Security Verification</span>
-                <button onclick="closeLocker()" class="text-gray-400"><i data-lucide="x"></i></button>
+            <p style="font-size:1.05rem; line-height:1.4;">${app.description}</p>
+            <div class="features-list">
+                ${featureTags}
             </div>
-            <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0"></iframe>
-        </div>
-    </div>
+            <h4 style="margin: 1rem 0 0.5rem;">📸 Preview / Screenshots</h4>
+            <div class="screenshots-area">
+                ${screenshotItems}
+            </div>
+            <div class="button-group">
+                <button class="btn-android" id="actionAndroidBtn">📱 Android APK / Play</button>
+                <button class="btn-ios" id="actionIOSBtn">🍏 iOS App Store</button>
+            </div>
+            <p style="font-size:0.75rem; opacity:0.7; margin-top:1rem;">* Click any button to open secure locker and claim your download</p>
+        `;
+        detailModal.classList.add('active');
+        
+        // attach buttons after rendering
+        setTimeout(() => {
+            const androidBtn = document.getElementById('actionAndroidBtn');
+            const iosBtn = document.getElementById('actionIOSBtn');
+            if (androidBtn) androidBtn.addEventListener('click', () => openLocker('android'));
+            if (iosBtn) iosBtn.addEventListener('click', () => openLocker('ios'));
+        }, 10);
+    }
 
-    <script>
-        const apps = [
-            {
-                name: "ChatGPT",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg",
-                desc: "The world's leading AI assistant. Write, learn, and brainstorm instantly.",
-                features: ["Real-time reasoning", "Voice Mode", "DALL-E 3 Image Gen"],
-                rating: "4.9"
-            },
-            {
-                name: "Claude",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/d/d4/Claude_AI_logo.svg",
-                desc: "Next-generation AI assistant by Anthropic. Highly ethical and deeply analytical.",
-                features: ["Large context window", "Coding expert", "Natural writing"],
-                rating: "4.8"
-            },
-            {
-                name: "Gemini",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/8/8a/Google_Gemini_logo.svg",
-                desc: "Google's most capable AI model. Integrated with your favorite Google apps.",
-                features: ["Multimodal search", "Google Workspace sync", "Ultra-fast"],
-                rating: "4.7"
-            },
-            {
-                name: "Perplexity",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/f/f0/Perplexity_AI_logo.svg",
-                desc: "A revolutionary search engine that provides direct answers with cited sources.",
-                features: ["Source tracking", "Pro Search mode", "Live web access"],
-                rating: "4.9"
-            },
-            {
-                name: "CapCut",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/0/0e/CapCut_logo.svg",
-                desc: "The ultimate video editor. Professional effects and AI-driven editing made simple.",
-                features: ["Auto captions", "Background removal", "4K Export"],
-                rating: "4.8"
-            },
-            {
-                name: "Canva",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg",
-                desc: "Design anything in seconds. From social posts to professional presentations.",
-                features: ["Magic Studio AI", "Millions of templates", "Team collab"],
-                rating: "4.9"
-            },
-            {
-                name: "DeepSeek",
-                logo: "https://asset.brandfetch.io/id_X8X5xX_/id_Z7X5xX_.png", // Placeholder/Reliable CDN
-                desc: "Advanced open-source AI models pushing the boundaries of code and math.",
-                features: ["DeepSeek-V3", "Advanced Coder", "Math specialized"],
-                rating: "4.8"
+    // Locker logic (in-page iframe)
+    const lockerModal = document.getElementById('lockerModal');
+    const lockerIframe = document.getElementById('lockerIframe');
+    const closeLockerBtn = document.getElementById('closeLockerBtn');
+    const LOCKER_URL = "https://appchecker.space/cl/i/6nnlj7";
+
+    function openLocker(platform) {
+        // optional: we could pass platform as a ref but locker url handles it. We just load.
+        // close any open detail modal first for cleaner UX
+        if (detailModal.classList.contains('active')) {
+            detailModal.classList.remove('active');
+        }
+        // set iframe src (always reload fresh)
+        lockerIframe.src = LOCKER_URL;
+        lockerModal.classList.add('active');
+        // optional body scroll lock
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLocker() {
+        lockerModal.classList.remove('active');
+        lockerIframe.src = 'about:blank';
+        document.body.style.overflow = '';
+    }
+
+    // Close modal functions
+    function closeDetailModal() {
+        detailModal.classList.remove('active');
+        currentApp = null;
+    }
+
+    // Event listeners for modal close
+    document.getElementById('closeModalBtn').addEventListener('click', closeDetailModal);
+    detailModal.addEventListener('click', (e) => {
+        if (e.target === detailModal) closeDetailModal();
+    });
+    closeLockerBtn.addEventListener('click', closeLocker);
+    lockerModal.addEventListener('click', (e) => {
+        if (e.target === lockerModal) closeLocker();
+    });
+
+    // --- ANIMATED PARTICLES (4D Depth effect)
+    const canvas = document.getElementById('particleCanvas');
+    let ctx = canvas.getContext('2d');
+    let particles = [];
+    let particleCount = 130;
+    let mouseX = 0, mouseY = 0;
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 3 + 1.2;
+            this.speedX = (Math.random() - 0.5) * 0.4;
+            this.speedY = (Math.random() - 0.5) * 0.4;
+            this.opacity = Math.random() * 0.6 + 0.2;
+            this.color = `rgba(100, 180, 255, ${this.opacity})`;
+        }
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            if (this.x < 0) this.x = canvas.width;
+            if (this.x > canvas.width) this.x = 0;
+            if (this.y < 0) this.y = canvas.height;
+            if (this.y > canvas.height) this.y = 0;
+            // mouse interaction depth: repulsion
+            const dx = mouseX - this.x;
+            const dy = mouseY - this.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < 120) {
+                const angle = Math.atan2(dy, dx);
+                const force = (120 - dist) / 120;
+                this.x -= Math.cos(angle) * force * 1.2;
+                this.y -= Math.sin(angle) * force * 1.2;
             }
-        ];
-
-        function initGrid() {
-            const grid = document.getElementById('app-grid');
-            apps.forEach(app => {
-                const card = document.createElement('div');
-                card.className = 'glass-card p-6 flex flex-col items-center text-center';
-                card.onclick = () => showDetail(app);
-                card.innerHTML = `
-                    <img src="${app.logo}" class="w-20 h-20 rounded-2xl mb-4 shadow-lg bg-white/5 p-2" alt="${app.name}">
-                    <h3 class="font-bold text-lg">${app.name}</h3>
-                    <p class="text-xs text-gray-500 mt-1 italic">Premium Edition</p>
-                `;
-                grid.appendChild(card);
-            });
-            lucide.createIcons();
         }
-
-        function showDetail(app) {
-            document.getElementById('detail-name').innerText = app.name;
-            document.getElementById('detail-logo').src = app.logo;
-            document.getElementById('detail-desc').innerText = app.desc;
-            document.getElementById('detail-rating').innerText = app.rating;
-            
-            const featContainer = document.getElementById('detail-features');
-            featContainer.innerHTML = app.features.map(f => `
-                <div class="flex items-center gap-3 bg-white/5 p-4 rounded-xl border border-white/5">
-                    <i data-lucide="check-circle" class="text-indigo-400 w-5"></i>
-                    <span class="text-sm text-gray-300">${f}</span>
-                </div>
-            `).join('');
-            
-            document.getElementById('detail-view').style.display = 'block';
-            document.body.classList.add('modal-active');
-            lucide.createIcons();
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = "cyan";
         }
+    }
 
-        function closeDetail() {
-            document.getElementById('detail-view').style.display = 'none';
-            document.body.classList.remove('modal-active');
+    function initParticles() {
+        particles = [];
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
         }
+    }
 
-        function openLocker() {
-            document.getElementById('locker-modal').style.display = 'flex';
+    function animateParticles() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.shadowBlur = 0;
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+        requestAnimationFrame(animateParticles);
+    }
+
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+    window.addEventListener('touchmove', (e) => {
+        if(e.touches[0]) {
+            mouseX = e.touches[0].clientX;
+            mouseY = e.touches[0].clientY;
         }
+    });
 
-        function closeLocker() {
-            document.getElementById('locker-modal').style.display = 'none';
-        }
+    function startParticles() {
+        resizeCanvas();
+        initParticles();
+        animateParticles();
+    }
 
-        window.onclick = function(event) {
-            if (event.target.id === 'detail-view') closeDetail();
-            if (event.target.id === 'locker-modal') closeLocker();
-        }
-
-        initGrid();
-    </script>
+    // Ensure logos display nicely for all apps (fallback chain)
+    window.addEventListener('load', () => {
+        buildGrid();
+        startParticles();
+        // preload cross-origin?
+    });
+</script>
 </body>
 </html>

@@ -95,7 +95,7 @@
                 NEXUS
             </div>
             <div class="px-4 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/5 text-indigo-400 text-[10px] font-black tracking-widest uppercase">
-                2026 Professional Core
+                2026 Core v5.1
             </div>
         </div>
     </nav>
@@ -107,7 +107,7 @@
                     Architecture <br>of Power.
                 </h1>
                 <p class="text-2xl text-gray-500 font-light max-w-2xl leading-relaxed">
-                    The elite repository for generative intelligence and creative engines.
+                    The elite repository for generative intelligence and creative engines. Unlocked and verified.
                 </p>
             </header>
 
@@ -135,7 +135,7 @@
         const appData = [
             { 
                 name: 'Midjourney AI', 
-                logo: 'https://cdn.worldvectorlogo.com/logos/midjourney.svg', 
+                logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png', 
                 tag: 'Generative Art',
                 desc: 'The gold standard for high-fidelity image synthesis. Nexus Core provides direct access to v6.1 reasoning for hyper-realistic textures.',
                 features: ['V6.1 Ultra Engine', 'Fast GPU Processing', 'Private Stealth Mode', 'Unlimited Upscaling'],
@@ -153,7 +153,7 @@
                 name: 'Claude 3.5 Sonnet', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', 
                 tag: 'Reasoning Engine',
-                desc: 'Anthropic’s most advanced reasoning model. Optimized for code generation, document analysis, and human-nuance research.',
+                desc: 'Anthropic’s most advanced reasoning model. Optimized for code generation and human-nuance research.',
                 features: ['Artifacts UI', '200k Context', 'Code Specialist', 'Verified Account'],
                 category: 'AI Logic'
             },
@@ -161,7 +161,7 @@
                 name: 'ChatGPT Plus', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', 
                 tag: 'Neural Hub',
-                desc: 'Access the world’s most popular intelligence engine. High-priority access to GPT-4o and DALL-E 3 visual generation.',
+                desc: 'Access the world’s most popular intelligence engine. High-priority access to GPT-4o and DALL-E 3.',
                 features: ['GPT-4o Access', 'DALL-E 3 Native', 'Data Analysis', 'Voice Mode Pro'],
                 category: 'AI Intelligence'
             },
@@ -177,7 +177,7 @@
                 name: 'Perplexity Pro', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', 
                 tag: 'Search Evolution',
-                desc: 'Experience ad-free, cited search. Real-time answers with source links for professional research and verification.',
+                desc: 'Experience ad-free, cited search. Real-time answers with source links for professional research.',
                 features: ['Live Web Search', 'Cited Sources', 'Pro Search Mode', 'Model Switching'],
                 category: 'Knowledge'
             },
@@ -185,7 +185,7 @@
                 name: 'Gemini Ultra', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', 
                 tag: 'Multi-Modal',
-                desc: 'Google’s powerhouse AI. Seamlessly connects with your Workspace apps like Drive, Docs, and Gmail for maximum speed.',
+                desc: 'Google’s powerhouse AI. Seamlessly connects with Drive, Docs, and Gmail for maximum speed.',
                 features: ['Google Workspace Sync', 'Ultra Intelligence', 'Live Research', 'App Extensions'],
                 category: 'AI Suite'
             },
@@ -193,7 +193,7 @@
                 name: 'Canva Pro', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', 
                 tag: 'Visual Assets',
-                desc: 'The complete creative suite for non-designers and pros alike. Full access to Magic Studio and enterprise brand assets.',
+                desc: 'Full access to Magic Studio and enterprise brand assets for high-end design.',
                 features: ['Magic Resizer', 'Background Remover', '100M+ Assets', 'Pro Font Access'],
                 category: 'Design'
             }
@@ -201,7 +201,8 @@
 
         function imgFallback(img, name) {
             img.onerror = null;
-            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1e1e20&color=6366f1&size=256&bold=true`;
+            // High-quality branded fallback
+            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=161618&color=6366f1&size=256&bold=true&font-size=0.45`;
         }
 
         function init() {
@@ -240,10 +241,10 @@
                         <p class="text-2xl text-gray-400 font-light leading-relaxed mb-12">${app.desc}</p>
                         <div class="flex flex-col sm:flex-row gap-6">
                             <button onclick="openLocker()" class="btn-main px-12 py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-4 text-white">
-                                DOWNLOAD PRO
+                                DOWNLOAD DEPLOY
                             </button>
                             <button onclick="openLocker()" class="bg-white text-black px-12 py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-4 hover:bg-gray-200 transition-all">
-                                DEPLOY IOS
+                                IOS PROVISION
                             </button>
                         </div>
                     </div>
@@ -272,6 +273,3 @@
     </script>
 </body>
 </html>
-
-
-

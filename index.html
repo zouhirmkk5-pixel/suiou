@@ -3,229 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus Premium | 2026 Core v5.5</title>
+    <title>VORTEX | Engineering Intelligence</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg: #000000;
-            --surface: #0a0a0c;
-            --border: rgba(255, 255, 255, 0.08);
-            --neon-blue: #6366f1;
-            --neon-purple: #a855f7;
-            --glass: rgba(255, 255, 255, 0.02);
+            --obsidian: #050505;
+            --titanium: #1a1a1c;
+            --vortex-cyan: #00F3FF;
+            --border: rgba(255, 255, 255, 0.05);
         }
 
         body {
-            background-color: var(--bg);
+            background-color: var(--obsidian);
             color: #ffffff;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            margin: 0;
+            font-family: 'Inter Tight', sans-serif;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
         }
 
-        /* Dark Neon Cyberpunk Background */
-        .cyber-bg {
+        /* Industrial Background Overlay */
+        .industrial-bg {
             position: fixed;
             inset: 0;
-            z-index: -2;
+            z-index: -1;
             background: 
-                radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.08) 0%, rgba(0,0,0,0) 50%),
-                radial-gradient(circle at 90% 90%, rgba(168, 85, 247, 0.08) 0%, rgba(0,0,0,0) 50%);
-            overflow: hidden;
+                radial-gradient(circle at 50% -20%, rgba(0, 243, 255, 0.05) 0%, transparent 50%),
+                linear-gradient(to bottom, #050505, #0a0a0c);
         }
 
-        /* Cyberpunk Geometric Floor and Data Stream Lines */
-        .cyber-bg::before {
-            content: '';
+        .grid-mesh {
             position: absolute;
             inset: 0;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 80px 80px;
-            transform: perspective(600px) rotateX(60deg) translateY(-20vh) scale(1.5);
-            z-index: -1;
+            background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, black, transparent);
         }
 
-        .cyber-bg::after {
+        /* The Vortex Logo Component */
+        .logo-v {
+            width: 40px; height: 40px;
+            background: var(--vortex-cyan);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+        }
+
+        /* Professional Bento Card */
+        .vortex-card {
+            background: var(--titanium);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .vortex-card:hover {
+            border-color: var(--vortex-cyan);
+            box-shadow: 0 0 40px rgba(0, 243, 255, 0.1);
+            transform: scale(1.02);
+        }
+
+        .vortex-card::after {
             content: '';
             position: absolute;
-            top: -20vh; left: -20vw;
-            width: 140vw; height: 140vh;
-            background: 
-                radial-gradient(ellipse at 50% 50%, transparent 0%, rgba(0,0,0,0.8) 100%);
-            z-index: 1;
+            inset: 0; border-radius: 24px;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.03));
+            pointer-events: none;
         }
 
-        /* Bento Grid 2.0 Layout */
-        #grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 24px;
-        }
+        .mono { font-family: 'JetBrains Mono', monospace; }
 
-        /* Bento Card 2.0 (Glassmorphism & Neon Glow) */
-        .bento-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 32px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            perspective: 1000px;
-        }
-
-        /* Target cursor glow effect */
-        .card-glow {
-            position: absolute;
-            inset: -20px;
-            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255, 255, 255, 0.1) 0%, rgba(0,0,0,0) 60%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 1;
-        }
-
-        .bento-card:hover {
-            transform: translateY(-12px);
-            border-color: rgba(99, 102, 241, 0.4);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 20px rgba(99, 102, 241, 0.1);
-        }
-
-        .bento-card:hover .card-glow {
-            opacity: 1;
-        }
-
-        /* Stacked Bento Grid specific sizes */
-        .grid-colspan-2 { grid-column: span 2; }
-        .grid-rowspan-2 { grid-row: span 2; }
-
-        /* Premium Nav */
-        nav {
-            backdrop-filter: blur(30px) saturate(180%);
-            border-bottom: 1px solid var(--border);
-            background: rgba(0,0,0,0.7);
-        }
-
-        /* High-Contrast Typgraphy system */
-        .hero-title {
-            background: linear-gradient(to right, #ffffff, #888);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .gradient-text-neon {
-            background: linear-gradient(to right, var(--neon-blue), var(--neon-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* System Stat Badge */
-        .system-badge {
-            font-size: 10px;
+        .btn-vortex {
+            background: #ffffff;
+            color: #000000;
             font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.3em;
-            color: var(--neon-blue);
-            border: 1px solid rgba(99, 102, 241, 0.4);
-            background: rgba(99, 102, 241, 0.05);
-            padding: 6px 16px;
-            border-radius: 100px;
+            transition: all 0.3s ease;
         }
 
-        /* App Icon Frame (Cinematic) */
-        .icon-box {
-            width: 72px; height: 72px;
-            border-radius: 20px;
-            background: #121214;
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        .btn-vortex:hover {
+            background: var(--vortex-cyan);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.4);
         }
 
-        /* Professional Statistics Bar */
-        .stat-bar {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 16px;
-        }
-
-        /* Overlay Styling */
         #app-overlay {
             position: fixed; inset: 0;
-            background: var(--bg);
-            z-index: 100;
-            display: none;
-            overflow-y: auto;
+            background: rgba(5, 5, 5, 0.98);
+            z-index: 100; display: none;
+            backdrop-filter: blur(20px);
         }
-
-        #app-overlay::-webkit-scrollbar { width: 6px; }
-        #app-overlay::-webkit-scrollbar-track { background: var(--bg); }
-        #app-overlay::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
-
-        .btn-main {
-            background: linear-gradient(135deg, var(--neon-blue) 0%, var(--neon-purple) 100%);
-            transition: transform 0.3s ease, filter 0.3s ease;
-        }
-        .btn-main:hover {
-            filter: brightness(1.2);
-            transform: translateY(-2px);
-        }
-
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <div class="cyber-bg"></div>
+    <div class="industrial-bg">
+        <div class="grid-mesh"></div>
+    </div>
 
-    <nav class="fixed top-0 w-full z-[100] px-8 py-5">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="text-2xl font-black tracking-tighter flex items-center gap-3">
-                <span class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white">N</span>
-                NEXUS
+    <nav class="fixed top-0 w-full z-[110] px-8 py-6 flex justify-between items-center border-b border-white/5 bg-black/50 backdrop-blur-md">
+        <div class="flex items-center gap-4">
+            <div class="logo-v">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3">
+                    <path d="M6 3L12 15L18 3" />
+                </svg>
             </div>
-            <div class="system-badge">
-                SECURE ACCESS v5.5 // 2026 Stable
-            </div>
+            <span class="text-xl font-black tracking-[0.2em]">VORTEX</span>
+        </div>
+        <div class="mono text-[10px] text-cyan-400 border border-cyan-400/30 px-3 py-1 rounded-full bg-cyan-400/5">
+            SYSTEM STATUS: OPERATIONAL
         </div>
     </nav>
 
-    <main class="pt-48 pb-32 px-8">
-        <div class="max-w-7xl mx-auto">
-            <header class="mb-24">
-                <p class="text-indigo-400 font-bold tracking-[0.3em] uppercase text-xs mb-6">Premium Repository</p>
-                <h1 class="text-7xl md:text-9xl font-extrabold hero-title tracking-tighter leading-none mb-10">
-                    Creative <br>Ecosystem.
-                </h1>
-                <p class="text-2xl text-gray-400 font-light leading-relaxed max-w-2xl">
-                    High-performance tools, verified and unlocked for the 2026 professional landscape.
-                </p>
-            </header>
+    <main class="pt-44 pb-32 px-8 max-w-7xl mx-auto">
+        <header class="mb-20 text-center">
+            <h1 class="text-6xl md:text-8xl font-black tracking-tight mb-6">
+                Engineered <br><span class="text-gray-500">Excellence.</span>
+            </h1>
+            <p class="text-xl text-gray-500 max-w-2xl mx-auto font-light">
+                The definitive hardware and software repository for the next generation of digital architects.
+            </p>
+        </header>
 
-            <div id="grid-container">
-                </div>
-        </div>
+        <div id="grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </main>
 
     <div id="app-overlay">
-        <div class="max-w-7xl mx-auto px-8 py-20">
-            <button onclick="hideDetails()" class="mb-16 flex items-center gap-4 text-gray-500 hover:text-white font-bold group transition-colors">
-                <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-                </div>
-                EXIT REPOSITORY
+        <div class="max-w-6xl mx-auto px-8 py-24 h-full flex flex-col">
+            <button onclick="hideDetails()" class="mb-12 flex items-center gap-3 text-gray-500 hover:text-white mono text-sm transition-all">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                RETURN_TO_BASE
             </button>
-            <div id="overlay-content"></div>
+            <div id="overlay-content" class="flex-grow"></div>
         </div>
     </div>
 
-    <div id="locker-modal" class="fixed inset-0 z-[200] bg-black/98 hidden items-center justify-center p-6 md:p-10" onclick="closeLocker()">
-        <div class="w-full max-w-lg h-[80vh] bg-white rounded-[40px] overflow-hidden shadow-2xl transition-transform" onclick="event.stopPropagation()">
+    <div id="locker-modal" class="fixed inset-0 z-[200] bg-black/95 hidden items-center justify-center p-6" onclick="closeLocker()">
+        <div class="w-full max-w-md h-[70vh] bg-white rounded-3xl overflow-hidden shadow-2xl" onclick="event.stopPropagation()">
             <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0" class="w-full h-full"></iframe>
         </div>
     </div>
@@ -235,99 +149,70 @@
             { 
                 name: 'Claude 3.5 Sonnet', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', 
-                tagline: 'Deep Reasoning Hub',
-                desc: 'Specialized for high-context coding and deep analysis. Unmatched 200k context window.',
-                features: ['Artifacts UI', '200k Context', 'Code Master', 'Research Logic'],
-                category: 'Intelligence',
-                class: 'grid-colspan-2' // Premium App
+                tag: 'Reasoning',
+                desc: 'Specialized for high-context coding and industrial analysis. 200k context verified.',
+                features: ['Analysis R1', 'Logic Gate v4', '200k Token Window']
             },
             { 
-                name: 'CapCut Pro', 
-                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', 
-                tagline: 'Video Post-Production',
-                desc: 'Professional edit suite. Nexus unlocks 4K raw exports, all AI templates, and watermarks.',
-                features: ['4K 60FPS Raw', 'No Watermark', 'AI Body VFX', 'Stock Assets Pro'],
-                category: 'Creation',
-                class: 'grid-rowspan-2' // Premium App
-            },
-            { 
-                name: 'Alight Motion', 
-                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/alight-motion-icon.png', 
-                tagline: 'Motion Graphics Suite',
-                desc: 'Professional animation on mobile. Nexus build provides all filters, tools, and ad-free exporting.',
-                features: ['Vector Graphics', 'Premium Visual FX', 'Keyframe Animation', 'Sharing Tools Pro'],
-                category: 'Animation'
+                name: 'DeepSeek R1', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', 
+                tag: 'DeepThinking',
+                desc: 'The leading open-source model for 2026. Specialized for mathematics and complex architectures.',
+                features: ['DeepThink R1', 'Low Latency', 'Pro API Unlocked']
             },
             { 
                 name: 'ChatGPT Plus', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', 
-                tagline: 'Universal Language Node',
-                desc: 'Unlocked access to the full Neural Hub. Real-time reasoning on mobile.',
-                features: ['GPT-4o Access', 'DALL-E 3 Native', 'Voice Mode Pro', 'Priority Server'],
-                category: 'AI Suite'
+                tag: 'Neural Hub',
+                desc: 'Access the world’s most popular intelligence engine. Priority GPT-4o protocol.',
+                features: ['GPT-4o Native', 'DALL-E 3', 'Voice Pro']
+            },
+            { 
+                name: 'CapCut Pro', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', 
+                tag: 'Production',
+                desc: 'Social content powerhouse. 4K Raw export unlocked with no limitations.',
+                features: ['4K 60FPS Raw', 'No Watermark', 'AI VFX Suite']
             },
             { 
                 name: 'Perplexity Pro', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', 
-                tagline: 'Knowledge Search Node',
-                desc: 'Real-time search with zero advertising. Nexus provides immediate cited answers.',
-                features: ['Cited Sources', 'Pro Search Mode', 'PDF Analysis Pro', 'Switcher Logic'],
-                category: 'Knowledge'
-            },
-            { 
-                name: 'Gemini Ultra', 
-                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', 
-                tagline: 'Google Multi-Modal AI',
-                desc: 'Googles powerhouse. Multimodal logic deeply connected into the Drive/Gmail ecosystem.',
-                features: ['Google Suite Sync', 'Ultra-fast Logic', 'Multimodal API', 'Extensions Pro'],
-                category: 'AI Suite'
+                tag: 'Verification',
+                desc: 'Real-time verified search. Instant citation engine for professional researchers.',
+                features: ['Live Citations', 'Source Deep-Dive', 'Model Switcher']
             },
             { 
                 name: 'Canva Pro', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', 
-                tagline: 'Enterprise Design Assets',
-                desc: 'Visual design without limits. The 2026 build provides complete access to the visual design assets repository.',
-                features: ['Magic Resizer Pro', 'Background Remover', '100M+ Assets', 'Brand Kit Pro'],
-                category: 'Creation'
+                tag: 'Design',
+                desc: 'Enterprise branding toolkit. Full access to Magic Studio and 100M+ assets.',
+                features: ['Magic Resizer', 'Brand Kit Pro', 'High-Res Export']
             }
         ];
 
-        // Fail-safe icon generator
         function handleImageError(img, name) {
             img.onerror = null;
-            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1e1e20&color=6366f1&size=256&bold=true`;
+            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=111111&color=00F3FF&size=256&bold=true`;
         }
 
         function init() {
             const container = document.getElementById('grid-container');
             appData.forEach((app, i) => {
                 container.innerHTML += `
-                    <div class="bento-card ${app.class || ''} p-10 flex flex-col justify-between cursor-pointer group" onclick="showDetails(${i})">
-                        <div class="card-glow"></div>
+                    <div class="vortex-card p-8 flex flex-col justify-between cursor-pointer" onclick="showDetails(${i})">
                         <div>
-                            <div class="icon-box mb-8">
-                                <img src="${app.logo}" alt="${app.name}" class="w-full h-full object-cover p-2" onerror="handleImageError(this, '${app.name}')">
+                            <div class="w-14 h-14 rounded-xl bg-black border border-white/5 flex items-center justify-center mb-8">
+                                <img src="${app.logo}" alt="${app.name}" class="w-9 h-9 object-contain" onerror="handleImageError(this, '${app.name}')">
                             </div>
-                            <p class="text-indigo-400 font-bold text-[10px] tracking-[0.2em] uppercase mb-2">${app.tagline}</p>
-                            <h3 class="text-2xl font-black tracking-tight mb-4 group-hover:text-indigo-400 transition-colors">${app.name}</h3>
+                            <p class="mono text-[10px] text-cyan-400 uppercase tracking-widest mb-2">${app.tag}</p>
+                            <h3 class="text-2xl font-bold">${app.name}</h3>
                         </div>
-                        <div class="flex justify-between items-center pt-8 border-t border-white/5 relative z-10">
-                            <span class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">${app.category}</span>
-                            <div class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
-                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
-                            </div>
+                        <div class="mt-12 flex justify-between items-center opacity-40 hover:opacity-100 transition-opacity">
+                            <span class="mono text-[10px]">VERIFIED_BUILD_2026</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
                         </div>
                     </div>
                 `;
-            });
-
-            // Card mouse track effect
-            document.querySelectorAll('.bento-card').forEach(card => {
-                card.onmousemove = e => {
-                    const rect = card.getBoundingClientRect();
-                    card.style.setProperty('--x', `${e.clientX - rect.left}px`);
-                    card.style.setProperty('--y', `${e.clientY - rect.top}px`);
-                };
             });
         }
 
@@ -335,83 +220,38 @@
             const app = appData[idx];
             const overlay = document.getElementById('app-overlay');
             document.getElementById('overlay-content').innerHTML = `
-                <div class="grid lg:grid-cols-2 gap-24 items-start">
+                <div class="grid lg:grid-cols-2 gap-20 items-center">
                     <div>
-                        <div class="flex items-center gap-8 mb-12">
-                            <div class="w-32 h-32 rounded-[32px] overflow-hidden shadow-2xl border border-white/10 bg-white/5 flex items-center justify-center">
-                                <img src="${app.logo}" class="w-full h-full object-cover p-4" onerror="handleImageError(this, '${app.name}')">
+                        <div class="flex items-center gap-6 mb-10">
+                            <div class="w-24 h-24 rounded-3xl bg-black border border-cyan-400/20 flex items-center justify-center p-4">
+                                <img src="${app.logo}" class="w-full h-full object-contain" onerror="handleImageError(this, '${app.name}')">
                             </div>
-                            <div>
-                                <h2 class="text-7xl font-black hero-title tracking-tighterLEADING-NONE">${app.name}</h2>
-                                <p class="text-2xl text-indigo-400 font-bold tracking-widest uppercase">Nexus Certified</p>
-                            </div>
+                            <h2 class="text-6xl font-black tracking-tighter">${app.name}</h2>
                         </div>
-                        <p class="text-2xl text-gray-400 font-light leading-relaxed mb-12">${app.desc}</p>
-                        
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 stat-bar">
-                            <div class="text-center p-4 border-r border-white/5">
-                                <div class="text-2xl font-black text-white">4.9/5</div>
-                                <div class="text-[9px] text-gray-500 font-bold tracking-widest uppercase mt-1">User Rating</div>
-                            </div>
-                            <div class="text-center p-4 border-r border-white/5">
-                                <div class="text-2xl font-black text-indigo-400">Stable</div>
-                                <div class="text-[9px] text-gray-500 font-bold tracking-widest uppercase mt-1">Status</div>
-                            </div>
-                            <div class="text-center p-4 border-r border-white/5">
-                                <div class="text-2xl font-black text-white">50M+</div>
-                                <div class="text-[9px] text-gray-500 font-bold tracking-widest uppercase mt-1">Nexus Daily</div>
-                            </div>
-                            <div class="text-center p-4">
-                                <div class="text-2xl font-black text-white">2026 Pro</div>
-                                <div class="text-[9px] text-gray-500 font-bold tracking-widest uppercase mt-1">Build</div>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col sm:flex-row gap-6">
-                            <button onclick="openLocker()" class="btn-main px-12 py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-4 text-white shadow-xl shadow-indigo-500/20">SIDELOAD APK</button>
-                            <button onclick="openLocker()" class="bg-white text-black px-12 py-6 rounded-3xl font-black text-xl hover:bg-gray-200 transition-all flex items-center justify-center gap-4">iOS PROVISION</button>
+                        <p class="text-2xl text-gray-400 font-light mb-12">${app.desc}</p>
+                        <div class="flex gap-4">
+                            <button onclick="openLocker()" class="btn-vortex px-10 py-5 rounded-2xl text-sm tracking-widest uppercase">INITIALIZE_DOWNLOAD</button>
+                            <button onclick="openLocker()" class="border border-white/10 px-10 py-5 rounded-2xl text-sm tracking-widest uppercase hover:bg-white/5">DEVICE_PROVISION</button>
                         </div>
                     </div>
-                    <div class="bento-card p-12 shadow-2xl shadow-black/50">
-                        <h4 class="text-xs font-black tracking-[0.3em] text-gray-500 uppercase mb-10">Nexus Verified Perks</h4>
-                        <div class="space-y-8 grid grid-cols-1 md:grid-cols-2 gap-8 gap-y-12">
-                            ${app.features.map(f => `
-                                <div class="flex items-center gap-6">
-                                    <div class="w-6 h-6 rounded-full bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-[10px] font-black shadow-[0_0_15px_rgba(99,102,241,0.2)]">✓</div>
-                                    <span class="text-xl font-semibold text-gray-200">${f}</span>
-                                </div>
-                            `).join('')}
-                        </div>
+                    <div class="grid grid-cols-1 gap-4">
+                        ${app.features.map(f => `
+                            <div class="bg-white/5 border border-white/5 p-6 rounded-2xl flex justify-between items-center">
+                                <span class="mono text-gray-300">${f}</span>
+                                <span class="text-cyan-400 font-bold">SECURE</span>
+                            </div>
+                        `).join('')}
                     </div>
                 </div>
             `;
             overlay.style.display = 'block';
-            gsap.fromTo(overlay, { opacity: 0, scale: 1.05 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power4.out" });
-            window.scrollTo(0, 0);
         }
 
-        function hideDetails() {
-            gsap.to('#app-overlay', { opacity: 0, scale: 0.95, duration: 0.4, onComplete: () => {
-                document.getElementById('app-overlay').style.display = 'none';
-            }});
-        }
-
-        function openLocker() {
-            document.getElementById('locker-modal').style.display = 'flex';
-            gsap.fromTo('#locker-modal div', { scale: 0.9, y: 100, opacity: 0 }, { scale: 1, y: 0, opacity: 1, duration: 0.6, ease: "expo.out" });
-        }
-
-        function closeLocker() {
-            gsap.to('#locker-modal div', { scale: 0.8, opacity: 0, duration: 0.3, onComplete: () => {
-                document.getElementById('locker-modal').style.display = 'none';
-            }});
-        }
+        function hideDetails() { document.getElementById('app-overlay').style.display = 'none'; }
+        function openLocker() { document.getElementById('locker-modal').style.display = 'flex'; }
+        function closeLocker() { document.getElementById('locker-modal').style.display = 'none'; }
 
         init();
     </script>
 </body>
 </html>
-
-
-
-

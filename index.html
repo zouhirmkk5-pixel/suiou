@@ -2,600 +2,105 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Lumina | Premium App Hub</title>
-    <!-- Google Fonts: Inter + SF Pro style -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-    <!-- Font Awesome 6 (clean icons) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EliteApps | Premium Mobile Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #0A0C12;
-            color: #F0F4FF;
-            line-height: 1.4;
-            overflow-x: hidden;
-        }
-
-        /* Smooth transitions between pages */
-        .page {
-            transition: opacity 0.35s ease, visibility 0.35s;
-        }
-
-        .page.hidden-page {
-            display: none;
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .page.visible-page {
-            display: block;
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* container */
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        /* Glassmorphism base */
-        .glass-card {
-            background: rgba(18, 25, 40, 0.65);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 160, 255, 0.2);
-            border-radius: 2rem;
-        }
-
-        /* ========== PAGE 1 (GRID) ========== */
-        .hero-mini {
-            padding: 2rem 0 1rem;
-            text-align: center;
-        }
-
-        .hero-mini h1 {
-            font-size: 2.6rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #FFFFFF, #7ac8ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: -0.02em;
-        }
-
-        .hero-mini p {
-            color: #a0b6e0;
-            margin-top: 0.5rem;
-        }
-
-        /* filter row */
-        .filter-bar {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin: 2rem 0 2rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background: rgba(20, 30, 50, 0.7);
-            border: 1px solid rgba(0, 160, 255, 0.3);
-            padding: 0.7rem 2rem;
-            border-radius: 60px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-            color: #CCE4FF;
-        }
-
-        .filter-btn.active {
-            background: linear-gradient(95deg, #1a6eff, #00b0ff);
-            border-color: transparent;
-            color: white;
-            box-shadow: 0 6px 14px rgba(0, 120, 255, 0.3);
-        }
-
-        .filter-btn:hover:not(.active) {
-            background: rgba(40, 80, 140, 0.6);
-            border-color: #2a9eff;
-        }
-
-        /* apps grid */
-        .apps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-            gap: 1.8rem;
-            margin: 2rem 0 4rem;
-        }
-
-        .app-card {
-            background: rgba(12, 20, 32, 0.7);
-            backdrop-filter: blur(12px);
-            border-radius: 2rem;
-            padding: 1.5rem;
-            transition: all 0.25s ease;
-            border: 1px solid rgba(0, 150, 255, 0.2);
-            cursor: pointer;
-        }
-
-        .app-card:hover {
-            transform: translateY(-6px);
-            border-color: #2a9eff;
-            box-shadow: 0 24px 36px -12px rgba(0, 150, 255, 0.25);
-            background: rgba(20, 35, 60, 0.85);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .logo-circle {
-            width: 58px;
-            height: 58px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 1.4rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px;
-        }
-
-        .app-logo-img {
-            width: 100%;
-            height: auto;
-            max-height: 46px;
-            object-fit: contain;
-        }
-
-        .app-name {
-            font-size: 1.35rem;
-            font-weight: 600;
-        }
-
-        .category-badge {
-            display: inline-block;
-            font-size: 0.7rem;
-            background: rgba(0, 160, 255, 0.2);
-            padding: 0.2rem 0.8rem;
-            border-radius: 30px;
-            margin: 0.5rem 0;
-            color: #aad0ff;
-        }
-
-        .app-desc {
-            font-size: 0.85rem;
-            color: #c2d2f5;
-            margin: 0.5rem 0;
-            line-height: 1.4;
-        }
-
-        .rating {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin: 0.7rem 0;
-            font-size: 0.8rem;
-        }
-
-        .stars i {
-            color: #ffb83b;
-            margin-right: 2px;
-            font-size: 0.75rem;
-        }
-
-        .view-btn {
-            background: transparent;
-            border: 1px solid rgba(0, 170, 255, 0.6);
-            padding: 0.5rem 1rem;
-            border-radius: 40px;
-            font-weight: 500;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: 0.2s;
-            width: 100%;
-            margin-top: 0.8rem;
-            color: #cae9ff;
-        }
-
-        .view-btn:hover {
-            background: rgba(0, 160, 255, 0.2);
-            border-color: #2a9eff;
-        }
-
-        /* ========== PAGE 2 (DETAIL) ========== */
-        .detail-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.5rem 0;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-
-        .back-btn {
-            background: rgba(30, 40, 60, 0.7);
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 40px;
-            color: white;
-            cursor: pointer;
-            font-weight: 500;
-            transition: 0.2s;
-        }
-
-        .back-btn i {
-            margin-right: 6px;
-        }
-
-        .back-btn:hover {
-            background: rgba(0, 120, 200, 0.7);
-        }
-
-        .detail-hero {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-            align-items: center;
-            margin: 1rem 0 2rem;
-            background: rgba(10, 18, 28, 0.6);
-            border-radius: 2rem;
-            padding: 2rem;
-        }
-
-        .detail-logo {
-            width: 110px;
-            height: 110px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-
-        .detail-logo img {
-            width: 100%;
-            max-height: 80px;
-            object-fit: contain;
-        }
-
-        .detail-title h2 {
-            font-size: 2.2rem;
-            font-weight: 700;
-        }
-
-        .compat-badge {
-            display: inline-block;
-            background: #19233c;
-            padding: 0.3rem 1rem;
-            border-radius: 40px;
-            font-size: 0.75rem;
-            margin-right: 0.8rem;
-        }
-
-        .section-card {
-            background: rgba(12, 22, 36, 0.6);
-            backdrop-filter: blur(8px);
-            border-radius: 1.8rem;
-            padding: 1.8rem;
-            margin: 1.8rem 0;
-            border: 1px solid rgba(0, 160, 255, 0.2);
-        }
-
-        .features-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .features-list li {
-            list-style: none;
-            padding: 0.5rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .features-list i {
-            color: #2a9eff;
-            width: 24px;
-        }
-
-        .screenshot-mock {
-            display: flex;
-            gap: 1.2rem;
-            flex-wrap: wrap;
-            margin-top: 1rem;
-        }
-
-        .mock-img {
-            background: #121e30;
-            border-radius: 1.5rem;
-            width: 160px;
-            height: 280px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(0, 150, 255, 0.3);
-            box-shadow: 0 12px 20px -8px black;
-        }
-
-        .mock-img i {
-            font-size: 3rem;
-            color: #3a8cff;
-            margin-bottom: 0.8rem;
-        }
-
-        .download-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .download-btn {
-            background: linear-gradient(95deg, #1a6eff, #0099ff);
-            padding: 0.8rem 1.8rem;
-            border-radius: 60px;
-            font-weight: 600;
-            border: none;
-            color: white;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .rating-stars {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 0.8rem;
-        }
-
-        hr {
-            border-color: rgba(0, 150, 255, 0.2);
-            margin: 1rem 0;
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            font-size: 0.75rem;
-            color: #6b85b0;
-        }
-
-        @media (max-width: 780px) {
-            .container {
-                padding: 0 1.2rem;
-            }
-            .detail-hero {
-                flex-direction: column;
-                text-align: center;
-            }
-            .mock-img {
-                width: 120px;
-                height: 240px;
-            }
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: white; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .app-card:hover { transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.2); transition: all 0.3s ease; }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-<!-- PAGE 1: App Grid with Filter -->
-<div id="page1" class="page visible-page">
-    <div class="container">
-        <div class="hero-mini">
-            <h1>Lumina Hub</h1>
-            <p>Premium mobile applications — curated for professionals</p>
+    <nav class="sticky top-0 z-50 py-6 px-10 flex flex-col items-center gap-6 glass mb-12">
+        <h1 class="text-2xl font-bold tracking-tighter">ELITEAPPS</h1>
+        <div class="flex bg-white/5 p-1 rounded-full text-sm font-medium">
+            <button class="px-6 py-2 rounded-full bg-white text-black">All Apps</button>
+            <button class="px-6 py-2 rounded-full text-gray-400 hover:text-white transition">iOS</button>
+            <button class="px-6 py-2 rounded-full text-gray-400 hover:text-white transition">Android</button>
         </div>
-        <div class="filter-bar">
-            <button class="filter-btn active" data-filter="all">All Apps</button>
-            <button class="filter-btn" data-filter="android">Android</button>
-            <button class="filter-btn" data-filter="ios">iOS</button>
+    </nav>
+
+    <main id="grid-page" class="max-w-7xl mx-auto px-6 pb-20">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <div onclick="openDetails('CapCut Pro', 'Video Editing', 'Professional-grade mobile video editor with advanced AI features.', 'https://upload.wikimedia.org/wikipedia/en/a/a0/CapCut_logo.png')" class="app-card glass p-6 rounded-3xl cursor-pointer">
+                <img src="https://upload.wikimedia.org/wikipedia/en/a/a0/CapCut_logo.png" class="w-16 h-16 rounded-2xl mb-4 shadow-lg" alt="CapCut">
+                <span class="text-[10px] uppercase tracking-widest text-blue-400 font-bold">Editing</span>
+                <h3 class="text-xl font-semibold mt-1">CapCut Pro</h3>
+                <p class="text-gray-400 text-sm mt-2 leading-relaxed">Advanced AI tools for creators.</p>
+                <div class="flex items-center gap-1 mt-4 mb-6">
+                    <span class="text-yellow-500">★★★★★</span>
+                    <span class="text-xs text-gray-500">4.9</span>
+                </div>
+                <button class="w-full py-3 rounded-xl bg-white/10 hover:bg-white hover:text-black font-semibold text-sm transition">View Details</button>
+            </div>
+
+            <div onclick="openDetails('Perplexity AI', 'AI Search', 'Real-time AI-powered search engine for cited, accurate information.', 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Perplexity_AI_logo.svg')" class="app-card glass p-6 rounded-3xl cursor-pointer">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Perplexity_AI_logo.svg" class="w-16 h-16 rounded-2xl mb-4 bg-white p-2" alt="Perplexity">
+                <span class="text-[10px] uppercase tracking-widest text-purple-400 font-bold">AI</span>
+                <h3 class="text-xl font-semibold mt-1">Perplexity AI</h3>
+                <p class="text-gray-400 text-sm mt-2 leading-relaxed">The future of knowledge search.</p>
+                <div class="flex items-center gap-1 mt-4 mb-6">
+                    <span class="text-yellow-500">★★★★★</span>
+                    <span class="text-xs text-gray-500">4.8</span>
+                </div>
+                <button class="w-full py-3 rounded-xl bg-white/10 hover:bg-white hover:text-black font-semibold text-sm transition">View Details</button>
+            </div>
+
+            </div>
+    </main>
+
+    <section id="details-page" class="hidden fixed inset-0 z-[100] bg-black overflow-y-auto">
+        <div class="max-w-4xl mx-auto px-6 py-20">
+            <button onclick="closeDetails()" class="mb-10 text-gray-400 hover:text-white flex items-center gap-2 transition">
+                ← Back to Platform
+            </button>
+            
+            <div class="flex flex-col md:flex-row gap-10 items-start">
+                <img id="detail-logo" src="" class="w-40 h-40 rounded-[2.5rem] shadow-2xl" alt="App Logo">
+                <div class="flex-1">
+                    <h2 id="detail-name" class="text-5xl font-bold tracking-tight">App Name</h2>
+                    <p id="detail-cat" class="text-blue-400 font-medium mt-2">Category</p>
+                    <p id="detail-desc" class="text-gray-400 text-lg mt-6 leading-relaxed">Full app description goes here.</p>
+                    
+                    <div class="flex flex-wrap gap-4 mt-10">
+                        <button class="px-8 py-4 bg-white text-black font-bold rounded-2xl hover:bg-gray-200 transition">Download for iOS</button>
+                        <button class="px-8 py-4 bg-white/10 text-white font-bold rounded-2xl hover:bg-white/20 transition border border-white/10">Download for Android</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-20">
+                <h4 class="text-xl font-semibold mb-6">Screenshots</h4>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="aspect-[9/16] glass rounded-2xl animate-pulse"></div>
+                    <div class="aspect-[9/16] glass rounded-2xl animate-pulse"></div>
+                    <div class="aspect-[9/16] glass rounded-2xl animate-pulse"></div>
+                </div>
+            </div>
         </div>
-        <div id="appsGridContainer" class="apps-grid"></div>
-    </div>
-    <footer>© Lumina — premium app ecosystem</footer>
-</div>
+    </section>
 
-<!-- PAGE 2: Detailed App Page (hidden initially) -->
-<div id="page2" class="page hidden-page">
-    <div class="container">
-        <div class="detail-header">
-            <button id="backToGridBtn" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Apps</button>
-        </div>
-        <div id="detailContent"></div>
-    </div>
-    <footer>© Lumina — official partners</footer>
-</div>
+    <script>
+        function openDetails(name, category, desc, logo) {
+            document.getElementById('detail-name').innerText = name;
+            document.getElementById('detail-cat').innerText = category;
+            document.getElementById('detail-desc').innerText = desc;
+            document.getElementById('detail-logo').src = logo;
+            
+            document.getElementById('grid-page').classList.add('hidden');
+            document.getElementById('details-page').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
 
-<script>
-    // ---------- APPS DATASET (with official logos via Clearbit and official brand cdn) ----------
-    const appsDatabase = [
-        { id: "capcut", name: "CapCut Pro", category: "Editing", desc: "All-in-one video editor with AI effects and pro-grade tools.", rating: 4.8, compatibility: ["android","ios"], logoDomain: "capcut.com", officialLogo: "https://logo.clearbit.com/capcut.com", overview: "CapCut Pro delivers advanced video editing on mobile, including keyframe animation, auto-captions, and premium templates.", features: ["AI motion tracking", "Multi-layer editing", "4K export", "Audio library"], screenshots: ["editor", "effects"] },
-        { id: "alight", name: "Alight Motion", category: "Editing", desc: "Motion design and visual effects for professionals.", rating: 4.7, compatibility: ["android","ios"], logoDomain: "alightcreative.com", officialLogo: "https://logo.clearbit.com/alightcreative.com", overview: "Create stunning animations, visual effects, and vector graphics with powerful timeline control.", features: ["Keyframe animation", "Vector graphics", "Slow motion & speed control", "Group layers"], screenshots: ["motion", "timeline"] },
-        { id: "canva", name: "Canva Pro", category: "Design", desc: "Ultimate design platform with AI-powered tools and templates.", rating: 4.9, compatibility: ["android","ios"], logoDomain: "canva.com", officialLogo: "https://logo.clearbit.com/canva.com", overview: "Canva Pro unlocks premium assets, background remover, and brand kit for seamless creativity.", features: ["Magic resize", "Background remover", "Brand kit", "60M+ premium assets"], screenshots: ["design", "templates"] },
-        { id: "chatgpt", name: "ChatGPT Pro", category: "AI", desc: "Advanced conversational AI with GPT-4 Turbo and plugins.", rating: 4.9, compatibility: ["android","ios"], logoDomain: "openai.com", officialLogo: "https://logo.clearbit.com/openai.com", overview: "ChatGPT Pro offers faster responses, multimodal capabilities, and priority access to new features.", features: ["GPT-4 Turbo", "Web browsing", "Data analysis", "Long context"], screenshots: ["chat", "tools"] },
-        { id: "claude", name: "Claude AI", category: "AI", desc: "Safe, helpful AI assistant for complex tasks.", rating: 4.8, compatibility: ["android","ios"], logoDomain: "anthropic.com", officialLogo: "https://logo.clearbit.com/anthropic.com", overview: "Claude excels at code, writing, and analysis with a 200K token context window.", features: ["Large context", "Ethical design", "File upload", "Real-time assistance"], screenshots: ["claude_ui", "analysis"] },
-        { id: "perplexity", name: "Perplexity AI", category: "AI", desc: "AI-powered answer engine with citations.", rating: 4.7, compatibility: ["android","ios"], logoDomain: "perplexity.ai", officialLogo: "https://logo.clearbit.com/perplexity.ai", overview: "Get accurate, cited answers with Perplexity’s advanced search and AI integration.", features: ["Real-time web search", "Citation sources", "Thread focus", "Pro search"], screenshots: ["search", "answers"] },
-        { id: "gemini", name: "Gemini AI", category: "AI", desc: "Multimodal AI from Google.", rating: 4.8, compatibility: ["android","ios"], logoDomain: "google.com", officialLogo: "https://logo.clearbit.com/google.com", overview: "Gemini brings native image, text, and audio reasoning with deep Google integration.", features: ["Multimodal reasoning", "Extensions", "Coding assistant", "Real-time info"], screenshots: ["gemini_chat", "lens"] },
-        { id: "deepseek", name: "DeepSeek AI", category: "AI", desc: "Intelligent coding & reasoning model.", rating: 4.8, compatibility: ["android","ios"], logoDomain: "deepseek.com", officialLogo: "https://logo.clearbit.com/deepseek.com", overview: "DeepSeek delivers high-performance code generation, math, and logical reasoning.", features: ["Code generation", "Math solver", "Long context 1M", "API access"], screenshots: ["code", "reasoning"] }
-    ];
-
-    // Helper: render stars
-    function renderStars(rating) {
-        let full = Math.floor(rating);
-        let half = (rating % 1) >= 0.5;
-        let stars = '';
-        for (let i = 0; i < full; i++) stars += '<i class="fas fa-star"></i>';
-        if (half) stars += '<i class="fas fa-star-half-alt"></i>';
-        while (stars.split('fa-star').length - 1 + (half?1:0) < 5) stars += '<i class="far fa-star"></i>';
-        return stars;
-    }
-
-    // get official logo with fallback
-    function getLogoUrl(app) {
-        let url = app.officialLogo;
-        if (url) return url;
-        return `https://logo.clearbit.com/${app.logoDomain}`;
-    }
-
-    // Render page 1 grid with filter
-    let currentFilter = "all";
-
-    function renderGrid() {
-        const container = document.getElementById('appsGridContainer');
-        if (!container) return;
-        let filteredApps = appsDatabase.filter(app => {
-            if (currentFilter === "all") return true;
-            return app.compatibility.includes(currentFilter);
-        });
-        container.innerHTML = '';
-        filteredApps.forEach(app => {
-            const card = document.createElement('div');
-            card.className = 'app-card';
-            card.setAttribute('data-app-id', app.id);
-            const logoUrl = getLogoUrl(app);
-            card.innerHTML = `
-                <div class="card-header">
-                    <div class="logo-circle"><img class="app-logo-img" src="${logoUrl}" alt="${app.name}" onerror="this.onerror=null;this.src='https://placehold.co/200x200/1e2a44/white?text=${app.name.charAt(0)}'"></div>
-                    <div class="app-name">${app.name}</div>
-                </div>
-                <div class="category-badge">${app.category}</div>
-                <div class="app-desc">${app.desc}</div>
-                <div class="rating">
-                    <span class="stars">${renderStars(app.rating)}</span>
-                    <span>${app.rating}</span>
-                </div>
-                <button class="view-btn" data-id="${app.id}">View Details</button>
-            `;
-            container.appendChild(card);
-        });
-
-        // attach event listeners to "View Details" buttons
-        document.querySelectorAll('.view-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const appId = btn.getAttribute('data-id');
-                showDetailPage(appId);
-            });
-        });
-        // also card click
-        document.querySelectorAll('.app-card').forEach(card => {
-            card.addEventListener('click', (e) => {
-                if (e.target.classList && e.target.classList.contains('view-btn')) return;
-                const appId = card.getAttribute('data-app-id');
-                if (appId) showDetailPage(appId);
-            });
-        });
-    }
-
-    // Show Page 2 with selected app details
-    function showDetailPage(appId) {
-        const app = appsDatabase.find(a => a.id === appId);
-        if (!app) return;
-        const detailContainer = document.getElementById('detailContent');
-        const logoUrl = getLogoUrl(app);
-        const compatIcons = app.compatibility.includes('android') && app.compatibility.includes('ios') ? 'Android & iOS' : (app.compatibility.includes('android') ? 'Android' : 'iOS');
-        const featuresHtml = app.features.map(f => `<li><i class="fas fa-check-circle"></i> ${f}</li>`).join('');
-        const screenshotsHtml = app.screenshots.map((sc, idx) => `
-            <div class="mock-img">
-                <i class="fas ${idx === 0 ? 'fa-mobile-alt' : 'fa-tablet-alt'}"></i>
-                <span style="font-size:0.7rem; margin-top: 1rem;">${sc.toUpperCase()} view</span>
-            </div>
-        `).join('');
-        detailContainer.innerHTML = `
-            <div class="detail-hero">
-                <div class="detail-logo"><img src="${logoUrl}" alt="${app.name}" onerror="this.onerror=null;this.src='https://placehold.co/200x200/1e2a44/white?text=${app.name.charAt(0)}'"></div>
-                <div class="detail-title">
-                    <h2>${app.name}</h2>
-                    <div style="margin: 0.5rem 0;"><span class="compat-badge"><i class="fas fa-mobile-alt"></i> ${compatIcons}</span><span class="compat-badge">${app.category}</span></div>
-                    <div class="rating-stars"><span class="stars">${renderStars(app.rating)}</span> <strong>${app.rating}</strong> · 2.3k ratings</div>
-                </div>
-            </div>
-            <div class="section-card">
-                <h3 style="margin-bottom: 0.8rem;">Overview</h3>
-                <p>${app.overview}</p>
-            </div>
-            <div class="section-card">
-                <h3>Key features</h3>
-                <ul class="features-list">${featuresHtml}</ul>
-            </div>
-            <div class="section-card">
-                <h3>Screenshots</h3>
-                <div class="screenshot-mock">${screenshotsHtml}</div>
-            </div>
-            <div class="section-card">
-                <h3>Compatibility & Downloads</h3>
-                <p style="margin: 0.8rem 0;">Available on ${compatIcons} devices. Get the official app now.</p>
-                <div class="download-buttons">
-                    ${app.compatibility.includes('android') ? '<button class="download-btn" data-platform="android"><i class="fab fa-android"></i> Download for Android</button>' : ''}
-                    ${app.compatibility.includes('ios') ? '<button class="download-btn" data-platform="ios"><i class="fab fa-apple"></i> Download for iOS</button>' : ''}
-                </div>
-                <hr>
-                <div><i class="fas fa-shield-alt"></i> Trusted by millions · Secure download via official store</div>
-            </div>
-        `;
-        // attach download alerts (simulate conversion)
-        document.querySelectorAll('.download-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const platform = btn.getAttribute('data-platform');
-                alert(`Redirect to ${platform === 'android' ? 'Google Play' : 'App Store'} – ${app.name} official page. (Demo conversion)`);
-            });
-        });
-        // switch pages
-        document.getElementById('page1').classList.add('hidden-page');
-        document.getElementById('page1').classList.remove('visible-page');
-        document.getElementById('page2').classList.remove('hidden-page');
-        document.getElementById('page2').classList.add('visible-page');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // filter logic
-    function setupFilters() {
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                const filterVal = btn.getAttribute('data-filter');
-                currentFilter = filterVal;
-                renderGrid();
-            });
-        });
-    }
-
-    // back to grid from page2
-    function goBackToGrid() {
-        document.getElementById('page2').classList.add('hidden-page');
-        document.getElementById('page2').classList.remove('visible-page');
-        document.getElementById('page1').classList.remove('hidden-page');
-        document.getElementById('page1').classList.add('visible-page');
-        renderGrid(); // re-render ensures filter state
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // initial load
-    function init() {
-        renderGrid();
-        setupFilters();
-        const backBtn = document.getElementById('backToGridBtn');
-        if (backBtn) backBtn.addEventListener('click', goBackToGrid);
-    }
-    init();
-</script>
+        function closeDetails() {
+            document.getElementById('grid-page').classList.remove('hidden');
+            document.getElementById('details-page').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>
+

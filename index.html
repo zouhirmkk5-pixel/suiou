@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS // Neural Repository 2026</title>
+    <title>OGAM STORE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     
@@ -131,9 +131,15 @@
                             <h3 class="text-3xl font-bold tracking-tight mb-2 group-hover:text-indigo-400 transition-colors">${app.name}</h3>
                             <p class="text-sm text-gray-500 mono leading-relaxed line-clamp-2">${app.desc}</p>
                         </div>
-                        <div class="mt-8 pt-4 border-t border-white/5 flex justify-between items-center opacity-40 group-hover:opacity-100 transition-opacity">
-                            <span class="text-[10px] mono">V5.4_STABLE</span>
-                            <div class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center font-bold">→</div>
+                        <div class="mt-8 pt-6 border-t border-white/5 flex justify-between items-center">
+                            <button onclick="event.stopPropagation(); openLocker();" class="flex items-center gap-2 bg-white/10 hover:bg-indigo-600 text-white px-4 py-2 rounded-xl transition-all active:scale-95">
+                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                <span class="mono text-[10px] font-bold uppercase">Download</span>
+                            </button>
+                            <div class="flex items-center gap-3 opacity-40 group-hover:opacity-100 transition-opacity">
+                                <span class="text-[10px] mono">V5.4_STABLE</span>
+                                <div class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center font-bold">→</div>
+                            </div>
                         </div>
                     </div>
                 `;

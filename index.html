@@ -25,11 +25,9 @@
 
         .ambient-light {
             position: fixed;
-            width: 70vw;
-            height: 70vw;
+            width: 70vw; height: 70vw;
             background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, rgba(0,0,0,0) 70%);
-            z-index: -1;
-            filter: blur(100px);
+            z-index: -1; filter: blur(100px);
         }
 
         .hero-gradient {
@@ -52,35 +50,24 @@
         }
 
         .icon-container {
-            width: 64px;
-            height: 64px;
+            width: 64px; height: 64px;
             border-radius: 18px;
             background: #121214;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
         #app-overlay {
-            position: fixed;
-            inset: 0;
+            position: fixed; inset: 0;
             background: #000;
-            z-index: 100;
-            display: none;
+            z-index: 100; display: none;
             overflow-y: auto;
         }
 
         .btn-main {
             background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
             transition: all 0.3s ease;
-        }
-
-        .btn-main:hover {
-            filter: brightness(1.2);
-            transform: scale(1.02);
         }
     </style>
 </head>
@@ -95,7 +82,7 @@
                 NEXUS
             </div>
             <div class="px-4 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/5 text-indigo-400 text-[10px] font-black tracking-widest uppercase">
-                2026 Core v5.1
+                2026 Core v5.2
             </div>
         </div>
     </nav>
@@ -107,7 +94,7 @@
                     Architecture <br>of Power.
                 </h1>
                 <p class="text-2xl text-gray-500 font-light max-w-2xl leading-relaxed">
-                    The elite repository for generative intelligence and creative engines. Unlocked and verified.
+                    The elite repository for generative intelligence and creative engines.
                 </p>
             </header>
 
@@ -137,23 +124,23 @@
                 name: 'Midjourney AI', 
                 logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png', 
                 tag: 'Generative Art',
-                desc: 'The gold standard for high-fidelity image synthesis. Nexus Core provides direct access to v6.1 reasoning for hyper-realistic textures.',
-                features: ['V6.1 Ultra Engine', 'Fast GPU Processing', 'Private Stealth Mode', 'Unlimited Upscaling'],
+                desc: 'Access v6.1 reasoning for cinematic, hyper-realistic imagery and stylistic consistency.',
+                features: ['V6.1 Engine', 'Fast GPU Processing', 'Private Mode', 'High-Res Upscale'],
                 category: 'Visual AI'
             },
             { 
                 name: 'Runway ML Gen-3', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/runway-ml-icon.png', 
                 tag: 'Cinematic Video',
-                desc: 'Transform text into world-class video. Access Gen-3 Alpha for professional motion control and temporal consistency.',
-                features: ['Gen-3 Alpha Access', 'Motion Brush Pro', 'Multi-Motion Control', 'No Watermarks'],
+                desc: 'World-class text-to-video with Gen-3 Alpha. Professional motion brush and camera control.',
+                features: ['Gen-3 Alpha', 'Motion Brush Pro', 'Multi-Motion Control', 'No Watermark'],
                 category: 'Video Gen'
             },
             { 
                 name: 'Claude 3.5 Sonnet', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', 
                 tag: 'Reasoning Engine',
-                desc: 'Anthropic’s most advanced reasoning model. Optimized for code generation and human-nuance research.',
+                desc: 'Anthropic’s technical masterpiece. Specialized in high-context coding and deep analysis.',
                 features: ['Artifacts UI', '200k Context', 'Code Specialist', 'Verified Account'],
                 category: 'AI Logic'
             },
@@ -161,15 +148,15 @@
                 name: 'ChatGPT Plus', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', 
                 tag: 'Neural Hub',
-                desc: 'Access the world’s most popular intelligence engine. High-priority access to GPT-4o and DALL-E 3.',
-                features: ['GPT-4o Access', 'DALL-E 3 Native', 'Data Analysis', 'Voice Mode Pro'],
-                category: 'AI Intelligence'
+                desc: 'Access GPT-4o, DALL-E 3, and advanced voice reasoning protocols.',
+                features: ['GPT-4o Native', 'DALL-E 3', 'Data Analysis', 'Voice Pro'],
+                category: 'AI Suite'
             },
             { 
                 name: 'CapCut Pro', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', 
                 tag: 'Video Production',
-                desc: 'The industry standard for social video. Unlock all 4K templates, AI smart tools, and high-bitrate exports.',
+                desc: 'Unlock all 4K raw templates and AI-driven smart tools for social dominance.',
                 features: ['4K Raw Export', 'AI Templates', 'No Watermark', 'Premium VFX'],
                 category: 'Creative'
             },
@@ -177,32 +164,31 @@
                 name: 'Perplexity Pro', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', 
                 tag: 'Search Evolution',
-                desc: 'Experience ad-free, cited search. Real-time answers with source links for professional research.',
-                features: ['Live Web Search', 'Cited Sources', 'Pro Search Mode', 'Model Switching'],
+                desc: 'Real-time answers with source citations and switcher between top LLM models.',
+                features: ['Live Web Search', 'Cited Sources', 'Pro Search', 'Model Switcher'],
                 category: 'Knowledge'
             },
             { 
                 name: 'Gemini Ultra', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', 
                 tag: 'Multi-Modal',
-                desc: 'Google’s powerhouse AI. Seamlessly connects with Drive, Docs, and Gmail for maximum speed.',
-                features: ['Google Workspace Sync', 'Ultra Intelligence', 'Live Research', 'App Extensions'],
+                desc: 'Google’s powerhouse AI. Seamlessly connects with Workspace (Drive, Docs, Gmail).',
+                features: ['Workspace Sync', 'Ultra Logic', 'Live Research', 'Extensions'],
                 category: 'AI Suite'
             },
             { 
                 name: 'Canva Pro', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', 
                 tag: 'Visual Assets',
-                desc: 'Full access to Magic Studio and enterprise brand assets for high-end design.',
-                features: ['Magic Resizer', 'Background Remover', '100M+ Assets', 'Pro Font Access'],
+                desc: 'Complete Magic Studio access with 100M+ premium assets and branding kits.',
+                features: ['Magic Resizer', 'Background Remover', 'Pro Assets', 'Brand Kits'],
                 category: 'Design'
             }
         ];
 
         function imgFallback(img, name) {
             img.onerror = null;
-            // High-quality branded fallback
-            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=161618&color=6366f1&size=256&bold=true&font-size=0.45`;
+            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=161618&color=6366f1&size=256&bold=true`;
         }
 
         function init() {
@@ -240,16 +226,12 @@
                         <h2 class="text-7xl md:text-8xl font-black tracking-tighter mb-8 leading-none">${app.name}</h2>
                         <p class="text-2xl text-gray-400 font-light leading-relaxed mb-12">${app.desc}</p>
                         <div class="flex flex-col sm:flex-row gap-6">
-                            <button onclick="openLocker()" class="btn-main px-12 py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-4 text-white">
-                                DOWNLOAD DEPLOY
-                            </button>
-                            <button onclick="openLocker()" class="bg-white text-black px-12 py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-4 hover:bg-gray-200 transition-all">
-                                IOS PROVISION
-                            </button>
+                            <button onclick="openLocker()" class="btn-main px-12 py-6 rounded-3xl font-black text-xl text-white">DOWNLOAD PRO</button>
+                            <button onclick="openLocker()" class="bg-white text-black px-12 py-6 rounded-3xl font-black text-xl">IOS DEPLOY</button>
                         </div>
                     </div>
                     <div class="bg-[#0e0e11] border border-white/5 p-12 rounded-[40px]">
-                        <h4 class="text-xs font-black tracking-[0.3em] text-gray-500 uppercase mb-10">Nexus Verified Access</h4>
+                        <h4 class="text-xs font-black tracking-[0.3em] text-gray-500 uppercase mb-10">Nexus Verified</h4>
                         <div class="space-y-8">
                             ${app.features.map(f => `
                                 <div class="flex items-center gap-6">
@@ -273,3 +255,4 @@
     </script>
 </body>
 </html>
+

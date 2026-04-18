@@ -6,148 +6,475 @@
     <title>NEXUS | Cyber Intelligence Hub</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: #010101; font-family: 'Inter', sans-serif; overflow-x: hidden; color: white; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        /* Background Effects */
+        body {
+            background-color: #010101;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* cyber grid background */
         .cyber-grid {
-            background-image: linear-gradient(rgba(99, 102, 241, 0.08) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(99, 102, 241, 0.08) 1px, transparent 1px);
+            background-image: 
+                linear-gradient(rgba(99, 102, 241, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.08) 1px, transparent 1px);
             background-size: 50px 50px;
-            position: fixed; inset: 0; pointer-events: none; z-index: 0;
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
         }
 
-        /* Glassmorphism */
-        .glass-panel { background: rgba(10, 10, 20, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(99, 102, 241, 0.25); }
+        /* glassmorphism core */
+        .glass-panel {
+            background: rgba(10, 10, 20, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+        }
+
         .glass-card {
-            background: rgba(12, 12, 18, 0.8); backdrop-filter: blur(10px);
-            border: 1px solid rgba(99, 102, 241, 0.2);
+            background: rgba(12, 12, 18, 0.75);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.3);
             transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            position: relative;
+            overflow: hidden;
         }
-        .glass-card:hover { transform: translateY(-8px); border-color: rgba(99, 102, 241, 0.6); box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.4); }
 
-        /* Neon Aesthetics */
-        .neon-text { text-shadow: 0 0 10px rgba(99, 102, 241, 0.8); }
-        .btn-cyber { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); box-shadow: 0 0 15px rgba(99, 102, 241, 0.4); transition: 0.3s; }
-        .btn-cyber:hover { box-shadow: 0 0 25px rgba(99, 102, 241, 0.7); transform: scale(1.02); }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.15), transparent);
+            transition: left 0.6s ease;
+            pointer-events: none;
+        }
 
-        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
+        .glass-card:hover::before {
+            left: 100%;
+        }
+
+        /* neon glow effects */
+        .neon-text {
+            text-shadow: 0 0 8px rgba(99, 102, 241, 0.7), 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .neon-border {
+            box-shadow: 0 0 12px rgba(99, 102, 241, 0.5), inset 0 0 6px rgba(99, 102, 241, 0.2);
+        }
+
+        /* animated CTA buttons with click feedback */
+        .btn-cyber {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-cyber:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 24px rgba(99, 102, 241, 0.8);
+        }
+
+        .btn-cyber:active {
+            transform: scale(0.97);
+            transition: transform 0.08s;
+        }
+
+        .btn-outline-cyber {
+            background: transparent;
+            border: 1.5px solid rgba(99, 102, 241, 0.8);
+            transition: all 0.2s ease;
+            box-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-outline-cyber:active {
+            transform: scale(0.96);
+        }
+
+        .glow-hover:hover {
+            filter: drop-shadow(0 0 10px #6366f1);
+        }
+
+        /* pulse animation for CTA attention */
+        .pulse-glow {
+            animation: pulseGlow 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(99, 102, 241, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+        }
+
+        .rotate-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .group:hover .rotate-icon {
+            transform: rotate(45deg);
+        }
+
+        /* custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #6366f1;
+            border-radius: 10px;
+        }
     </style>
 </head>
-<body>
+<body class="text-white">
 
     <div class="cyber-grid"></div>
+    <div class="fixed inset-0 bg-gradient-radial from-indigo-900/5 via-transparent to-transparent pointer-events-none"></div>
 
-    <nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[90%] max-w-7xl z-[100] glass-panel rounded-2xl px-6 py-4 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center font-black shadow-lg">N</div>
-            <span class="text-2xl font-black tracking-tighter bg-gradient-to-r from-white to-indigo-400 bg-clip-text text-transparent">NEXUS</span>
+    <!-- Glassmorphic Navbar with neon accent -->
+    <nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[90%] max-w-7xl z-[100] glass-panel rounded-2xl px-6 py-3 border border-indigo-500/30 shadow-2xl">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center text-xl font-black shadow-lg neon-border">N</div>
+                <span class="text-2xl font-extrabold tracking-tighter bg-gradient-to-r from-white to-indigo-300 bg-clip-text text-transparent">NEXUS</span>
+            </div>
+            <div class="hidden md:flex gap-8 text-sm font-semibold text-gray-300">
+                <a href="#" class="hover:text-indigo-400 transition-colors">AI SUITE</a>
+                <a href="#" class="hover:text-indigo-400 transition-colors">CREATIVE HUB</a>
+                <a href="#" class="hover:text-indigo-400 transition-colors">LEADERBOARD</a>
+            </div>
+            <div class="px-4 py-1.5 rounded-full border border-indigo-500/40 bg-indigo-500/10 text-indigo-300 text-[11px] font-black tracking-widest backdrop-blur-sm">
+                ⚡ LIVE ACCESS v5.4
+            </div>
         </div>
-        <div class="hidden md:flex gap-8 text-xs font-bold tracking-widest text-gray-400">
-            <a href="#" class="hover:text-indigo-400 transition">AI VAULT</a>
-            <a href="#" class="hover:text-indigo-400 transition">REX EDITING</a>
-            <a href="#" class="hover:text-indigo-400 transition">CREATIVE HUB</a>
-        </div>
-        <button onclick="openLocker()" class="px-4 py-2 rounded-lg bg-indigo-500/10 border border-indigo-500/40 text-indigo-300 text-[10px] font-black tracking-widest uppercase">Live Access</button>
     </nav>
 
-    <main class="relative z-10 pt-40 pb-20 px-6 max-w-7xl mx-auto">
-        <section class="mb-24 text-center md:text-left">
-            <h1 class="text-6xl md:text-8xl font-black tracking-tighter leading-none mb-6">
-                Creative <br><span class="text-indigo-500 neon-text">Intelligence.</span>
-            </h1>
-            <p class="text-gray-400 text-lg md:text-xl max-w-2xl mb-10 font-light">
-                The ultimate repository for social media creators and AI architects. Verified tools for high-performance video editing and reasoning.
-            </p>
-            <div class="flex flex-wrap gap-4 justify-center md:justify-start">
-                <button onclick="openLocker()" class="btn-cyber px-8 py-4 rounded-xl font-black">EXPLORE VAULT</button>
-                <button onclick="openLocker()" class="bg-white/5 border border-white/10 px-8 py-4 rounded-xl font-black hover:bg-white/10 transition">INSTALL iOS</button>
+    <main class="relative z-10 pt-36 pb-24 px-6 md:px-10">
+        <div class="max-w-7xl mx-auto">
+            <!-- Hero Section with Neon Glow & dual CTA -->
+            <div class="mb-28 text-center md:text-left">
+                <div class="inline-flex items-center gap-2 bg-indigo-500/10 backdrop-blur-sm border border-indigo-500/30 rounded-full px-5 py-2 mb-8">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                    </span>
+                    <span class="text-indigo-300 text-xs font-mono tracking-wider">NEXUS NETWORK — 2,847+ ACTIVE DEPLOYS</span>
+                </div>
+                <h1 class="text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[1.05] mb-6">
+                    <span class="bg-gradient-to-r from-white via-indigo-200 to-indigo-500 bg-clip-text text-transparent">Creative</span><br>
+                    <span class="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent neon-text">Intelligence.</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-400 max-w-2xl font-light leading-relaxed mb-10">
+                    Next-gen AI reasoning & editing engines — verified, unlocked, ready to deploy. Join the underground creative revolution.
+                </p>
+                <div class="flex flex-wrap gap-5 justify-center md:justify-start">
+                    <button onclick="openLocker()" class="btn-cyber px-8 py-4 rounded-2xl font-bold text-lg flex items-center gap-3 group pulse-glow">
+                        <span>⚡ EXPLORE NEXUS VAULT</span>
+                        <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    </button>
+                    <button onclick="openLocker()" class="btn-outline-cyber px-8 py-4 rounded-2xl font-bold text-lg backdrop-blur-sm flex items-center gap-2">
+                        <span>📱 INSTALL ON iOS</span>
+                    </button>
+                </div>
             </div>
-        </section>
 
-        <div class="flex items-center gap-4 mb-10">
-            <h2 class="text-3xl font-black tracking-tight">THE <span class="text-indigo-400">REPOSITORY</span></h2>
-            <div class="flex-1 h-px bg-gradient-to-r from-indigo-500/50 to-transparent"></div>
+            <!-- Featured Apps Section (high-visibility banner) with glass + hover effects -->
+            <div class="mb-24">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-10 h-10 bg-indigo-500/20 rounded-xl flex items-center justify-center border border-indigo-400/40"><span class="text-indigo-400 text-xl">✦</span></div>
+                    <h2 class="text-3xl md:text-4xl font-black tracking-tight">FEATURED <span class="text-indigo-400">POWER TOOLS</span></h2>
+                    <div class="flex-1 h-px bg-gradient-to-r from-indigo-500/50 to-transparent"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- featured picks from dataset: DeepSeek, Midjourney, CapCut, Perplexity -->
+                    <div class="glass-card rounded-3xl p-6 transition-all cursor-pointer group" onclick="showDetails(0)">
+                        <div class="relative mb-5">
+                            <div class="w-20 h-20 rounded-2xl bg-black/50 border border-indigo-500/40 p-3 flex items-center justify-center">
+                                <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png" class="w-full object-contain" onerror="imgFallback(this, 'DeepSeek')">
+                            </div>
+                            <div class="absolute -top-2 -right-2 bg-indigo-600 text-[9px] font-black px-2 py-1 rounded-full shadow-lg">#1 AI</div>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">DeepSeek R1</h3>
+                        <p class="text-gray-400 text-sm mb-5">DeepThink V3 architecture with local reasoning bypass</p>
+                        <button onclick="event.stopPropagation(); openLocker()" class="w-full py-2.5 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/40 text-indigo-300 font-bold text-sm transition flex items-center justify-center gap-2">ACTIVATE →</button>
+                    </div>
+                    <div class="glass-card rounded-3xl p-6 transition-all cursor-pointer group" onclick="showDetails(1)">
+                        <div class="mb-5">
+                            <div class="w-20 h-20 rounded-2xl bg-black/50 border border-indigo-500/40 p-3 flex items-center justify-center">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png" class="w-full object-contain" onerror="imgFallback(this, 'Midjourney')">
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Midjourney AI</h3>
+                        <p class="text-gray-400 text-sm mb-5">V6.1 cinematic & hyper-realistic generation</p>
+                        <button onclick="event.stopPropagation(); openLocker()" class="w-full py-2.5 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/40 text-indigo-300 font-bold text-sm transition">DEPLOY →</button>
+                    </div>
+                    <div class="glass-card rounded-3xl p-6 transition-all cursor-pointer group" onclick="showDetails(4)">
+                        <div class="mb-5">
+                            <div class="w-20 h-20 rounded-2xl bg-black/50 border border-indigo-500/40 p-3 flex items-center justify-center">
+                                <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png" class="w-full object-contain" onerror="imgFallback(this, 'CapCut')">
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">CapCut Pro</h3>
+                        <p class="text-gray-400 text-sm mb-5">4K raw exports + AI VFX suite unlocked</p>
+                        <button onclick="event.stopPropagation(); openLocker()" class="w-full py-2.5 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/40 text-indigo-300 font-bold text-sm transition">UNLOCK PRO →</button>
+                    </div>
+                    <div class="glass-card rounded-3xl p-6 transition-all cursor-pointer group" onclick="showDetails(5)">
+                        <div class="mb-5">
+                            <div class="w-20 h-20 rounded-2xl bg-black/50 border border-indigo-500/40 p-3 flex items-center justify-center">
+                                <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png" class="w-full object-contain" onerror="imgFallback(this, 'Perplexity')">
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Perplexity Pro</h3>
+                        <p class="text-gray-400 text-sm mb-5">Real-time citations + multi-model research</p>
+                        <button onclick="event.stopPropagation(); openLocker()" class="w-full py-2.5 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/40 text-indigo-300 font-bold text-sm transition">EXPLORE →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full App Grid with Glassmorphism and Click Animations (Complete Repository) -->
+            <div>
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-10 h-10 bg-purple-500/20 rounded-xl flex items-center justify-center border border-purple-400/40"><span class="text-purple-400 text-xl">⌘</span></div>
+                    <h2 class="text-3xl md:text-4xl font-black tracking-tight">COMPLETE <span class="text-purple-400">REPOSITORY</span></h2>
+                </div>
+                <div id="grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"></div>
+            </div>
         </div>
-
-        <div id="grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </main>
 
-    <footer class="relative z-10 glass-panel border-t border-indigo-500/20 py-12 px-6 text-center">
-        <p class="text-gray-500 text-xs tracking-widest uppercase">© 2026 NEXUS HUB | REX EDITING ARCHIVE</p>
+    <!-- Cyberpunk Footer with Install CTA -->
+    <footer class="relative z-10 border-t border-indigo-500/20 glass-panel mt-20 py-12 px-6 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-xl font-black shadow-lg">NX</div>
+                <div class="text-xs text-gray-500 tracking-wider">© 2026 NEXUS INTELLIGENCE HUB — ENTERPRISE GRADE ACCESS</div>
+            </div>
+            <div class="flex gap-6">
+                <button onclick="openLocker()" class="text-sm font-bold bg-indigo-500/10 hover:bg-indigo-500/30 transition-all px-6 py-2 rounded-full border border-indigo-500/40 flex items-center gap-2">
+                    <span>🔓 INSTALL NOW</span>
+                </button>
+                <button onclick="scrollToTop()" class="text-sm font-bold text-gray-400 hover:text-white transition-all">BACK TO TOP ↑</button>
+            </div>
+        </div>
     </footer>
 
-    <div id="app-overlay" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-[200] hidden overflow-y-auto">
-        <div class="max-w-4xl mx-auto px-6 py-20">
-            <button onclick="hideDetails()" class="mb-10 text-gray-400 hover:text-white flex items-center gap-2 font-bold">← BACK TO VAULT</button>
-            <div id="overlay-content"></div>
+    <!-- Modal Overlay for App Details (Glassmorphism + neon) -->
+    <div id="app-overlay" class="fixed inset-0 bg-black/90 backdrop-blur-xl z-[200] hidden overflow-y-auto transition-all duration-500">
+        <div class="max-w-6xl mx-auto px-6 py-12 md:py-20">
+            <button onclick="hideDetails()" class="group mb-12 flex items-center gap-3 text-gray-400 hover:text-white font-semibold transition-all text-lg">
+                <svg class="w-6 h-6 rotate-icon group-hover:-translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"/></svg>
+                BACK TO VAULT
+            </button>
+            <div id="overlay-content" class="glass-panel rounded-3xl p-8 md:p-12 border-indigo-500/40"></div>
         </div>
     </div>
 
-    <div id="locker-modal" class="fixed inset-0 z-[300] bg-black/95 hidden items-center justify-center p-4" onclick="closeLocker()">
-        <div class="w-full max-w-2xl h-[80vh] bg-gray-900 rounded-3xl overflow-hidden border border-indigo-500/50" onclick="event.stopPropagation()">
+    <!-- Locker iFrame Modal with Neon Entrance Animation -->
+    <div id="locker-modal" class="fixed inset-0 z-[300] bg-black/95 hidden items-center justify-center p-4 transition-all duration-300" onclick="closeLocker()">
+        <div class="w-full max-w-3xl h-[85vh] bg-gradient-to-br from-gray-900 to-black rounded-3xl overflow-hidden shadow-2xl border border-indigo-500/50 relative animate-in zoom-in-95" onclick="event.stopPropagation()">
+            <div class="absolute top-4 right-4 z-10">
+                <button onclick="closeLocker()" class="bg-black/60 backdrop-blur rounded-full p-2 border border-white/20 text-white hover:bg-indigo-600 transition">✕</button>
+            </div>
             <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0" class="w-full h-full"></iframe>
         </div>
     </div>
 
     <script>
+        // App dataset (original icons preserved)
         const appData = [
-            { name: 'DeepSeek R1', tag: 'AI Logic', category: 'Intelligence', desc: 'Leading open-source reasoning model optimized for complex code and mathematics.', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png' },
-            { name: 'CapCut Pro', tag: 'REX Editing', category: 'Video', desc: 'Social dominance tool. Unlock 4K raw exports and AI-driven VFX suite.', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png' },
-            { name: 'Premiere Pro', tag: 'REX Editing', category: 'Professional', desc: 'Desktop-grade production for high-bitrate video editing workflows.', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/adobe-premiere-icon.png' },
-            { name: 'Perplexity Pro', tag: 'Knowledge', category: 'Research', desc: 'Real-time research engine with source verification and model switching.', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png' },
-            { name: 'Midjourney AI', tag: 'Visuals', category: 'Art', desc: 'Hyper-realistic visual generation with V6.1 cinematic reasoning.', logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png' },
-            { name: 'Remini AI', tag: 'Enhancement', category: 'Visual AI', desc: 'Facial reconstruction and video quality enhancement up to 4K.', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/remini-icon.png' },
-            { name: 'PicsArt Gold', tag: 'Graphics', category: 'Design', desc: 'Mobile creative suite for viral thumbnails and complex overlays.', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/picsart-icon.png' },
-            { name: 'Lightroom CC', tag: 'Color Grade', category: 'Design', desc: 'Professional photo manipulation and custom preset synchronization.', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/adobe-lightroom-icon.png' },
-            { name: 'ChatGPT Plus', tag: 'Universal AI', category: 'Intelligence', desc: 'Full access to GPT-4o, DALL-E 3, and advanced voice protocols.', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png' }
+            { 
+                name: 'DeepSeek R1', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', 
+                tag: 'Deep Reasoning',
+                desc: 'The leading open-source model for 2026. This build includes DeepThink V3 logic, specialized for complex code architecture and mathematics.',
+                features: ['V3.2 Reasoning', 'Coder-V2 Native', 'Bypass Logic Mode', 'Full Local Context'],
+                category: 'AI Logic'
+            },
+            { 
+                name: 'Midjourney AI', 
+                logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png', 
+                tag: 'Generative Art',
+                desc: 'Hyper-realistic visual generation with v6.1 reasoning. Perfect for high-fidelity branding and cinematic concept art.',
+                features: ['V6.1 Engine', 'Fast GPU Access', 'Stealth Generation', 'High-Res Upscaling'],
+                category: 'Visual AI'
+            },
+            { 
+                name: 'Claude 3.5 Sonnet', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', 
+                tag: 'Reasoning Hub',
+                desc: 'Anthropic’s technical flagship. Unmatched performance in technical writing and massive project analysis.',
+                features: ['Artifacts UI', '200k Context', 'Safe Logic Guard', 'Verified Access'],
+                category: 'Intelligence'
+            },
+            { 
+                name: 'ChatGPT Plus', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', 
+                tag: 'Universal AI',
+                desc: 'Full access to GPT-4o, DALL-E 3, and advanced voice protocols with real-time web vision.',
+                features: ['GPT-4o Native', 'DALL-E 3 Visuals', 'Advanced Voice', 'Search Pro'],
+                category: 'AI Suite'
+            },
+            { 
+                name: 'CapCut Pro', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', 
+                tag: 'Video Edit',
+                desc: 'Social dominance tool. Unlock all 4K raw templates, AI-driven smart VFX, and high-bitrate exports.',
+                features: ['4K Raw Output', 'AI VFX Suite', 'Premium Assets', 'No Watermark'],
+                category: 'Creative'
+            },
+            { 
+                name: 'Perplexity Pro', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', 
+                tag: 'Knowledge Search',
+                desc: 'Real-time research with source verification. Switch between the world’s top reasoning models on the fly.',
+                features: ['Live Citations', 'Source Deep-Dive', 'Model Switcher', 'Ad-Free Logic'],
+                category: 'Research'
+            },
+            { 
+                name: 'Gemini Ultra', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', 
+                tag: 'Multi-Modal',
+                desc: 'Google’s powerhouse. Deep integration with the entire Workspace ecosystem for maximum productivity.',
+                features: ['Workspace Sync', 'Ultra Logic', 'Live Research', 'App Extensions'],
+                category: 'Productivity'
+            },
+            { 
+                name: 'Canva Pro', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', 
+                tag: 'Visual Assets',
+                desc: 'Enterprise-grade creative suite. Full Magic Studio access with 100M+ premium assets and branding tools.',
+                features: ['Magic Resizer', 'AI Background Edit', 'Brand Kit Pro', '100M+ Assets'],
+                category: 'Design'
+            }
         ];
 
+        // Fallback for broken images
+        function imgFallback(img, name) {
+            img.onerror = null;
+            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1a1a24&color=6366f1&size=256&bold=true&font-size=0.45`;
+        }
+
+        // Initialize full app grid with glass + animation triggers
         function initGrid() {
             const container = document.getElementById('grid-container');
+            container.innerHTML = '';
             appData.forEach((app, i) => {
                 const card = document.createElement('div');
-                card.className = 'glass-card rounded-2xl p-6 cursor-pointer group';
-                card.onclick = () => showDetails(i);
+                card.className = 'glass-card rounded-3xl p-8 flex flex-col justify-between cursor-pointer group transition-all duration-300 hover:translate-y-[-6px] hover:border-indigo-400/70';
+                card.setAttribute('onclick', `showDetails(${i})`);
                 card.innerHTML = `
-                    <div class="w-16 h-16 bg-black/40 rounded-xl border border-indigo-500/20 p-3 mb-6 flex items-center justify-center">
-                        <img src="${app.logo}" class="w-full object-contain">
+                    <div>
+                        <div class="icon-container w-20 h-20 rounded-2xl bg-black/50 border border-indigo-500/30 flex items-center justify-center mb-7 p-3">
+                            <img src="${app.logo}" alt="${app.name}" class="w-full h-full object-contain" onerror="imgFallback(this, '${app.name}')">
+                        </div>
+                        <p class="text-indigo-400 font-bold text-[11px] tracking-[0.2em] uppercase mb-2 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500 inline-block"></span> ${app.tag}</p>
+                        <h3 class="text-2xl font-extrabold tracking-tight mb-4 group-hover:text-indigo-400 transition-colors">${app.name}</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed line-clamp-2 mb-4">${app.desc.substring(0, 90)}...</p>
                     </div>
-                    <p class="text-indigo-400 text-[10px] font-black tracking-widest uppercase mb-1">${app.tag}</p>
-                    <h3 class="text-xl font-bold mb-3 group-hover:text-indigo-300 transition">${app.name}</h3>
-                    <p class="text-gray-400 text-sm line-clamp-2">${app.desc}</p>
+                    <div class="flex justify-between items-center pt-6 border-t border-white/10 mt-4">
+                        <span class="text-[10px] text-gray-500 font-bold uppercase tracking-widest bg-white/5 px-2 py-1 rounded-full">${app.category}</span>
+                        <div class="w-10 h-10 rounded-full border border-indigo-500/30 flex items-center justify-center group-hover:bg-indigo-600 group-hover:border-indigo-400 transition-all duration-200 rotate-icon group-hover:shadow-[0_0_12px_#6366f1]">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" class="text-indigo-400 group-hover:text-white"><path d="M12 4v16m8-8H4"/></svg>
+                        </div>
+                    </div>
                 `;
                 container.appendChild(card);
             });
-            gsap.from('.glass-card', { opacity: 0, y: 30, stagger: 0.1, duration: 0.8 });
         }
 
+        // Enhanced details modal
         function showDetails(idx) {
             const app = appData[idx];
             const overlay = document.getElementById('app-overlay');
-            document.getElementById('overlay-content').innerHTML = `
-                <div class="flex flex-col md:flex-row gap-12 items-center">
-                    <img src="${app.logo}" class="w-48 h-48 rounded-[40px] shadow-2xl bg-black p-6 border border-indigo-500/30">
+            const contentDiv = document.getElementById('overlay-content');
+            contentDiv.innerHTML = `
+                <div class="grid lg:grid-cols-2 gap-12 items-start">
                     <div>
-                        <h2 class="text-5xl font-black mb-4">${app.name}</h2>
-                        <p class="text-xl text-gray-400 mb-8 font-light">${app.desc}</p>
-                        <button onclick="openLocker()" class="btn-cyber px-10 py-4 rounded-2xl font-black">UNLOCK ACCESS</button>
+                        <div class="w-36 h-36 rounded-[32px] mb-10 shadow-2xl overflow-hidden border-2 border-indigo-500/40 bg-black/60 flex items-center justify-center p-5">
+                            <img src="${app.logo}" class="w-full h-full object-contain" onerror="imgFallback(this, '${app.name}')">
+                        </div>
+                        <h2 class="text-6xl md:text-7xl font-black tracking-tighter mb-6 leading-none bg-gradient-to-r from-white to-indigo-300 bg-clip-text text-transparent">${app.name}</h2>
+                        <p class="text-xl text-gray-300 font-light leading-relaxed mb-10">${app.desc}</p>
+                        <div class="flex flex-wrap gap-5">
+                            <button onclick="openLocker()" class="btn-cyber px-8 py-4 rounded-2xl font-black text-lg shadow-xl shadow-indigo-500/30 flex items-center gap-2">🚀 INSTALL NOW</button>
+                            <button onclick="openLocker()" class="bg-white/5 border border-white/20 px-8 py-4 rounded-2xl font-black text-lg hover:bg-white/10 transition-all">⚡ QUICK DEPLOY</button>
+                        </div>
+                    </div>
+                    <div class="bg-black/40 backdrop-blur-md border border-indigo-500/30 p-8 rounded-[40px] shadow-2xl">
+                        <div class="flex items-center gap-2 mb-8"><div class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div><span class="text-xs font-black tracking-wider text-indigo-300">NEXUS VERIFIED FEATURES</span></div>
+                        <div class="space-y-6">
+                            ${app.features.map(f => `<div class="flex items-center gap-4"><div class="w-7 h-7 rounded-full bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 text-sm font-black">✓</div><span class="text-lg font-semibold text-gray-200">${f}</span></div>`).join('')}
+                        </div>
+                        <div class="mt-12 pt-6 border-t border-indigo-500/20 text-center text-indigo-300 text-sm font-mono">⚡ Ready for immediate activation</div>
                     </div>
                 </div>
             `;
             overlay.style.display = 'block';
             document.body.style.overflow = 'hidden';
+            gsap.fromTo(contentDiv, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" });
         }
 
-        function hideDetails() { document.getElementById('app-overlay').style.display = 'none'; document.body.style.overflow = 'auto'; }
-        function openLocker() { document.getElementById('locker-modal').style.display = 'flex'; }
-        function closeLocker() { document.getElementById('locker-modal').style.display = 'none'; }
+        function hideDetails() {
+            document.getElementById('app-overlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
 
-        window.onload = initGrid;
+        function openLocker() {
+            const modal = document.getElementById('locker-modal');
+            modal.style.display = 'flex';
+            gsap.fromTo(modal.children[0], { scale: 0.95, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(0.6)" });
+        }
+
+        function closeLocker() {
+            document.getElementById('locker-modal').style.display = 'none';
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Entry animations with GSAP
+        window.addEventListener('load', () => {
+            initGrid();
+            gsap.from('nav', { y: -60, opacity: 0, duration: 0.8, ease: 'power2.out' });
+            gsap.from('header h1', { scale: 0.9, opacity: 0, duration: 1, delay: 0.2, ease: 'back.out(0.4)' });
+            gsap.from('.glass-card', { y: 60, opacity: 0, duration: 0.7, stagger: 0.08, delay: 0.3 });
+        });
     </script>
+    <style>
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        @keyframes zoom-in-95 {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .animate-in {
+            animation: zoom-in-95 0.2s ease-out;
+        }
+        .bg-gradient-radial {
+            background: radial-gradient(circle at center, var(--tw-gradient-from), var(--tw-gradient-to));
+        }
+    </style>
 </body>
 </html>

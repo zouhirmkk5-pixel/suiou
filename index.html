@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>AI & Pro Apps Hub | Next‑Gen Creative Suite</title>
-    <!-- Google Fonts: Inter (clean, Apple/Notion style) -->
+    <title>Lumina | Premium App Hub</title>
+    <!-- Google Fonts: Inter + SF Pro style -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-    <!-- Font Awesome 6 (minimal icons) -->
+    <!-- Font Awesome 6 (clean icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -17,682 +17,585 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #05070A;
-            color: #EFF3FC;
-            line-height: 1.5;
+            background: #0A0C12;
+            color: #F0F4FF;
+            line-height: 1.4;
             overflow-x: hidden;
         }
 
-        /* smooth scroll behavior */
-        html {
-            scroll-behavior: smooth;
+        /* Smooth transitions between pages */
+        .page {
+            transition: opacity 0.35s ease, visibility 0.35s;
         }
 
-        /* main wrapper – visible after locker is unlocked */
-        .main-content {
+        .page.hidden-page {
+            display: none;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1), visibility 0.6s;
         }
 
-        .main-content.unlocked {
+        .page.visible-page {
+            display: block;
             opacity: 1;
             visibility: visible;
         }
 
-        /* ========= LOCKER MODAL (POPUP) ========= */
-        .locker-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(2, 6, 18, 0.92);
-            backdrop-filter: blur(14px);
-            z-index: 3000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.4s ease-out;
-        }
-
-        .locker-modal {
-            background: rgba(18, 24, 36, 0.85);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 160, 255, 0.3);
-            border-radius: 2rem;
-            padding: 2rem 2rem 2.2rem;
-            width: 90%;
-            max-width: 440px;
-            text-align: center;
-            box-shadow: 0 30px 45px -20px rgba(0,0,0,0.8), 0 0 0 1px rgba(0, 180, 255, 0.15);
-            animation: modalRise 0.5s ease-out;
-        }
-
-        @keyframes modalRise {
-            0% { opacity: 0; transform: scale(0.96) translateY(20px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        .locker-modal i {
-            font-size: 2.8rem;
-            color: #2aa9ff;
-            margin-bottom: 1rem;
-        }
-
-        .locker-modal h3 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            letter-spacing: -0.3px;
-            background: linear-gradient(135deg, #FFFFFF, #8acdff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 0.5rem;
-        }
-
-        .locker-desc {
-            font-size: 0.9rem;
-            color: #9cb2e0;
-            margin-bottom: 1.8rem;
-        }
-
-        .locker-input {
-            width: 100%;
-            background: rgba(0, 8, 22, 0.7);
-            border: 1.5px solid #2a3a60;
-            border-radius: 60px;
-            padding: 1rem 1.2rem;
-            font-size: 1rem;
-            color: white;
-            font-family: monospace;
-            letter-spacing: 1px;
-            text-align: center;
-            outline: none;
-            transition: all 0.2s;
-        }
-
-        .locker-input:focus {
-            border-color: #1e88ff;
-            box-shadow: 0 0 0 3px rgba(30, 136, 255, 0.3);
-        }
-
-        .unlock-btn {
-            margin-top: 1.5rem;
-            width: 100%;
-            background: linear-gradient(95deg, #1a73e8, #00b0ff);
-            border: none;
-            border-radius: 60px;
-            padding: 0.9rem;
-            font-weight: 600;
-            font-size: 1rem;
-            color: white;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 6px 14px rgba(0, 120, 255, 0.3);
-        }
-
-        .unlock-btn:hover {
-            transform: scale(0.98);
-            background: linear-gradient(95deg, #2c7ef0, #1ab0ff);
-        }
-
-        .error-msg {
-            color: #ff8a9f;
-            font-size: 0.75rem;
-            margin-top: 1rem;
-            font-weight: 500;
-        }
-
-        .locker-overlay.hidden-locker {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transition: 0.35s;
-        }
-
-        /* ========= MAIN WEBSITE STYLES ========= */
+        /* container */
         .container {
             max-width: 1280px;
             margin: 0 auto;
             padding: 0 2rem;
         }
 
-        /* glassmorphism utility */
+        /* Glassmorphism base */
         .glass-card {
-            background: rgba(18, 28, 40, 0.55);
-            backdrop-filter: blur(8px);
-            border-radius: 2rem;
+            background: rgba(18, 25, 40, 0.65);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(0, 160, 255, 0.2);
+            border-radius: 2rem;
         }
 
-        /* Hero Section */
-        .hero {
-            min-height: 90vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* ========== PAGE 1 (GRID) ========== */
+        .hero-mini {
+            padding: 2rem 0 1rem;
             text-align: center;
-            flex-direction: column;
-            padding: 4rem 0 5rem;
         }
 
-        .hero-badge {
-            background: rgba(30, 136, 229, 0.12);
-            backdrop-filter: blur(4px);
-            padding: 0.4rem 1.2rem;
-            border-radius: 60px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-            color: #7bc5ff;
-            border: 1px solid rgba(0, 160, 255, 0.4);
-            margin-bottom: 2rem;
-            display: inline-block;
-        }
-
-        .hero h1 {
-            font-size: 4.2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #FFFFFF, #78c8ff, #2c7ef0);
-            background-size: 200% auto;
+        .hero-mini h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FFFFFF, #7ac8ff);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             letter-spacing: -0.02em;
-            margin-bottom: 1.2rem;
         }
 
-        .hero p {
-            font-size: 1.3rem;
-            max-width: 650px;
-            color: #c7d6ff;
-            margin-bottom: 2.2rem;
+        .hero-mini p {
+            color: #a0b6e0;
+            margin-top: 0.5rem;
         }
 
-        .btn-group {
+        /* filter row */
+        .filter-bar {
             display: flex;
-            gap: 1rem;
             justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0 2rem;
             flex-wrap: wrap;
         }
 
-        .btn-primary {
-            background: linear-gradient(95deg, #1a73e8, #00b4ff);
-            border: none;
-            padding: 1rem 2.2rem;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 1rem;
-            color: white;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 8px 18px rgba(0, 120, 230, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 14px 26px rgba(0, 130, 255, 0.4);
-            background: linear-gradient(95deg, #2a85ff, #20c0ff);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 1.5px solid rgba(0, 170, 255, 0.7);
-            padding: 1rem 2rem;
+        .filter-btn {
+            background: rgba(20, 30, 50, 0.7);
+            border: 1px solid rgba(0, 160, 255, 0.3);
+            padding: 0.7rem 2rem;
             border-radius: 60px;
             font-weight: 500;
-            color: #c2e2ff;
             cursor: pointer;
             transition: 0.2s;
+            color: #CCE4FF;
         }
 
-        .btn-outline:hover {
-            background: rgba(30, 136, 229, 0.15);
+        .filter-btn.active {
+            background: linear-gradient(95deg, #1a6eff, #00b0ff);
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 6px 14px rgba(0, 120, 255, 0.3);
+        }
+
+        .filter-btn:hover:not(.active) {
+            background: rgba(40, 80, 140, 0.6);
             border-color: #2a9eff;
         }
 
-        /* Apps Grid Section */
-        .apps-section {
-            padding: 5rem 0 4rem;
-            background: radial-gradient(ellipse at 50% 20%, rgba(0, 80, 140, 0.12), transparent);
-        }
-
-        .section-title {
-            font-size: 2.6rem;
-            font-weight: 700;
-            text-align: center;
-            letter-spacing: -0.3px;
-            margin-bottom: 1rem;
-        }
-
-        .section-sub {
-            text-align: center;
-            color: #9ab0e0;
-            margin-bottom: 3rem;
-            font-size: 1rem;
-        }
-
+        /* apps grid */
         .apps-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
             gap: 1.8rem;
-            margin-bottom: 2rem;
+            margin: 2rem 0 4rem;
         }
 
         .app-card {
-            background: rgba(12, 22, 38, 0.7);
+            background: rgba(12, 20, 32, 0.7);
             backdrop-filter: blur(12px);
-            border-radius: 1.8rem;
-            padding: 1.6rem;
+            border-radius: 2rem;
+            padding: 1.5rem;
             transition: all 0.25s ease;
-            border: 1px solid rgba(0, 160, 255, 0.25);
-            text-align: center;
+            border: 1px solid rgba(0, 150, 255, 0.2);
+            cursor: pointer;
         }
 
         .app-card:hover {
             transform: translateY(-6px);
             border-color: #2a9eff;
-            box-shadow: 0 24px 36px -16px rgba(0, 150, 255, 0.25);
+            box-shadow: 0 24px 36px -12px rgba(0, 150, 255, 0.25);
             background: rgba(20, 35, 60, 0.85);
         }
 
-        .logo-wrapper {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 1.2rem;
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .logo-circle {
+            width: 58px;
+            height: 58px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 1.4rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 1.4rem;
             padding: 8px;
-            transition: 0.2s;
         }
 
-        .app-logo {
+        .app-logo-img {
             width: 100%;
             height: auto;
-            max-height: 52px;
+            max-height: 46px;
             object-fit: contain;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
 
-        .app-card h3 {
-            font-size: 1.4rem;
+        .app-name {
+            font-size: 1.35rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
+        }
+
+        .category-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            background: rgba(0, 160, 255, 0.2);
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            margin: 0.5rem 0;
+            color: #aad0ff;
         }
 
         .app-desc {
             font-size: 0.85rem;
-            color: #b6caf0;
+            color: #c2d2f5;
+            margin: 0.5rem 0;
             line-height: 1.4;
         }
 
-        /* Features Section */
-        .features-section {
-            padding: 4rem 0;
-            background: rgba(2, 8, 18, 0.7);
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin: 0.7rem 0;
+            font-size: 0.8rem;
         }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+        .stars i {
+            color: #ffb83b;
+            margin-right: 2px;
+            font-size: 0.75rem;
         }
 
-        .feature-item {
-            text-align: center;
-            background: rgba(18, 28, 45, 0.5);
-            border-radius: 1.8rem;
-            padding: 2rem 1rem;
-            border: 1px solid rgba(0, 180, 255, 0.2);
+        .view-btn {
+            background: transparent;
+            border: 1px solid rgba(0, 170, 255, 0.6);
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            margin-top: 0.8rem;
+            color: #cae9ff;
+        }
+
+        .view-btn:hover {
+            background: rgba(0, 160, 255, 0.2);
+            border-color: #2a9eff;
+        }
+
+        /* ========== PAGE 2 (DETAIL) ========== */
+        .detail-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem 0;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .back-btn {
+            background: rgba(30, 40, 60, 0.7);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
             transition: 0.2s;
         }
 
-        .feature-item i {
-            font-size: 2.4rem;
-            color: #2a9eff;
-            margin-bottom: 1rem;
+        .back-btn i {
+            margin-right: 6px;
         }
 
-        .feature-item h4 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 0.6rem;
+        .back-btn:hover {
+            background: rgba(0, 120, 200, 0.7);
         }
 
-        .feature-item p {
-            color: #b0c4f0;
-            font-size: 0.9rem;
-        }
-
-        /* Testimonials */
-        .testimonials-section {
-            padding: 4rem 0;
-        }
-
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        .detail-hero {
+            display: flex;
             gap: 2rem;
-            margin-top: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+            margin: 1rem 0 2rem;
+            background: rgba(10, 18, 28, 0.6);
+            border-radius: 2rem;
+            padding: 2rem;
         }
 
-        .testimonial-card {
-            background: rgba(12, 22, 40, 0.65);
-            backdrop-filter: blur(10px);
-            border-radius: 1.6rem;
-            padding: 1.8rem;
-            border: 1px solid rgba(0, 150, 255, 0.2);
+        .detail-logo {
+            width: 110px;
+            height: 110px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
         }
 
-        .testimonial-text {
-            font-style: normal;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            color: #d6e5ff;
-            margin-bottom: 1.2rem;
+        .detail-logo img {
+            width: 100%;
+            max-height: 80px;
+            object-fit: contain;
         }
 
-        .testimonial-author {
-            font-weight: 600;
-            color: white;
-        }
-
-        .testimonial-role {
-            font-size: 0.75rem;
-            color: #7c9ed0;
-        }
-
-        /* Final CTA */
-        .final-cta {
-            text-align: center;
-            padding: 4rem 2rem;
-            margin: 1rem 0 3rem;
-            background: linear-gradient(120deg, rgba(0, 80, 140, 0.2), rgba(0, 20, 50, 0.4));
-            border-radius: 3rem;
-            border: 1px solid rgba(0, 170, 255, 0.3);
-        }
-
-        .final-cta h2 {
+        .detail-title h2 {
             font-size: 2.2rem;
             font-weight: 700;
-            margin-bottom: 1rem;
         }
 
-        .btn-final {
-            background: linear-gradient(95deg, #1a73e8, #00b0ff);
-            padding: 1rem 2.8rem;
-            font-size: 1.1rem;
+        .compat-badge {
+            display: inline-block;
+            background: #19233c;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            margin-right: 0.8rem;
+        }
+
+        .section-card {
+            background: rgba(12, 22, 36, 0.6);
+            backdrop-filter: blur(8px);
+            border-radius: 1.8rem;
+            padding: 1.8rem;
+            margin: 1.8rem 0;
+            border: 1px solid rgba(0, 160, 255, 0.2);
+        }
+
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .features-list li {
+            list-style: none;
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .features-list i {
+            color: #2a9eff;
+            width: 24px;
+        }
+
+        .screenshot-mock {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .mock-img {
+            background: #121e30;
+            border-radius: 1.5rem;
+            width: 160px;
+            height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(0, 150, 255, 0.3);
+            box-shadow: 0 12px 20px -8px black;
+        }
+
+        .mock-img i {
+            font-size: 3rem;
+            color: #3a8cff;
+            margin-bottom: 0.8rem;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .download-btn {
+            background: linear-gradient(95deg, #1a6eff, #0099ff);
+            padding: 0.8rem 1.8rem;
+            border-radius: 60px;
             font-weight: 600;
             border: none;
-            border-radius: 60px;
             color: white;
             cursor: pointer;
             transition: 0.2s;
-            margin-top: 1rem;
-            box-shadow: 0 10px 22px rgba(0, 120, 200, 0.4);
         }
 
-        .btn-final:hover {
-            transform: scale(1.02);
-            background: linear-gradient(95deg, #3285f0, #2abaff);
+        .rating-stars {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 0.8rem;
+        }
+
+        hr {
+            border-color: rgba(0, 150, 255, 0.2);
+            margin: 1rem 0;
         }
 
         footer {
             text-align: center;
             padding: 2rem;
-            font-size: 0.8rem;
-            color: #5a74a0;
-            border-top: 1px solid rgba(0, 150, 255, 0.2);
-            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: #6b85b0;
         }
 
         @media (max-width: 780px) {
             .container {
                 padding: 0 1.2rem;
             }
-            .hero h1 {
-                font-size: 2.6rem;
+            .detail-hero {
+                flex-direction: column;
+                text-align: center;
             }
-            .hero p {
-                font-size: 1rem;
-            }
-            .section-title {
-                font-size: 2rem;
+            .mock-img {
+                width: 120px;
+                height: 240px;
             }
         }
     </style>
 </head>
 <body>
 
-<!-- LOCKER MODAL (appears on load) -->
-<div id="lockerOverlay" class="locker-overlay">
-    <div class="locker-modal">
-        <i class="fas fa-lock"></i>
-        <h3>Access Verification</h3>
-        <div class="locker-desc">Enter the access code to unlock the full experience</div>
-        <input type="password" id="accessCodeInput" class="locker-input" placeholder="Enter code" autocomplete="off">
-        <button id="unlockButton" class="unlock-btn">Unlock Hub</button>
-        <div id="errorMsg" class="error-msg"></div>
+<!-- PAGE 1: App Grid with Filter -->
+<div id="page1" class="page visible-page">
+    <div class="container">
+        <div class="hero-mini">
+            <h1>Lumina Hub</h1>
+            <p>Premium mobile applications — curated for professionals</p>
+        </div>
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">All Apps</button>
+            <button class="filter-btn" data-filter="android">Android</button>
+            <button class="filter-btn" data-filter="ios">iOS</button>
+        </div>
+        <div id="appsGridContainer" class="apps-grid"></div>
     </div>
+    <footer>© Lumina — premium app ecosystem</footer>
 </div>
 
-<!-- MAIN WEBSITE (hidden until code 1234) -->
-<div id="mainContent" class="main-content">
-    <!-- Hero Section -->
-    <div class="hero">
-        <div class="hero-badge">
-            <i class="fas fa-microchip"></i> Next-generation creative ecosystem
-        </div>
-        <h1>AI & Pro Apps Hub</h1>
-        <p>Best AI and creative tools in one place</p>
-        <div class="btn-group">
-            <button id="getStartedBtn" class="btn-primary">Get Started</button>
-            <button id="exploreAppsHeroBtn" class="btn-outline">Explore Apps</button>
-        </div>
-    </div>
-
-    <!-- Apps Grid Section (with real official logos) -->
-    <div id="appsSection" class="apps-section">
-        <div class="container">
-            <div class="section-title">Powerful tools, unified access</div>
-            <div class="section-sub">Industry-leading AI & creative apps with real official branding</div>
-            <div class="apps-grid" id="appsGrid"></div>
-        </div>
-    </div>
-
-    <!-- Features Section -->
-    <div class="features-section">
-        <div class="container">
-            <div class="section-title">Engineered for excellence</div>
-            <div class="section-sub">Modern infrastructure, seamless experience</div>
-            <div class="features-grid">
-                <div class="feature-item"><i class="fas fa-bolt"></i><h4>Fast performance</h4><p>Lightning-fast access with optimized delivery</p></div>
-                <div class="feature-item"><i class="fas fa-brain"></i><h4>AI-powered tools</h4><p>Cutting-edge models at your fingertips</p></div>
-                <div class="feature-item"><i class="fas fa-grip-horizontal"></i><h4>Easy interface</h4><p>Designed for professionals and beginners</p></div>
-                <div class="feature-item"><i class="fas fa-mobile-alt"></i><h4>Cross-platform support</h4><p>Works on desktop, tablet, and mobile</p></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Testimonials Section (no emojis) -->
-    <div class="testimonials-section">
-        <div class="container">
-            <div class="section-title">Trusted by creators worldwide</div>
-            <div class="section-sub">What professionals say about the hub</div>
-            <div class="testimonial-grid">
-                <div class="testimonial-card"><div class="testimonial-text">"A game-changing collection of AI and design tools. The interface is flawless and the performance is unmatched."</div><div class="testimonial-author">— Emma Rodriguez</div><div class="testimonial-role">Creative Director</div></div>
-                <div class="testimonial-card"><div class="testimonial-text">"Having all pro apps under one roof saves me hours each week. The AI capabilities are simply next level."</div><div class="testimonial-author">— David Chen</div><div class="testimonial-role">Tech Lead, AI Studio</div></div>
-                <div class="testimonial-card"><div class="testimonial-text">"Sleek, modern and extremely reliable. This hub has become essential for my daily creative workflow."</div><div class="testimonial-author">— Sophia Laurent</div><div class="testimonial-role">Product Designer</div></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Final CTA Section -->
+<!-- PAGE 2: Detailed App Page (hidden initially) -->
+<div id="page2" class="page hidden-page">
     <div class="container">
-        <div class="final-cta">
-            <h2>Unlock the full suite of AI & Pro Apps</h2>
-            <p style="margin: 1rem auto; max-width: 500px; color: #bbd4ff;">Join thousands of creators and professionals using industry-leading tools every day.</p>
-            <button id="finalCtaBtn" class="btn-final">Start Using These Tools Now</button>
+        <div class="detail-header">
+            <button id="backToGridBtn" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Apps</button>
         </div>
+        <div id="detailContent"></div>
     </div>
-
-    <footer>
-        <i class="fas fa-cube"></i> AI & Pro Apps Hub — Secure ecosystem for modern creators
-    </footer>
+    <footer>© Lumina — official partners</footer>
 </div>
 
 <script>
-    (function() {
-        // App dataset with real logos via Clearbit & official brand domains (high quality)
-        const appsData = [
-            { name: "CapCut Pro", domain: "capcut.com", desc: "Professional video editing & AI effects", logoFallback: "https://logo.clearbit.com/capcut.com" },
-            { name: "Alight Motion", domain: "alightcreative.com", desc: "Motion design & visual effects", logoFallback: "https://logo.clearbit.com/alightcreative.com" },
-            { name: "Canva", domain: "canva.com", desc: "Design & publishing AI assistant", logoFallback: "https://logo.clearbit.com/canva.com" },
-            { name: "ChatGPT", domain: "openai.com", desc: "Advanced conversational AI", logoFallback: "https://logo.clearbit.com/openai.com" },
-            { name: "Claude AI", domain: "anthropic.com", desc: "Safe & helpful AI assistant", logoFallback: "https://logo.clearbit.com/anthropic.com" },
-            { name: "Perplexity AI", domain: "perplexity.ai", desc: "AI-powered answer engine", logoFallback: "https://logo.clearbit.com/perplexity.ai" },
-            { name: "Gemini AI", domain: "google.com", desc: "Multimodal AI from Google", logoFallback: "https://logo.clearbit.com/google.com" },
-            { name: "DeepSeek AI", domain: "deepseek.com", desc: "Intelligent coding & reasoning", logoFallback: "https://logo.clearbit.com/deepseek.com" }
-        ];
+    // ---------- APPS DATASET (with official logos via Clearbit and official brand cdn) ----------
+    const appsDatabase = [
+        { id: "capcut", name: "CapCut Pro", category: "Editing", desc: "All-in-one video editor with AI effects and pro-grade tools.", rating: 4.8, compatibility: ["android","ios"], logoDomain: "capcut.com", officialLogo: "https://logo.clearbit.com/capcut.com", overview: "CapCut Pro delivers advanced video editing on mobile, including keyframe animation, auto-captions, and premium templates.", features: ["AI motion tracking", "Multi-layer editing", "4K export", "Audio library"], screenshots: ["editor", "effects"] },
+        { id: "alight", name: "Alight Motion", category: "Editing", desc: "Motion design and visual effects for professionals.", rating: 4.7, compatibility: ["android","ios"], logoDomain: "alightcreative.com", officialLogo: "https://logo.clearbit.com/alightcreative.com", overview: "Create stunning animations, visual effects, and vector graphics with powerful timeline control.", features: ["Keyframe animation", "Vector graphics", "Slow motion & speed control", "Group layers"], screenshots: ["motion", "timeline"] },
+        { id: "canva", name: "Canva Pro", category: "Design", desc: "Ultimate design platform with AI-powered tools and templates.", rating: 4.9, compatibility: ["android","ios"], logoDomain: "canva.com", officialLogo: "https://logo.clearbit.com/canva.com", overview: "Canva Pro unlocks premium assets, background remover, and brand kit for seamless creativity.", features: ["Magic resize", "Background remover", "Brand kit", "60M+ premium assets"], screenshots: ["design", "templates"] },
+        { id: "chatgpt", name: "ChatGPT Pro", category: "AI", desc: "Advanced conversational AI with GPT-4 Turbo and plugins.", rating: 4.9, compatibility: ["android","ios"], logoDomain: "openai.com", officialLogo: "https://logo.clearbit.com/openai.com", overview: "ChatGPT Pro offers faster responses, multimodal capabilities, and priority access to new features.", features: ["GPT-4 Turbo", "Web browsing", "Data analysis", "Long context"], screenshots: ["chat", "tools"] },
+        { id: "claude", name: "Claude AI", category: "AI", desc: "Safe, helpful AI assistant for complex tasks.", rating: 4.8, compatibility: ["android","ios"], logoDomain: "anthropic.com", officialLogo: "https://logo.clearbit.com/anthropic.com", overview: "Claude excels at code, writing, and analysis with a 200K token context window.", features: ["Large context", "Ethical design", "File upload", "Real-time assistance"], screenshots: ["claude_ui", "analysis"] },
+        { id: "perplexity", name: "Perplexity AI", category: "AI", desc: "AI-powered answer engine with citations.", rating: 4.7, compatibility: ["android","ios"], logoDomain: "perplexity.ai", officialLogo: "https://logo.clearbit.com/perplexity.ai", overview: "Get accurate, cited answers with Perplexity’s advanced search and AI integration.", features: ["Real-time web search", "Citation sources", "Thread focus", "Pro search"], screenshots: ["search", "answers"] },
+        { id: "gemini", name: "Gemini AI", category: "AI", desc: "Multimodal AI from Google.", rating: 4.8, compatibility: ["android","ios"], logoDomain: "google.com", officialLogo: "https://logo.clearbit.com/google.com", overview: "Gemini brings native image, text, and audio reasoning with deep Google integration.", features: ["Multimodal reasoning", "Extensions", "Coding assistant", "Real-time info"], screenshots: ["gemini_chat", "lens"] },
+        { id: "deepseek", name: "DeepSeek AI", category: "AI", desc: "Intelligent coding & reasoning model.", rating: 4.8, compatibility: ["android","ios"], logoDomain: "deepseek.com", officialLogo: "https://logo.clearbit.com/deepseek.com", overview: "DeepSeek delivers high-performance code generation, math, and logical reasoning.", features: ["Code generation", "Math solver", "Long context 1M", "API access"], screenshots: ["code", "reasoning"] }
+    ];
 
-        // Render app grid with real logos
-        function renderAppsGrid() {
-            const gridContainer = document.getElementById('appsGrid');
-            if (!gridContainer) return;
-            gridContainer.innerHTML = '';
-            appsData.forEach(app => {
-                const card = document.createElement('div');
-                card.className = 'app-card';
-                // logo url: use clearbit for high-quality brand icons
-                const logoUrl = `https://logo.clearbit.com/${new URL(`https://${app.domain}`).hostname}`;
-                card.innerHTML = `
-                    <div class="logo-wrapper">
-                        <img class="app-logo" src="${logoUrl}" alt="${app.name} logo" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x400/112238/2a9eff?text=${app.name.charAt(0)}'">
-                    </div>
-                    <h3>${app.name}</h3>
-                    <div class="app-desc">${app.desc}</div>
-                `;
-                gridContainer.appendChild(card);
-            });
-        }
+    // Helper: render stars
+    function renderStars(rating) {
+        let full = Math.floor(rating);
+        let half = (rating % 1) >= 0.5;
+        let stars = '';
+        for (let i = 0; i < full; i++) stars += '<i class="fas fa-star"></i>';
+        if (half) stars += '<i class="fas fa-star-half-alt"></i>';
+        while (stars.split('fa-star').length - 1 + (half?1:0) < 5) stars += '<i class="far fa-star"></i>';
+        return stars;
+    }
 
-        // Locker logic
-        const lockerOverlay = document.getElementById('lockerOverlay');
-        const mainContent = document.getElementById('mainContent');
-        const unlockBtn = document.getElementById('unlockButton');
-        const codeInput = document.getElementById('accessCodeInput');
-        const errorMsgSpan = document.getElementById('errorMsg');
-        
-        let unlocked = false;
+    // get official logo with fallback
+    function getLogoUrl(app) {
+        let url = app.officialLogo;
+        if (url) return url;
+        return `https://logo.clearbit.com/${app.logoDomain}`;
+    }
 
-        function unlockWebsite() {
-            const enteredCode = codeInput.value.trim();
-            if (enteredCode === "1234") {
-                unlocked = true;
-                lockerOverlay.classList.add('hidden-locker');
-                mainContent.classList.add('unlocked');
-                errorMsgSpan.innerHTML = '';
-                codeInput.value = '';
-                // ensure grid is rendered (if not already)
-                renderAppsGrid();
-                // small success vibe (no emoji)
-            } else {
-                errorMsgSpan.innerHTML = 'Invalid access code. Please try again.';
-                codeInput.value = '';
-                codeInput.focus();
-                // shake modal animation
-                const modal = document.querySelector('.locker-modal');
-                if (modal) {
-                    modal.style.animation = 'none';
-                    setTimeout(() => modal.style.animation = 'modalRise 0.5s ease-out', 10);
-                }
-            }
-        }
+    // Render page 1 grid with filter
+    let currentFilter = "all";
 
-        unlockBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            unlockWebsite();
+    function renderGrid() {
+        const container = document.getElementById('appsGridContainer');
+        if (!container) return;
+        let filteredApps = appsDatabase.filter(app => {
+            if (currentFilter === "all") return true;
+            return app.compatibility.includes(currentFilter);
+        });
+        container.innerHTML = '';
+        filteredApps.forEach(app => {
+            const card = document.createElement('div');
+            card.className = 'app-card';
+            card.setAttribute('data-app-id', app.id);
+            const logoUrl = getLogoUrl(app);
+            card.innerHTML = `
+                <div class="card-header">
+                    <div class="logo-circle"><img class="app-logo-img" src="${logoUrl}" alt="${app.name}" onerror="this.onerror=null;this.src='https://placehold.co/200x200/1e2a44/white?text=${app.name.charAt(0)}'"></div>
+                    <div class="app-name">${app.name}</div>
+                </div>
+                <div class="category-badge">${app.category}</div>
+                <div class="app-desc">${app.desc}</div>
+                <div class="rating">
+                    <span class="stars">${renderStars(app.rating)}</span>
+                    <span>${app.rating}</span>
+                </div>
+                <button class="view-btn" data-id="${app.id}">View Details</button>
+            `;
+            container.appendChild(card);
         });
 
-        codeInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                unlockWebsite();
-            }
-        });
-
-        // Pre-render grid before unlocking (so content ready but hidden)
-        renderAppsGrid();
-
-        // Interactions for buttons (only active after unlock due to visibility)
-        const getStartedBtn = document.getElementById('getStartedBtn');
-        const exploreAppsHero = document.getElementById('exploreAppsHeroBtn');
-        const finalCta = document.getElementById('finalCtaBtn');
-
-        function scrollToApps() {
-            const section = document.getElementById('appsSection');
-            if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        // Helper to check if unlocked before action (prevent click while locker visible)
-        function requireUnlockAndAction(callback) {
-            if (!unlocked) {
-                // if not unlocked yet, locker is present, just ignore or small feedback
-                return;
-            }
-            callback();
-        }
-
-        if (getStartedBtn) {
-            getStartedBtn.addEventListener('click', () => {
-                if (!unlocked) return;
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                // subtle highlight
-            });
-        }
-        if (exploreAppsHero) {
-            exploreAppsHero.addEventListener('click', () => {
-                if (!unlocked) return;
-                scrollToApps();
-            });
-        }
-        if (finalCta) {
-            finalCta.addEventListener('click', () => {
-                if (!unlocked) return;
-                alert("Access granted. Start exploring all pro tools and AI suites now.");
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        }
-
-        // Also attach extra "Explore Apps" from inside after unlock? Already covered.
-        // Additional lock: after unlock, enable body scroll.
-        function disableBodyScroll(disable) {
-            if (disable) document.body.style.overflow = 'hidden';
-            else document.body.style.overflow = '';
-        }
-        disableBodyScroll(true);
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mut) => {
-                if (mut.attributeName === 'class' && lockerOverlay.classList.contains('hidden-locker')) {
-                    disableBodyScroll(false);
-                    observer.disconnect();
-                }
+        // attach event listeners to "View Details" buttons
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const appId = btn.getAttribute('data-id');
+                showDetailPage(appId);
             });
         });
-        observer.observe(lockerOverlay, { attributes: true });
-
-        // double-check initial main content hidden
-        mainContent.classList.remove('unlocked');
-        // ensure if any error retry
-        window.addEventListener('load', () => {
-            renderAppsGrid();
+        // also card click
+        document.querySelectorAll('.app-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (e.target.classList && e.target.classList.contains('view-btn')) return;
+                const appId = card.getAttribute('data-app-id');
+                if (appId) showDetailPage(appId);
+            });
         });
-    })();
+    }
+
+    // Show Page 2 with selected app details
+    function showDetailPage(appId) {
+        const app = appsDatabase.find(a => a.id === appId);
+        if (!app) return;
+        const detailContainer = document.getElementById('detailContent');
+        const logoUrl = getLogoUrl(app);
+        const compatIcons = app.compatibility.includes('android') && app.compatibility.includes('ios') ? 'Android & iOS' : (app.compatibility.includes('android') ? 'Android' : 'iOS');
+        const featuresHtml = app.features.map(f => `<li><i class="fas fa-check-circle"></i> ${f}</li>`).join('');
+        const screenshotsHtml = app.screenshots.map((sc, idx) => `
+            <div class="mock-img">
+                <i class="fas ${idx === 0 ? 'fa-mobile-alt' : 'fa-tablet-alt'}"></i>
+                <span style="font-size:0.7rem; margin-top: 1rem;">${sc.toUpperCase()} view</span>
+            </div>
+        `).join('');
+        detailContainer.innerHTML = `
+            <div class="detail-hero">
+                <div class="detail-logo"><img src="${logoUrl}" alt="${app.name}" onerror="this.onerror=null;this.src='https://placehold.co/200x200/1e2a44/white?text=${app.name.charAt(0)}'"></div>
+                <div class="detail-title">
+                    <h2>${app.name}</h2>
+                    <div style="margin: 0.5rem 0;"><span class="compat-badge"><i class="fas fa-mobile-alt"></i> ${compatIcons}</span><span class="compat-badge">${app.category}</span></div>
+                    <div class="rating-stars"><span class="stars">${renderStars(app.rating)}</span> <strong>${app.rating}</strong> · 2.3k ratings</div>
+                </div>
+            </div>
+            <div class="section-card">
+                <h3 style="margin-bottom: 0.8rem;">Overview</h3>
+                <p>${app.overview}</p>
+            </div>
+            <div class="section-card">
+                <h3>Key features</h3>
+                <ul class="features-list">${featuresHtml}</ul>
+            </div>
+            <div class="section-card">
+                <h3>Screenshots</h3>
+                <div class="screenshot-mock">${screenshotsHtml}</div>
+            </div>
+            <div class="section-card">
+                <h3>Compatibility & Downloads</h3>
+                <p style="margin: 0.8rem 0;">Available on ${compatIcons} devices. Get the official app now.</p>
+                <div class="download-buttons">
+                    ${app.compatibility.includes('android') ? '<button class="download-btn" data-platform="android"><i class="fab fa-android"></i> Download for Android</button>' : ''}
+                    ${app.compatibility.includes('ios') ? '<button class="download-btn" data-platform="ios"><i class="fab fa-apple"></i> Download for iOS</button>' : ''}
+                </div>
+                <hr>
+                <div><i class="fas fa-shield-alt"></i> Trusted by millions · Secure download via official store</div>
+            </div>
+        `;
+        // attach download alerts (simulate conversion)
+        document.querySelectorAll('.download-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const platform = btn.getAttribute('data-platform');
+                alert(`Redirect to ${platform === 'android' ? 'Google Play' : 'App Store'} – ${app.name} official page. (Demo conversion)`);
+            });
+        });
+        // switch pages
+        document.getElementById('page1').classList.add('hidden-page');
+        document.getElementById('page1').classList.remove('visible-page');
+        document.getElementById('page2').classList.remove('hidden-page');
+        document.getElementById('page2').classList.add('visible-page');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // filter logic
+    function setupFilters() {
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filterVal = btn.getAttribute('data-filter');
+                currentFilter = filterVal;
+                renderGrid();
+            });
+        });
+    }
+
+    // back to grid from page2
+    function goBackToGrid() {
+        document.getElementById('page2').classList.add('hidden-page');
+        document.getElementById('page2').classList.remove('visible-page');
+        document.getElementById('page1').classList.remove('hidden-page');
+        document.getElementById('page1').classList.add('visible-page');
+        renderGrid(); // re-render ensures filter state
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // initial load
+    function init() {
+        renderGrid();
+        setupFilters();
+        const backBtn = document.getElementById('backToGridBtn');
+        if (backBtn) backBtn.addEventListener('click', goBackToGrid);
+    }
+    init();
 </script>
 </body>
 </html>

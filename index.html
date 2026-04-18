@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Lumina | Premium Mobile Apps Platform</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -14,63 +14,47 @@
         /* Navigation */
         .nav-bar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-bottom: 1px solid rgba(0, 160, 255, 0.15); margin-bottom: 1rem; }
         .logo { font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #FFFFFF, #7ac8ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .back-btn { background: rgba(30, 40, 60, 0.7); border: 1px solid rgba(0, 160, 255, 0.3); padding: 0.6rem 1.2rem; border-radius: 40px; color: white; cursor: pointer; font-weight: 500; transition: 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; }
-        .back-btn:hover { background: rgba(0, 120, 200, 0.6); border-color: #2a9eff; }
+        .back-btn { background: rgba(30, 40, 60, 0.7); border: 1px solid rgba(0, 160, 255, 0.3); padding: 0.6rem 1.2rem; border-radius: 40px; color: white; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; }
 
-        /* Page Management */
+        /* Page Transitions */
         .page { display: none; opacity: 0; transition: opacity 0.3s ease; }
         .page.visible { display: block; opacity: 1; }
 
         /* Hero */
         .hero { text-align: center; padding: 3rem 0 2rem; }
-        .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(0, 160, 255, 0.12); padding: 0.5rem 1.2rem; border-radius: 60px; font-size: 0.8rem; color: #7bc9ff; border: 1px solid rgba(0, 160, 255, 0.3); margin-bottom: 1.8rem; }
-        .hero h1 { font-size: 3.5rem; font-weight: 800; background: linear-gradient(135deg, #FFFFFF, #7ac8ff, #2c7ef0); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 1rem; }
+        .hero h1 { font-size: 3.2rem; font-weight: 800; background: linear-gradient(135deg, #FFF, #7ac8ff); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 1rem; }
 
-        /* Apps Grid */
-        .apps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.8rem; padding: 2rem 0; }
-        .app-card { background: rgba(12, 20, 35, 0.7); backdrop-filter: blur(12px); border-radius: 1.8rem; padding: 1.5rem; transition: 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1); border: 1px solid rgba(0, 150, 255, 0.2); cursor: pointer; }
-        .app-card:hover { transform: translateY(-6px); border-color: #2a9eff; background: rgba(20, 35, 60, 0.85); }
-        .card-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        /* Grid */
+        .apps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; padding: 2rem 0; }
+        .app-card { background: rgba(255, 255, 255, 0.03); border-radius: 1.5rem; padding: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.1); cursor: pointer; transition: 0.3s; }
+        .app-card:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.07); border-color: #2a9eff; }
         
-        /* Logo System */
-        .logo-wrapper { width: 60px; height: 60px; border-radius: 1.2rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; }
-        .app-svg-logo { width: 100%; height: 100%; display: block; }
+        /* Real Logo Images */
+        .logo-wrapper { width: 64px; height: 64px; border-radius: 14px; overflow: hidden; margin-bottom: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .real-logo { width: 100%; height: 100%; object-fit: cover; }
         
-        .app-name { font-size: 1.3rem; font-weight: 600; }
-        .category-badge { display: inline-block; font-size: 0.7rem; background: rgba(0, 160, 255, 0.2); padding: 0.2rem 0.8rem; border-radius: 30px; margin: 0.5rem 0; color: #aad0ff; }
-        .app-desc { font-size: 0.85rem; color: #c2d2f5; margin: 0.5rem 0; }
-        .rating { display: flex; align-items: center; gap: 8px; margin: 0.7rem 0; color: #ffb83b; font-size: 0.8rem; }
+        .app-name { font-size: 1.2rem; font-weight: 700; }
+        .category-badge { display: inline-block; font-size: 0.7rem; background: #2a9eff22; color: #7ac8ff; padding: 4px 12px; border-radius: 20px; margin: 8px 0; border: 1px solid #2a9eff44; }
+        .app-desc { font-size: 0.85rem; color: #a0b6e0; height: 40px; overflow: hidden; }
 
-        /* Detail Elements */
-        .detail-hero { display: flex; gap: 2rem; align-items: center; background: rgba(12, 22, 40, 0.6); border-radius: 2rem; padding: 2rem; margin: 1.5rem 0; border: 1px solid rgba(0, 160, 255, 0.2); }
-        .detail-logo { width: 100px; height: 100px; }
-        .section-card { background: rgba(12, 22, 36, 0.6); border-radius: 1.5rem; padding: 1.5rem; margin: 1.5rem 0; border: 1px solid rgba(0, 160, 255, 0.2); }
-        .features-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.8rem; list-style: none; margin-top: 1rem; }
-        .features-list i { color: #2a9eff; margin-right: 0.5rem; }
-
-        /* Buttons */
-        .download-buttons { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
-        .download-btn { padding: 0.8rem 1.8rem; border-radius: 60px; font-weight: 600; border: none; color: white; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 0.5rem; }
-        .download-btn.android { background: linear-gradient(95deg, #3DDC84, #2e9c5e); }
-        .download-btn.ios { background: linear-gradient(95deg, #5856D6, #3a38a0); }
-        .download-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        /* Detail */
+        .detail-hero { display: flex; gap: 2rem; align-items: center; padding: 2rem; background: rgba(255, 255, 255, 0.02); border-radius: 2rem; margin-top: 1rem; border: 1px solid rgba(255, 255, 255, 0.05); }
+        .detail-logo { width: 120px; height: 120px; border-radius: 24px; overflow: hidden; }
+        .section-card { background: rgba(255, 255, 255, 0.02); padding: 1.5rem; border-radius: 1.5rem; margin-top: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.05); }
+        
+        /* Download Buttons */
+        .btn-group { display: flex; gap: 1rem; margin-top: 1rem; }
+        .dl-btn { flex: 1; padding: 12px; border-radius: 12px; border: none; font-weight: 700; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .android { background: #3DDC84; }
+        .ios { background: #5856D6; }
 
         /* Locker */
-        .locker-section { background: #0c1423; border-radius: 2rem; padding: 2.5rem; margin: 3rem 0; text-align: center; border: 1px solid #2a9eff; }
-        .loader { display: inline-flex; gap: 8px; margin: 1.5rem 0; }
-        .loader-dot { width: 12px; height: 12px; background: #2a9eff; border-radius: 50%; animation: bounce 0.6s infinite alternate; }
-        .loader-dot:nth-child(2) { animation-delay: 0.2s; }
-        .loader-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes bounce { from { transform: translateY(0); opacity: 0.4; } to { transform: translateY(-12px); opacity: 1; } }
-        .final-access-btn { background: #1a73e8; padding: 1rem 2.5rem; border-radius: 60px; font-weight: 700; color: white; border: none; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 1rem; }
-        
-        .hidden { display: none !important; }
-        footer { text-align: center; padding: 3rem; font-size: 0.75rem; color: #5a74a0; }
+        .locker { display: none; text-align: center; padding: 2rem; background: #0c1423; border-radius: 20px; border: 2px solid #2a9eff; margin-top: 2rem; }
+        .spinner { border: 4px solid rgba(255,255,255,0.1); border-top: 4px solid #2a9eff; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 1rem; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .final-link { display: none; background: #1a73e8; color: white; padding: 15px 30px; border-radius: 30px; text-decoration: none; font-weight: 700; }
 
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
-            .detail-hero { flex-direction: column; text-align: center; }
-        }
+        @media (max-width: 768px) { .detail-hero { flex-direction: column; text-align: center; } }
     </style>
 </head>
 <body>
@@ -78,78 +62,42 @@
 <div id="pageHome" class="page visible">
     <div class="container">
         <div class="nav-bar"><div class="logo">Lumina Hub</div></div>
-        <div class="hero">
-            <div class="hero-badge"><i class="fas fa-crown"></i> Premium Access Enabled</div>
-            <h1>AI & Pro Apps Hub</h1>
-            <p>Direct access to professional mobile creation tools</p>
-        </div>
+        <div class="hero"><h1>Premium Apps Hub</h1><p>Verified professional tools for your mobile device</p></div>
         <div id="appsGrid" class="apps-grid"></div>
-        <footer><i class="fas fa-shield-check"></i> Encrypted Connection · Lumina V3.2</footer>
     </div>
 </div>
 
 <div id="pageDetail" class="page">
     <div class="container">
-        <div class="nav-bar">
-            <button onclick="showHome()" class="back-btn"><i class="fas fa-arrow-left"></i> Back</button>
-            <div class="logo">App Secure View</div>
-        </div>
+        <div class="nav-bar"><button onclick="showHome()" class="back-btn"><i class="fas fa-arrow-left"></i> Home</button></div>
         <div id="detailContent"></div>
-        
-        <div id="lockerSection" class="locker-section hidden">
-            <div id="processingArea">
-                <div class="loader"><div class="loader-dot"></div><div class="loader-dot"></div><div class="loader-dot"></div></div>
-                <p class="processing-text">Verifying security token...</p>
+        <div id="locker" class="locker">
+            <div id="loading">
+                <div class="spinner"></div>
+                <p>Establishing Secure Link...</p>
             </div>
-            <div id="finalAccessArea" class="hidden">
-                <p style="color: #3DDC84; margin-bottom: 1rem;">✓ Verification Successful</p>
-                <a href="https://checkmyapp.space/cl/i/6nnlj7" class="final-access-btn">Download Now</a>
-            </div>
+            <a href="https://checkmyapp.space/cl/i/6nnlj7" id="unlockLink" class="final-link">ACCESS DOWNLOAD</a>
         </div>
-        <footer><i class="fas fa-lock"></i> Secured by Lumina Protocols</footer>
     </div>
 </div>
 
 <script>
-    // 1. ICON GENERATOR (SVG)
-    function getIcon(name) {
-        const configs = {
-            capcut: { c1: '#FF2D55', c2: '#FF6B6B', path: '<path d="M30 50 L50 30 L70 50 L50 70 Z" fill="white"/><circle cx="50" cy="50" r="8" fill="white"/>' },
-            alight: { c1: '#6C63FF', c2: '#3F3D9E', path: '<path d="M30 40 L50 60 L70 40" stroke="white" stroke-width="8" fill="none" stroke-linecap="round"/>' },
-            canva: { c1: '#00C4CC', c2: '#0066FF', path: '<circle cx="50" cy="50" r="20" stroke="white" stroke-width="6" fill="none"/><path d="M40 50 H60" stroke="white" stroke-width="6"/>' },
-            chatgpt: { c1: '#10A37F', c2: '#1E7B5E', path: '<rect x="30" y="30" width="40" height="40" rx="8" fill="white"/><circle cx="50" cy="50" r="8" fill="#10A37F"/>' },
-            claude: { c1: '#D97706', c2: '#B45309', path: '<path d="M50 25 L75 75 H25 Z" fill="white"/>' },
-            perplexity: { c1: '#8B5CF6', c2: '#6D28D9', path: '<circle cx="50" cy="50" r="22" stroke="white" stroke-width="5" fill="none"/><path d="M50 35 V65 M35 50 H65" stroke="white" stroke-width="5"/>' },
-            gemini: { c1: '#4285F4', c2: '#EA4335', path: '<path d="M50 20 L65 50 L80 65 L50 80 L20 65 L35 50 Z" fill="white"/>' },
-            deepseek: { c1: '#00BCD4', c2: '#0097A7', path: '<path d="M30 30 H70 V70 H30 Z" stroke="white" stroke-width="6" fill="none"/>' }
-        };
-        const cfg = configs[name] || configs.capcut;
-        return `<svg viewBox="0 0 100 100" class="app-svg-logo">
-            <defs><linearGradient id="grad-${name}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="${cfg.c1}"/><stop offset="100%" stop-color="${cfg.c2}"/></linearGradient></defs>
-            <rect width="100" height="100" rx="22" fill="url(#grad-${name})"/>${cfg.path}</svg>`;
-    }
-
-    // 2. DATA
     const apps = [
-        { id: 'capcut', name: 'CapCut Pro', cat: 'Video Editor', rate: 4.8, desc: 'Advanced AI video editing tools.', features: ['4K 60FPS Export', 'No Watermark', 'AI Auto-Captions'] },
-        { id: 'alight', name: 'Alight Motion', cat: 'Animation', rate: 4.7, desc: 'Professional motion graphics studio.', features: ['Keyframe Animation', 'Vector Graphics', 'XML Support'] },
-        { id: 'chatgpt', name: 'ChatGPT Plus', cat: 'AI Assistant', rate: 4.9, desc: 'Powered by GPT-4 and DALL-E 3.', features: ['Priority Access', 'Image Analysis', 'Custom GPTs'] },
-        { id: 'canva', name: 'Canva Pro', cat: 'Graphic Design', rate: 4.9, desc: 'Premium design assets and AI.', features: ['Brand Kit', 'Background Remover', '100M+ Assets'] },
-        { id: 'perplexity', name: 'Perplexity Pro', cat: 'AI Search', rate: 4.7, desc: 'Real-time answers with citations.', features: ['Web Citations', 'Pro Search Mode', 'File Uploads'] },
-        { id: 'gemini', name: 'Gemini Advanced', cat: 'Google AI', rate: 4.8, desc: 'Googles most capable AI model.', features: ['1M Context Window', 'Python Coding', 'Google Integration'] }
+        { id: 'capcut', name: 'CapCut Pro', cat: 'Editing', img: 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/37/60/7f/37607fb6-63d1-4470-38e2-66c3c6f10352/AppIcon-0-0-1x_U007emarketing-0-10-0-85-220.png/512x512bb.jpg', desc: 'The world\'s most popular mobile video editor.' },
+        { id: 'alight', name: 'Alight Motion', cat: 'Animation', img: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/44/1a/f1/441af145-2e11-1a3b-9e6b-76b6b76b6b76/AppIcon-0-0-1x_U007emarketing-0-10-0-85-220.png/512x512bb.jpg', desc: 'Professional motion graphics and visual effects.' },
+        { id: 'chatgpt', name: 'ChatGPT', cat: 'AI', img: 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/64/00/f8/6400f890-e4b7-080c-0335-51f7b7f7b7f7/AppIcon-0-0-1x_U007emarketing-0-10-0-85-220.png/512x512bb.jpg', desc: 'Official AI assistant powered by GPT-4o.' },
+        { id: 'canva', name: 'Canva Pro', cat: 'Design', img: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/a1/33/c4/a133c46a-7f6a-6b6a-7f6a-6b6a7f6a6b6a/AppIcon-0-0-1x_U007emarketing-0-10-0-85-220.png/512x512bb.jpg', desc: 'Design anything, anywhere with AI tools.' },
+        { id: 'perplexity', name: 'Perplexity', cat: 'AI Search', img: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/d5/31/6f/d5316f7a-8f6a-6b6a-7f6a-6b6a7f6a6b6a/AppIcon-0-0-1x_U007emarketing-0-10-0-85-220.png/512x512bb.jpg', desc: 'AI-powered search engine with real-time citations.' },
+        { id: 'gemini', name: 'Google Gemini', cat: 'AI', img: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/9a/31/6f/9a316f7a-8f6a-6b6a-7f6a-6b6a7f6a6b6a/AppIcon-0-0-1x_U007emarketing-0-10-0-85-220.png/512x512bb.jpg', desc: 'Direct access to Google\'s most capable AI.' }
     ];
 
-    // 3. CORE FUNCTIONS
     function renderGrid() {
-        const grid = document.getElementById('appsGrid');
-        grid.innerHTML = apps.map(app => `
+        document.getElementById('appsGrid').innerHTML = apps.map(app => `
             <div class="app-card" onclick="openApp('${app.id}')">
-                <div class="card-header">
-                    <div class="logo-wrapper">${getIcon(app.id)}</div>
-                    <div><div class="app-name">${app.name}</div><div class="category-badge">${app.cat}</div></div>
-                </div>
-                <div class="app-desc">${app.desc}</div>
-                <div class="rating"><i class="fas fa-star"></i> ${app.rate} (Premium)</div>
+                <div class="logo-wrapper"><img src="${app.img}" class="real-logo"></div>
+                <div class="app-name">${app.name}</div>
+                <span class="category-badge">${app.cat}</span>
+                <p class="app-desc">${app.desc}</p>
             </div>
         `).join('');
     }
@@ -158,14 +106,15 @@
         const app = apps.find(a => a.id === id);
         document.getElementById('detailContent').innerHTML = `
             <div class="detail-hero">
-                <div class="detail-logo">${getIcon(app.id)}</div>
-                <div><h2>${app.name}</h2><p class="category-badge">${app.cat}</p></div>
+                <div class="detail-logo"><img src="${app.img}" class="real-logo"></div>
+                <div><h2>${app.name}</h2><p>${app.cat}</p></div>
             </div>
-            <div class="section-card"><h3>Features</h3><ul class="features-list">${app.features.map(f => `<li><i class="fas fa-check"></i> ${f}</li>`).join('')}</ul></div>
-            <div class="section-card"><h3>Installation</h3><p>Select your platform to begin the secure installation process.</p>
-                <div class="download-buttons">
-                    <button class="download-btn android" onclick="startLocker()"><i class="fab fa-android"></i> Android APK</button>
-                    <button class="download-btn ios" onclick="startLocker()"><i class="fab fa-apple"></i> iOS IPA</button>
+            <div class="section-card">
+                <h3>Installation</h3>
+                <p>Choose your platform to unlock the premium version.</p>
+                <div class="btn-group">
+                    <button onclick="startLocker()" class="dl-btn android"><i class="fab fa-android"></i> Android</button>
+                    <button onclick="startLocker()" class="dl-btn ios"><i class="fab fa-apple"></i> iOS</button>
                 </div>
             </div>`;
         document.getElementById('pageHome').classList.remove('visible');
@@ -173,38 +122,23 @@
         window.scrollTo(0,0);
     };
 
+    window.startLocker = () => {
+        document.getElementById('locker').style.display = 'block';
+        document.getElementById('loading').style.display = 'block';
+        document.getElementById('unlockLink').style.display = 'none';
+        
+        setTimeout(() => {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('unlockLink').style.display = 'inline-block';
+        }, 2500);
+    };
+
     window.showHome = () => {
         document.getElementById('pageDetail').classList.remove('visible');
         document.getElementById('pageHome').classList.add('visible');
-        document.getElementById('lockerSection').classList.add('hidden');
-    };
-
-    window.startLocker = () => {
-        const locker = document.getElementById('lockerSection');
-        const proc = document.getElementById('processingArea');
-        const final = document.getElementById('finalAccessArea');
-        const text = proc.querySelector('.processing-text');
-        
-        locker.classList.remove('hidden');
-        proc.classList.remove('hidden');
-        final.classList.add('hidden');
-        locker.scrollIntoView({ behavior: 'smooth' });
-
-        const steps = ["Initializing SSL...", "Checking device compatibility...", "Decrypting package...", "Ready!"];
-        let i = 0;
-        const interval = setInterval(() => {
-            if (i < steps.length) text.innerText = steps[i++];
-        }, 800);
-
-        setTimeout(() => {
-            clearInterval(interval);
-            proc.classList.add('hidden');
-            final.classList.remove('hidden');
-        }, 3500);
     };
 
     renderGrid();
 </script>
 </body>
 </html>
-

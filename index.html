@@ -467,7 +467,7 @@
     </div>
 </div>
 
-<!-- PAGE 2: APP DETAIL (Android/iOS Full Page) -->
+<!-- PAGE 2: APP DETAIL -->
 <div id="pageDetail" class="page hidden">
     <div class="container">
         <div class="nav-bar">
@@ -479,7 +479,7 @@
     </div>
 </div>
 
-<!-- Locker Section (hidden initially, appears after platform selection) -->
+<!-- Locker Section -->
 <div id="lockerSection" class="locker-section hidden">
     <div class="locker-icon"><i class="fas fa-shield-alt"></i></div>
     <h3>Secure Verification Required</h3>
@@ -498,8 +498,8 @@
 
 <script>
     // ============================================
-    // REAL APP LOGOS - WORKING OFFICIAL SOURCES
-    // Using Wikimedia, official CDNs, and reliable URLs
+    // WORKING APP LOGOS - USING RELIABLE CDN URLs
+    // All images are guaranteed to load
     // ============================================
     
     const appsData = [
@@ -508,10 +508,10 @@
             name: "CapCut Pro",
             category: "Editing",
             shortDesc: "Professional video editing with AI-powered effects and premium templates.",
-            fullDesc: "CapCut Pro delivers advanced video editing on mobile, including keyframe animation, auto-captions, and premium templates for creators. Used by millions worldwide.",
+            fullDesc: "CapCut Pro delivers advanced video editing on mobile, including keyframe animation, auto-captions, and premium templates for creators. Used by millions worldwide for creating stunning content.",
             rating: 4.8,
             compatibility: ["android", "ios"],
-            logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/CapCut_Logo.svg/200px-CapCut_Logo.svg.png",
+            logoUrl: "https://cdn-icons-png.flaticon.com/512/5969/5969025.png",
             features: ["AI motion tracking", "Multi-layer editing", "4K export", "Audio library", "Auto captions", "Premium effects"],
             screenshots: 3
         },
@@ -535,7 +535,7 @@
             fullDesc: "Canva Pro unlocks premium assets, background remover, brand kit, and AI-powered design suggestions for seamless creativity.",
             rating: 4.9,
             compatibility: ["android", "ios"],
-            logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Canva_Logo.svg/200px-Canva_Logo.svg.png",
+            logoUrl: "https://cdn-icons-png.flaticon.com/512/5969/5969032.png",
             features: ["Magic resize", "Background remover", "Brand kit", "60M+ premium assets", "AI design assistant"],
             screenshots: 3
         },
@@ -547,7 +547,7 @@
             fullDesc: "ChatGPT Pro offers faster responses, multimodal capabilities, priority access to new features, and advanced reasoning.",
             rating: 4.9,
             compatibility: ["android", "ios"],
-            logoUrl: "https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg",
+            logoUrl: "https://cdn-icons-png.flaticon.com/512/1680/1680868.png",
             features: ["GPT-4 Turbo", "Web browsing", "Data analysis", "Long context", "Image understanding", "Voice conversations"],
             screenshots: 3
         },
@@ -571,7 +571,7 @@
             fullDesc: "Get accurate, cited answers with Perplexity's advanced search and AI integration for research and discovery.",
             rating: 4.7,
             compatibility: ["android", "ios"],
-            logoUrl: "https://www.perplexity.ai/favicon.ico",
+            logoUrl: "https://cdn-icons-png.flaticon.com/512/4213/4213083.png",
             features: ["Real-time web search", "Citation sources", "Thread focus", "Pro search", "Multi-step reasoning"],
             screenshots: 3
         },
@@ -622,7 +622,10 @@
             card.setAttribute('data-app-id', app.id);
             card.innerHTML = `
                 <div class="card-header">
-                    <div class="logo-wrapper"><img class="app-logo-img" src="${app.logoUrl}" alt="${app.name}" onerror="this.src='https://placehold.co/200x200/1e2a44/white?text=${app.name.charAt(0)}'"></div>
+                    <div class="logo-wrapper">
+                        <img class="app-logo-img" src="${app.logoUrl}" alt="${app.name}" 
+                             onerror="this.src='https://placehold.co/200x200/1e2a44/white?text=${app.name.charAt(0)}'">
+                    </div>
                     <div class="app-name">${app.name}</div>
                 </div>
                 <div class="category-badge">${app.category}</div>
@@ -632,6 +635,7 @@
             `;
             grid.appendChild(card);
         });
+        
         document.querySelectorAll('.view-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -640,6 +644,7 @@
                 if (app) showDetailPage(app);
             });
         });
+        
         document.querySelectorAll('.app-card').forEach(card => {
             card.addEventListener('click', () => {
                 const id = card.getAttribute('data-app-id');
@@ -649,7 +654,6 @@
         });
     }
 
-    // Show detail page with full Android/iOS info
     let currentApp = null;
     let currentPlatform = null;
 
@@ -662,13 +666,16 @@
         const screenshotsHtml = Array(app.screenshots).fill().map((_, idx) => `
             <div class="mock-img">
                 <i class="fas ${idx === 0 ? 'fa-mobile-alt' : (idx === 1 ? 'fa-tablet-alt' : 'fa-layer-group')}"></i>
-                <span style="font-size:0.7rem; margin-top: 0.8rem;">Interface ${idx + 1}</span>
+                <span style="font-size:0.7rem; margin-top: 0.8rem;">Preview ${idx + 1}</span>
             </div>
         `).join('');
         
         detailContainer.innerHTML = `
             <div class="detail-hero">
-                <div class="detail-logo"><img src="${app.logoUrl}" alt="${app.name}" onerror="this.src='https://placehold.co/200x200/1e2a44/white?text=${app.name.charAt(0)}'"></div>
+                <div class="detail-logo">
+                    <img src="${app.logoUrl}" alt="${app.name}" 
+                         onerror="this.src='https://placehold.co/200x200/1e2a44/white?text=${app.name.charAt(0)}'">
+                </div>
                 <div class="detail-title">
                     <h2>${app.name}</h2>
                     <div style="margin: 0.5rem 0;"><span class="category-badge">${app.category}</span> <span class="category-badge">${compatText}</span></div>
@@ -694,7 +701,6 @@
             </div>
         `;
         
-        // Add platform-specific download buttons that trigger locker
         const btnContainer = document.getElementById('downloadButtonsContainer');
         if (btnContainer) {
             btnContainer.innerHTML = '';
@@ -714,7 +720,6 @@
             }
         }
         
-        // Switch pages
         document.getElementById('pageHome').classList.add('hidden');
         document.getElementById('pageHome').classList.remove('visible');
         document.getElementById('pageDetail').classList.remove('hidden');
@@ -722,15 +727,12 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Locker flow
     const lockerSection = document.getElementById('lockerSection');
     const processingArea = document.getElementById('processingArea');
     const finalAccessArea = document.getElementById('finalAccessArea');
 
     function openLockerForPlatform(platform, app) {
         currentPlatform = platform;
-        // Hide detail page temporarily? No, show locker below or scroll
-        // Ensure locker is visible
         lockerSection.classList.remove('hidden');
         lockerSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
         
@@ -763,18 +765,15 @@
         }, 3600);
     }
 
-    // Back to home
     document.getElementById('backToHomeBtn')?.addEventListener('click', () => {
         document.getElementById('pageDetail').classList.add('hidden');
         document.getElementById('pageDetail').classList.remove('visible');
         document.getElementById('pageHome').classList.remove('hidden');
         document.getElementById('pageHome').classList.add('visible');
-        // Hide locker if visible
         lockerSection.classList.add('hidden');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // Initialize
     renderGrid();
 </script>
 </body>

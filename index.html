@@ -23,58 +23,44 @@
 
         .mono { font-family: 'JetBrains Mono', monospace; }
 
-        /* Animated Grainy Background */
         .bg-mesh {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: 
-                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.1) 0px, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.08) 0px, transparent 50%);
             z-index: -1;
         }
 
-        /* Bento Card Styles */
         .bento-card {
             background: var(--card);
             border: 1px solid rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(12px);
-            border-radius: 24px;
-            transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+            border-radius: 28px;
+            transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
         }
 
         .bento-card:hover {
             border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-8px);
         }
 
-        .bento-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%);
-            z-index: 1;
-        }
-
-        /* Overlay Animation */
         #app-viewer {
             clip-path: circle(0% at 50% 50%);
-            transition: clip-path 0.7s cubic-bezier(0.7, 0, 0.2, 1);
+            transition: clip-path 0.8s cubic-bezier(0.7, 0, 0.2, 1);
         }
+
         #app-viewer.active {
             clip-path: circle(150% at 50% 50%);
         }
 
-        .category-tag {
-            font-size: 10px;
-            letter-spacing: 0.1em;
-            padding: 4px 10px;
-            border-radius: 100px;
-            background: rgba(99, 102, 241, 0.1);
-            color: #818cf8;
-            border: 1px solid rgba(99, 102, 241, 0.2);
+        .platform-btn.active {
+            background: white;
+            color: black;
+            box-shadow: 0 4px 12px rgba(255,255,255,0.2);
         }
     </style>
 </head>
@@ -83,121 +69,140 @@
 
     <nav class="max-w-7xl mx-auto flex justify-between items-center py-8 mb-12">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-white text-black flex items-center justify-center rounded-full font-bold">NX</div>
-            <span class="text-xl font-bold tracking-tighter uppercase">Nexus Hub</span>
+            <div class="w-10 h-10 bg-indigo-600 text-white flex items-center justify-center rounded-xl font-bold shadow-lg shadow-indigo-500/20">N</div>
+            <span class="text-xl font-bold tracking-tighter uppercase">Nexus // 2026</span>
         </div>
-        <div class="mono text-[10px] opacity-40 hidden md:block">
-            LATENCY: 12ms // CORE_V6 // 2026_ARCH
+        <div class="mono text-[10px] opacity-40 hidden md:block border border-white/10 px-4 py-1 rounded-full">
+            SYSTEM_ENCRYPTED // CORE_V6.4
         </div>
     </nav>
 
-    <header class="max-w-7xl mx-auto mb-20">
+    <header class="max-w-7xl mx-auto mb-20 text-center md:text-left">
         <h1 class="text-6xl md:text-9xl font-bold tracking-tighter leading-[0.85] mb-8">
-            Access <br><span class="text-indigo-500 italic">Intelligence.</span>
+            Deploy <br><span class="text-indigo-500 italic">Intelligence.</span>
         </h1>
         <p class="max-w-xl text-gray-500 mono text-sm leading-relaxed">
-            // Authenticated gateway to next-gen reasoning models and high-bitrate creative engines.
+            Verified repository for 2026 generative tools and high-performance creative engines.
         </p>
     </header>
 
-    <div id="grid" class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-4">
-        </div>
+    <div id="grid" class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6"></div>
 
     <div id="app-viewer" class="fixed inset-0 z-[100] bg-[#050505] hidden flex-col p-8 md:p-20 overflow-y-auto">
-        <button onclick="closeViewer()" class="mono text-xs text-gray-500 hover:text-white mb-12 flex items-center gap-2">
-            <span class="text-lg">←</span> RETURN TO_ARCHIVE
+        <button onclick="closeViewer()" class="mono text-xs text-gray-500 hover:text-white mb-12 flex items-center gap-2 group">
+            <span class="text-lg transition-transform group-hover:-translate-x-2">←</span> RETURN_TO_COLLECTION
         </button>
-        <div id="viewer-content" class="max-w-5xl mx-auto w-full"></div>
+        <div id="viewer-content" class="max-w-6xl mx-auto w-full"></div>
     </div>
 
     <div id="locker-modal" class="fixed inset-0 z-[200] bg-black/95 hidden items-center justify-center p-4">
         <div class="w-full max-w-lg aspect-[4/5] bg-white rounded-[40px] overflow-hidden shadow-2xl relative">
-            <button onclick="closeLocker()" class="absolute top-6 right-6 w-10 h-10 bg-black/5 rounded-full flex items-center justify-center font-bold text-black">✕</button>
+            <button onclick="closeLocker()" class="absolute top-6 right-6 w-10 h-10 bg-black/5 rounded-full flex items-center justify-center font-bold text-black hover:bg-black/10 transition-colors">✕</button>
             <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0" class="w-full h-full"></iframe>
         </div>
     </div>
 
     <script>
         const appData = [
-            { name: 'DeepSeek R1', tag: 'Logic', size: 'md:col-span-2 md:row-span-2', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', desc: 'Open-source reasoning leader for 2026. Specialized in neural architecture and complex logic math.', feats: ['DeepThink V3', 'Logic Guard', 'Bypass Mode'] },
-            { name: 'Midjourney', tag: 'Visual', size: 'md:col-span-2', logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png', desc: 'The gold standard in cinematic AI art generation.', feats: ['V6.1 Native', 'High-Res Upscaling'] },
-            { name: 'Claude 3.5', tag: 'Research', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', desc: 'The most technical intelligence suite for code.', feats: ['Artifacts UI', '200k Context'] },
-            { name: 'ChatGPT+', tag: 'Universal', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', desc: 'All-in-one suite including GPT-4o and DALL-E.', feats: ['GPT-4o', 'Advanced Voice'] },
-            { name: 'CapCut Pro', tag: 'Edit', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', desc: 'Professional VFX and 4K output without watermarks.', feats: ['AI VFX', '4K Raw Export'] },
-            { name: 'Perplexity', tag: 'Search', size: 'md:col-span-2', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', desc: 'Real-time knowledge retrieval with citation verification.', feats: ['Live Citations', 'Model Switcher'] },
-            { name: 'Gemini Ultra', tag: 'Productivity', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', desc: 'Deep ecosystem integration for workspace tasks.', feats: ['Workspace Sync', 'Ultra 1.5'] },
-            { name: 'Canva Pro', tag: 'Design', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', desc: 'Magic Studio enabled with 100M+ assets.', feats: ['Magic Resize', 'Brand Kit'] }
+            { name: 'DeepSeek R1', tag: 'Logic', size: 'md:col-span-2 md:row-span-2', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', desc: 'The leading open-source model for 2026. Specialized for complex code architecture and mathematics.', feats: ['DeepThink V3 Logic', 'Coder-V2 Native', 'Bypass Logic Mode'] },
+            { name: 'Midjourney AI', tag: 'Visual', size: 'md:col-span-2', logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png', desc: 'Hyper-realistic visual generation with cinematic v6.1 reasoning.', feats: ['V6.1 Engine', 'Stealth Generation', 'High-Res Upscaling'] },
+            { name: 'Claude 3.5', tag: 'Reasoning', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', desc: 'Unmatched performance in technical writing and analysis.', feats: ['Artifacts UI', '200k Context Window'] },
+            { name: 'ChatGPT Plus', tag: 'Universal', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', desc: 'Full access to GPT-4o, DALL-E 3, and advanced voice protocols.', feats: ['GPT-4o Native', 'Advanced Voice Pro'] },
+            { name: 'CapCut Pro', tag: 'Video', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', desc: 'Social dominance tool. Unlock all 4K raw templates and AI VFX.', feats: ['4K Raw Output', 'No Watermark'] },
+            { name: 'Perplexity', tag: 'Research', size: 'md:col-span-2', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', desc: 'Real-time research with source verification and model switching.', feats: ['Live Citations', 'Ad-Free Logic'] },
+            { name: 'Gemini Ultra', tag: 'Suite', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', desc: 'Deep integration with the entire Workspace ecosystem.', feats: ['Workspace Sync', 'Ultra Logic 1.5'] },
+            { name: 'Canva Pro', tag: 'Design', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', desc: 'Full Magic Studio access with 100M+ premium assets.', feats: ['Magic Resizer', 'AI Background Edit'] }
         ];
+
+        let selectedPlatform = 'ios';
 
         function init() {
             const grid = document.getElementById('grid');
             appData.forEach((app, i) => {
                 grid.innerHTML += `
-                    <div class="bento-card ${app.size} p-8 cursor-pointer group flex flex-col justify-between" 
-                         onclick="openViewer(${i})"
-                         onmousemove="handleMouseMove(event, this)">
-                        <div class="relative z-10">
+                    <div class="bento-card ${app.size} p-8 cursor-pointer group flex flex-col justify-between" onclick="openViewer(${i})">
+                        <div>
                             <div class="flex justify-between items-start mb-12">
-                                <div class="w-12 h-12 bg-white/5 rounded-2xl p-2 border border-white/10">
-                                    <img src="${app.logo}" class="w-full h-full object-contain" onerror="this.src='https://ui-avatars.com/api/?name=${app.name}'">
+                                <div class="w-14 h-14 bg-white/5 rounded-2xl p-3 border border-white/10 group-hover:border-indigo-500/50 transition-colors">
+                                    <img src="${app.logo}" class="w-full h-full object-contain">
                                 </div>
-                                <span class="category-tag mono uppercase font-bold">${app.tag}</span>
+                                <span class="mono text-[10px] font-bold text-indigo-400 border border-indigo-500/20 px-3 py-1 rounded-full uppercase tracking-widest">${app.tag}</span>
                             </div>
-                            <h3 class="text-2xl font-bold group-hover:text-indigo-400 transition-colors">${app.name}</h3>
-                            <p class="text-sm text-gray-500 mt-2 mono line-clamp-2">${app.desc}</p>
+                            <h3 class="text-3xl font-bold tracking-tight mb-2 group-hover:text-indigo-400 transition-colors">${app.name}</h3>
+                            <p class="text-sm text-gray-500 mono leading-relaxed line-clamp-2">${app.desc}</p>
                         </div>
-                        <div class="mt-8 pt-4 border-t border-white/5 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <span class="text-[10px] mono">VERIFIED_SECURE</span>
-                            <div class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">→</div>
+                        <div class="mt-8 pt-4 border-t border-white/5 flex justify-between items-center opacity-40 group-hover:opacity-100 transition-opacity">
+                            <span class="text-[10px] mono">V5.4_STABLE</span>
+                            <div class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center font-bold">→</div>
                         </div>
                     </div>
                 `;
             });
         }
 
-        function handleMouseMove(e, el) {
-            const rect = el.getBoundingClientRect();
-            el.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-            el.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-        }
-
         function openViewer(idx) {
             const app = appData[idx];
+            selectedPlatform = 'ios'; // Reset to default on open
             const viewer = document.getElementById('app-viewer');
+            
             document.getElementById('viewer-content').innerHTML = `
-                <div class="grid md:grid-cols-2 gap-16 items-start">
-                    <div class="space-y-8">
-                        <div class="w-24 h-24 bg-white/5 rounded-[32px] p-4 border border-white/10">
+                <div class="grid lg:grid-cols-2 gap-20 items-center">
+                    <div class="space-y-10">
+                        <div class="w-24 h-24 bg-white/5 rounded-[32px] p-5 border border-white/10">
                             <img src="${app.logo}" class="w-full h-full object-contain">
                         </div>
-                        <h2 class="text-6xl md:text-8xl font-bold tracking-tighter">${app.name}</h2>
-                        <p class="text-xl text-gray-400 leading-relaxed mono">${app.desc}</p>
-                        <div class="flex flex-wrap gap-4">
-                            <button onclick="openLocker()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-10 py-5 rounded-2xl font-bold text-lg transition-all shadow-xl shadow-indigo-500/20">DEPLOY ACCESS</button>
-                            <button onclick="openLocker()" class="bg-white/5 hover:bg-white/10 border border-white/10 text-white px-10 py-5 rounded-2xl font-bold text-lg transition-all">PROVISION IOS</button>
+                        <h2 class="text-7xl md:text-8xl font-bold tracking-tighter leading-none">${app.name}</h2>
+                        
+                        <div class="inline-flex p-1 bg-white/5 border border-white/10 rounded-2xl">
+                            <button onclick="setPlatform('ios')" id="btn-ios" class="platform-btn active px-8 py-3 rounded-xl mono text-xs font-bold transition-all">iOS_CORE</button>
+                            <button onclick="setPlatform('android')" id="btn-android" class="platform-btn px-8 py-3 rounded-xl mono text-xs font-bold text-gray-500 hover:text-white transition-all">ANDROID_OS</button>
+                        </div>
+
+                        <p class="text-2xl text-gray-400 leading-relaxed font-light">${app.desc}</p>
+                        
+                        <div class="flex flex-col gap-4">
+                            <button onclick="openLocker()" class="group relative bg-indigo-600 hover:bg-indigo-500 text-white px-10 py-6 rounded-3xl font-bold text-xl transition-all shadow-2xl shadow-indigo-500/20 active:scale-95">
+                                <span class="flex items-center justify-center gap-3">
+                                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                    DOWNLOAD FOR <span id="platform-text">IOS</span>
+                                </span>
+                            </button>
+                            <p class="text-center mono text-[10px] text-gray-600 tracking-[0.3em] uppercase">Authenticated / SHA-256 Verified</p>
                         </div>
                     </div>
-                    <div class="bg-white/5 border border-white/10 rounded-[40px] p-8 md:p-12">
-                        <h4 class="mono text-xs opacity-40 uppercase tracking-widest mb-10">Neural Extensions</h4>
-                        <div class="space-y-4">
+
+                    <div class="bg-white/5 border border-white/10 rounded-[48px] p-10 md:p-14 shadow-3xl">
+                        <h4 class="mono text-xs text-indigo-400 uppercase tracking-[0.4em] mb-12">System Features</h4>
+                        <div class="space-y-6">
                             ${app.feats.map(f => `
-                                <div class="p-6 bg-white/5 rounded-2xl border border-white/5 flex justify-between items-center hover:bg-white/10 transition-colors">
-                                    <span class="text-lg font-medium">${f}</span>
-                                    <span class="text-indigo-400">✓</span>
+                                <div class="flex items-center gap-6 group/item">
+                                    <div class="w-8 h-8 rounded-full bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold text-xs group-hover/item:bg-indigo-500 group-hover/item:text-white transition-all">✓</div>
+                                    <span class="text-xl font-medium text-gray-200">${f}</span>
                                 </div>
                             `).join('')}
                         </div>
                     </div>
                 </div>
             `;
+            
             viewer.classList.remove('hidden');
             setTimeout(() => viewer.classList.add('active'), 10);
+            window.scrollTo(0,0);
+        }
+
+        function setPlatform(p) {
+            selectedPlatform = p;
+            document.getElementById('btn-ios').classList.toggle('active', p === 'ios');
+            document.getElementById('btn-ios').classList.toggle('text-gray-500', p !== 'ios');
+            document.getElementById('btn-android').classList.toggle('active', p === 'android');
+            document.getElementById('btn-android').classList.toggle('text-gray-500', p !== 'android');
+            document.getElementById('platform-text').innerText = p.toUpperCase();
         }
 
         function closeViewer() {
             const viewer = document.getElementById('app-viewer');
             viewer.classList.remove('active');
-            setTimeout(() => viewer.classList.add('hidden'), 700);
+            setTimeout(() => viewer.classList.add('hidden'), 800);
         }
 
         function openLocker() { document.getElementById('locker-modal').style.display = 'flex'; }

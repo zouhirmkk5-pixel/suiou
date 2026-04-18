@@ -3,117 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS // Enterprise Repository</title>
+    <title>NEXUS // Neural Repository 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;500;700&family=Inter:wght@400;500&family=JetBrains+Mono&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg: #020617; /* Deep Midnight */
-            --card: rgba(15, 23, 42, 0.6);
-            --border: rgba(148, 163, 184, 0.1);
-            --accent: #6366f1;
+            --bg: #050505;
+            --accent: #4f46e5;
+            --surface: rgba(255, 255, 255, 0.02);
+            --border: rgba(255, 255, 255, 0.06);
         }
 
         body {
             background-color: var(--bg);
-            color: #f1f5f9;
+            color: #ffffff;
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
+            letter-spacing: -0.01em;
         }
 
-        .mono { font-family: 'JetBrains Mono', monospace; }
+        .heading { font-family: 'Inter Tight', sans-serif; }
+        .mono { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; }
 
-        /* Elegant background gradient */
-        .bg-glow {
+        /* Sophisticated Background */
+        .ambient-glow {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: 
-                radial-gradient(circle at 50% -10%, rgba(99, 102, 241, 0.15), transparent 60%),
-                radial-gradient(circle at 0% 100%, rgba(15, 23, 42, 0.3), transparent 40%);
+                radial-gradient(circle at 50% -20%, rgba(79, 70, 229, 0.12), transparent 70%),
+                radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.02), transparent 40%);
             z-index: -1;
         }
 
         .bento-card {
-            background: var(--card);
+            background: var(--surface);
             border: 1px solid var(--border);
-            backdrop-filter: blur(16px);
-            border-radius: 20px;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            backdrop-filter: blur(32px);
+            border-radius: 24px;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .bento-card:hover {
-            border-color: rgba(99, 102, 241, 0.4);
-            transform: translateY(-5px);
-            background: rgba(30, 41, 59, 0.7);
-            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 30px 60px -12px rgba(0,0,0,0.5);
         }
 
-        /* Professional scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+        .btn-primary {
+            background: #ffffff;
+            color: #000000;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent);
+            color: #ffffff;
+            box-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
+        }
 
         #app-viewer {
-            background: rgba(2, 6, 23, 0.98);
-            backdrop-filter: blur(40px);
-            transition: opacity 0.4s ease;
+            background: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(50px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        #app-viewer.active {
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .platform-btn.active {
-            background: white;
-            color: black;
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: white;
         }
     </style>
 </head>
-<body class="selection:bg-indigo-500/30">
-    <div class="bg-glow"></div>
+<body class="p-6 md:p-12">
+    <div class="ambient-glow"></div>
 
-    <nav class="max-w-7xl mx-auto px-6 py-12 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-            <div class="w-9 h-9 bg-indigo-600 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-900/20">N</div>
-            <span class="text-sm font-semibold tracking-widest uppercase">Nexus Hub</span>
+    <nav class="max-w-7xl mx-auto flex justify-between items-center mb-24">
+        <div class="flex items-center gap-4 group cursor-pointer">
+            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center transition-transform group-hover:rotate-12">
+                <div class="w-4 h-4 bg-black rounded-sm"></div>
+            </div>
+            <span class="heading font-bold text-xl tracking-tighter">NEXUS.</span>
         </div>
-        <div class="flex items-center gap-8">
-            <div class="hidden md:flex gap-6 mono text-[10px] uppercase tracking-[0.3em] opacity-40">
-                <span>System_Online</span>
-                <span>Node_Global</span>
-            </div>
-            <div class="px-4 py-1.5 border border-slate-800 rounded-full mono text-[10px] text-slate-400">
-                AUTH_SECURE: 256-BIT
-            </div>
+        <div class="hidden md:flex items-center gap-8">
+            <div class="mono opacity-30">STATUS // ENCRYPTED</div>
+            <div class="h-4 w-px bg-white/10"></div>
+            <button class="mono text-[10px] hover:text-indigo-400 transition-colors">OS_TERMINAL</button>
         </div>
     </nav>
 
-    <header class="max-w-7xl mx-auto px-6 mb-24">
-        <h1 class="text-5xl md:text-8xl font-medium tracking-tight leading-[1.1] mb-8">
-            The future of <br><span class="text-slate-500 italic">intelligence.</span>
+    <header class="max-w-7xl mx-auto mb-32">
+        <h1 class="heading text-7xl md:text-[120px] font-bold tracking-tightest leading-[0.9] mb-12">
+            Intelligence <br><span class="text-white/20 italic">Architected.</span>
         </h1>
-        <p class="max-w-xl text-slate-400 text-lg leading-relaxed font-light">
-            Securely access and deploy 2026's most advanced neural frameworks and creative engines through our encrypted repository.
-        </p>
+        <div class="grid md:grid-cols-2 gap-12 items-end">
+            <p class="text-xl text-white/50 leading-relaxed font-light">
+                The definitive repository for 2026 generative protocols. Secure deployment of neural engines for high-performance workflows.
+            </p>
+            <div class="flex justify-end mono text-[10px] text-white/20">
+                SCROLL_TO_INITIALIZE_CORE
+            </div>
+        </div>
     </header>
 
-    <main id="grid" class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-5 mb-20"></main>
+    <main id="grid" class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 mb-32"></main>
 
-    <div id="app-viewer" class="fixed inset-0 z-[100] hidden flex-col p-6 md:p-24 overflow-y-auto">
+    <div id="app-viewer" class="fixed inset-0 z-[100] hidden flex-col p-8 md:p-24 overflow-y-auto">
         <div class="max-w-6xl mx-auto w-full">
-            <button onclick="closeViewer()" class="mb-16 flex items-center gap-3 text-slate-500 hover:text-white transition-colors mono text-[11px] uppercase tracking-widest group">
-                <span class="transition-transform group-hover:-translate-x-1">←</span> Back to Repository
+            <button onclick="closeViewer()" class="mono text-white/30 hover:text-white mb-20 flex items-center gap-4 group">
+                <span class="text-xl group-hover:-translate-x-2 transition-transform">←</span> BACK_TO_REPOSITORY
             </button>
             <div id="viewer-content"></div>
         </div>
     </div>
 
-    <div id="locker-modal" class="fixed inset-0 z-[200] bg-slate-950/90 backdrop-blur-md hidden items-center justify-center p-4">
-        <div class="w-full max-w-lg bg-slate-900 rounded-3xl overflow-hidden border border-slate-800 shadow-2xl relative">
-            <div class="p-5 border-b border-slate-800 flex justify-between items-center">
-                <span class="mono text-[10px] uppercase tracking-widest text-indigo-400">Safety Check Required</span>
-                <button onclick="closeLocker()" class="text-slate-500 hover:text-white transition-colors">✕</button>
+    <div id="locker-modal" class="fixed inset-0 z-[200] bg-black/90 backdrop-blur-2xl hidden items-center justify-center p-6">
+        <div class="w-full max-w-xl bg-[#0a0a0a] rounded-[32px] overflow-hidden border border-white/10 shadow-3xl">
+            <div class="p-6 border-b border-white/5 flex justify-between items-center">
+                <span class="mono text-white/40 uppercase">Verification_Protocol</span>
+                <button onclick="closeLocker()" class="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center">✕</button>
             </div>
-            <div class="aspect-[4/5] bg-black">
+            <div class="aspect-[4/5]">
                 <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0" class="w-full h-full"></iframe>
             </div>
         </div>
@@ -121,39 +142,33 @@
 
     <script>
         const appData = [
-            { name: 'DeepSeek R1', tag: 'Logic', size: 'md:col-span-2 md:row-span-2', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', desc: 'The leading open-source model for 2026. Specialized for complex code architecture and mathematics.', feats: ['DeepThink V3 Logic', 'Coder-V2 Native', 'Bypass Logic Mode'] },
-            { name: 'Midjourney AI', tag: 'Visual', size: 'md:col-span-2', logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png', desc: 'Hyper-realistic visual generation with cinematic v6.1 reasoning.', feats: ['V6.1 Engine', 'Stealth Generation', 'High-Res Upscaling'] },
-            { name: 'Claude 3.5', tag: 'Reasoning', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', desc: 'Unmatched performance in technical writing and analysis.', feats: ['Artifacts UI', '200k Context Window'] },
-            { name: 'ChatGPT Plus', tag: 'Universal', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', desc: 'Full access to GPT-4o, DALL-E 3, and advanced voice protocols.', feats: ['GPT-4o Native', 'Advanced Voice Pro'] },
-            { name: 'CapCut Pro', tag: 'Video', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', desc: 'Social dominance tool. Unlock all 4K raw templates and AI VFX.', feats: ['4K Raw Output', 'No Watermark'] },
-            { name: 'Perplexity', tag: 'Research', size: 'md:col-span-2', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', desc: 'Real-time research with source verification and model switching.', feats: ['Live Citations', 'Ad-Free Logic'] },
-            { name: 'Gemini Ultra', tag: 'Suite', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', desc: 'Deep integration with the entire Workspace ecosystem.', feats: ['Workspace Sync', 'Ultra Logic 1.5'] },
-            { name: 'Canva Pro', tag: 'Design', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', desc: 'Full Magic Studio access with 100M+ premium assets.', feats: ['Magic Resizer', 'AI Background Edit'] }
+            { name: 'DeepSeek R1', tag: 'Logic', size: 'md:col-span-2 md:row-span-2', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', desc: 'Enterprise-scale reasoning for code architecture and predictive logic.', feats: ['DeepThink V3', 'Bypass Mode', 'SHA-512 Auth'] },
+            { name: 'Midjourney AI', tag: 'Creative', size: 'md:col-span-2', logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png', desc: 'Photorealistic neural rendering with cinematic control protocols.', feats: ['V6.1 Engine', 'Raw Output', 'Stealth Mode'] },
+            { name: 'Claude 3.5', tag: 'Analyst', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', desc: 'Superior technical analysis and contextual artifact generation.', feats: ['200K Context', 'Security Native'] },
+            { name: 'ChatGPT Plus', tag: 'Omni', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', desc: 'Universal intelligence layer for multimodal operational tasks.', feats: ['GPT-4o Native', 'Voice-Realtime'] },
+            { name: 'CapCut Pro', tag: 'Studio', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', desc: 'Advanced AI video synthesis and automated VFX distribution.', feats: ['4K Raw Support', 'No-Watermark'] },
+            { name: 'Perplexity', tag: 'Search', size: 'md:col-span-2', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', desc: 'Real-time neural search with verified source citation logic.', feats: ['Pro Search', 'Citation-Sync'] }
         ];
-
-        let selectedPlatform = 'ios';
 
         function init() {
             const grid = document.getElementById('grid');
             appData.forEach((app, i) => {
                 grid.innerHTML += `
-                    <div class="bento-card ${app.size} p-7 flex flex-col justify-between group cursor-pointer" onclick="openViewer(${i})">
+                    <div class="bento-card ${app.size} p-8 flex flex-col justify-between group cursor-pointer" onclick="openViewer(${i})">
                         <div>
-                            <div class="flex justify-between items-start mb-12">
-                                <div class="w-12 h-12 bg-slate-900/50 rounded-xl p-2.5 border border-slate-800 transition-colors group-hover:border-indigo-500/30">
-                                    <img src="${app.logo}" class="w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500">
+                            <div class="flex justify-between items-start mb-16">
+                                <div class="w-14 h-14 bg-white/5 border border-white/10 rounded-2xl p-3 group-hover:border-white/30 transition-all">
+                                    <img src="${app.logo}" class="w-full h-full object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500">
                                 </div>
-                                <span class="mono text-[9px] font-semibold text-slate-500 border border-slate-800 px-2.5 py-1 rounded-md uppercase tracking-[0.2em] group-hover:text-indigo-400 group-hover:border-indigo-500/20 transition-colors">${app.tag}</span>
+                                <span class="mono text-white/30 border border-white/5 px-3 py-1 rounded-full group-hover:text-white transition-colors">${app.tag}</span>
                             </div>
-                            <h3 class="text-xl font-medium mb-3 tracking-tight group-hover:text-indigo-100 transition-colors">${app.name}</h3>
-                            <p class="text-sm text-slate-500 leading-relaxed font-light line-clamp-3">${app.desc}</p>
+                            <h3 class="heading text-3xl font-bold tracking-tight mb-3 group-hover:translate-x-1 transition-transform">${app.name}</h3>
+                            <p class="text-sm text-white/40 leading-relaxed font-light line-clamp-2">${app.desc}</p>
                         </div>
-                        <div class="mt-8 pt-6 border-t border-slate-800/50 flex justify-between items-center">
-                            <button onclick="event.stopPropagation(); openLocker();" class="text-[10px] mono uppercase tracking-widest bg-slate-100 text-slate-950 px-5 py-2.5 rounded-lg font-bold hover:bg-white transition-all active:scale-95">
-                                Deploy Node
-                            </button>
-                            <div class="w-9 h-9 rounded-full border border-slate-800 flex items-center justify-center text-slate-600 group-hover:bg-slate-800 group-hover:text-white transition-all">
-                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+                        <div class="mt-12 flex justify-between items-center border-t border-white/5 pt-6">
+                            <button onclick="event.stopPropagation(); openLocker();" class="btn-primary text-xs uppercase tracking-tighter">Initialize_OS</button>
+                            <div class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
                             </div>
                         </div>
                     </div>
@@ -165,42 +180,33 @@
             const app = appData[idx];
             const viewer = document.getElementById('app-viewer');
             viewer.classList.remove('hidden');
-            viewer.style.opacity = "1";
+            setTimeout(() => viewer.classList.add('active'), 10);
 
             document.getElementById('viewer-content').innerHTML = `
-                <div class="grid lg:grid-cols-5 gap-20 items-start">
-                    <div class="lg:col-span-3 space-y-12">
+                <div class="grid lg:grid-cols-2 gap-24 items-center">
+                    <div class="space-y-12">
                         <div class="flex items-center gap-8">
-                            <div class="w-24 h-24 bg-slate-900 border border-slate-800 rounded-[2rem] p-5 shadow-2xl shadow-indigo-500/5">
+                            <div class="w-24 h-24 bg-white/5 border border-white/10 rounded-[32px] p-5">
                                 <img src="${app.logo}" class="w-full h-full object-contain">
                             </div>
-                            <div>
-                                <h2 class="text-6xl font-medium tracking-tight">${app.name}</h2>
-                                <p class="text-indigo-400 mono text-xs mt-3 uppercase tracking-[0.3em]">Module Verified // 2026 Stable</p>
-                            </div>
+                            <h2 class="heading text-7xl font-bold tracking-tighter">${app.name}</h2>
                         </div>
-                        
-                        <p class="text-2xl text-slate-400 leading-relaxed font-light max-w-2xl">${app.desc}</p>
-
-                        <div class="flex flex-wrap gap-5 pt-6">
-                            <button onclick="openLocker()" class="px-12 py-5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-semibold transition-all flex items-center gap-3 shadow-xl shadow-indigo-900/40 active:scale-95">
-                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M12 5v14m7-7l-7 7-7-7"/></svg>
-                                Deploy to System
-                            </button>
-                            <div class="flex p-1.5 bg-slate-900 border border-slate-800 rounded-2xl">
-                                <button onclick="setPlatform('ios')" id="btn-ios" class="platform-btn active px-8 py-3 rounded-xl text-xs font-bold uppercase mono tracking-widest transition-all">iOS_Core</button>
-                                <button onclick="setPlatform('android')" id="btn-android" class="platform-btn px-8 py-3 rounded-xl text-xs font-bold uppercase mono tracking-widest text-slate-500 transition-all hover:text-white">Android_OS</button>
+                        <p class="text-3xl text-white/50 leading-tight font-light">${app.desc}</p>
+                        <div class="flex flex-col gap-6">
+                            <button onclick="openLocker()" class="w-full py-6 bg-white text-black rounded-2xl font-bold text-xl hover:bg-indigo-600 hover:text-white transition-all">DEPLOY_STABLE_BUILD</button>
+                            <div class="flex gap-4">
+                                <button class="platform-btn active mono flex-1 py-4 border border-white/10 rounded-xl">iOS_BUILD</button>
+                                <button class="platform-btn mono flex-1 py-4 border border-white/10 rounded-xl text-white/30 hover:text-white">ANDROID_APK</button>
                             </div>
                         </div>
                     </div>
-
-                    <div class="lg:col-span-2 bg-slate-900/30 border border-slate-800/50 rounded-[40px] p-10 space-y-10">
-                        <h4 class="mono text-[11px] text-slate-500 uppercase tracking-widest">Core Specifications</h4>
-                        <div class="space-y-5">
+                    <div class="bg-white/5 border border-white/10 rounded-[48px] p-12 space-y-8">
+                        <div class="mono text-white/20">CORE_CAPABILITIES</div>
+                        <div class="space-y-6">
                             ${app.feats.map(f => `
-                                <div class="flex items-center gap-5 p-5 bg-slate-900/50 border border-slate-800/50 rounded-2xl group hover:border-indigo-500/20 transition-colors">
-                                    <div class="w-2.5 h-2.5 rounded-full bg-indigo-500 shadow-lg shadow-indigo-500/50"></div>
-                                    <span class="text-sm font-medium text-slate-300">${f}</span>
+                                <div class="flex items-center gap-6 p-6 bg-white/5 border border-white/5 rounded-2xl">
+                                    <div class="w-3 h-3 rounded-full bg-indigo-500"></div>
+                                    <span class="text-xl font-medium">${f}</span>
                                 </div>
                             `).join('')}
                         </div>
@@ -209,33 +215,17 @@
             `;
         }
 
-        function setPlatform(p) {
-            selectedPlatform = p;
-            document.querySelectorAll('.platform-btn').forEach(b => b.classList.remove('active', 'text-black'));
-            document.querySelectorAll('.platform-btn').forEach(b => b.classList.add('text-slate-500'));
-            const activeBtn = document.getElementById(`btn-${p}`);
-            activeBtn.classList.add('active');
-            activeBtn.classList.remove('text-slate-500');
-        }
-
         function closeViewer() {
             const viewer = document.getElementById('app-viewer');
-            viewer.style.opacity = "0";
-            setTimeout(() => viewer.classList.add('hidden'), 400);
+            viewer.classList.remove('active');
+            setTimeout(() => viewer.classList.add('hidden'), 500);
         }
 
-        function openLocker() { 
-            const modal = document.getElementById('locker-modal');
-            modal.classList.remove('hidden'); 
-            modal.classList.add('flex'); 
-        }
-        function closeLocker() { 
-            const modal = document.getElementById('locker-modal');
-            modal.classList.add('hidden'); 
-            modal.classList.remove('flex'); 
-        }
+        function openLocker() { document.getElementById('locker-modal').style.display = 'flex'; }
+        function closeLocker() { document.getElementById('locker-modal').style.display = 'none'; }
 
         init();
     </script>
 </body>
 </html>
+

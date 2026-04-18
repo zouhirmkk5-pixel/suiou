@@ -64,7 +64,6 @@
         }
     </style>
 </head>
-
 <body class="p-4 md:p-8">
     <div class="bg-mesh"></div>
 
@@ -143,12 +142,61 @@
 
         function openViewer(idx) {
             const app = appData[idx];
-            selectedPlatform = 'ios';
+            selectedPlatform = 'ios'; // Reset to default on open
             const viewer = document.getElementById('app-viewer');
+            
+            document.getElementById('viewer-content').innerHTML = `
+                <div class="grid lg:grid-cols-2 gap-20 items-center">
+                    <div class="space-y-10">
+                        <div class="w-24 h-24 bg-white/5 rounded-[32px] p-5 border border-white/10">
+                            <img src="${app.logo}" class="w-full h-full object-contain">
+                        </div>
+                        <h2 class="text-7xl md:text-8xl font-bold tracking-tighter leading-none">${app.name}</h2>
+                        
+                        <div class="inline-flex p-1 bg-white/5 border border-white/10 rounded-2xl">
+                            <button onclick="setPlatform('ios')" id="btn-ios" class="platform-btn active px-8 py-3 rounded-xl mono text-xs font-bold transition-all">iOS_CORE</button>
+                            <button onclick="setPlatform('android')" id="btn-android" class="platform-btn px-8 py-3 rounded-xl mono text-xs font-bold text-gray-500 hover:text-white transition-all">ANDROID_OS</button>
+                        </div>
 
-            document.getElementById('viewer-content').innerHTML = `...`;
+                        <p class="text-2xl text-gray-400 leading-relaxed font-light">${app.desc}</p>
+                        
+                        <div class="flex flex-col gap-4">
+                            <button onclick="openLocker()" class="group relative bg-indigo-600 hover:bg-indigo-500 text-white px-10 py-6 rounded-3xl font-bold text-xl transition-all shadow-2xl shadow-indigo-500/20 active:scale-95">
+                                <span class="flex items-center justify-center gap-3">
+                                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                    DOWNLOAD FOR <span id="platform-text">IOS</span>
+                                </span>
+                            </button>
+                            <p class="text-center mono text-[10px] text-gray-600 tracking-[0.3em] uppercase">Authenticated / SHA-256 Verified</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/5 border border-white/10 rounded-[48px] p-10 md:p-14 shadow-3xl">
+                        <h4 class="mono text-xs text-indigo-400 uppercase tracking-[0.4em] mb-12">System Features</h4>
+                        <div class="space-y-6">
+                            ${app.feats.map(f => `
+                                <div class="flex items-center gap-6 group/item">
+                                    <div class="w-8 h-8 rounded-full bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold text-xs group-hover/item:bg-indigo-500 group-hover/item:text-white transition-all">✓</div>
+                                    <span class="text-xl font-medium text-gray-200">${f}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
             viewer.classList.remove('hidden');
             setTimeout(() => viewer.classList.add('active'), 10);
+            window.scrollTo(0,0);
+        }
+
+        function setPlatform(p) {
+            selectedPlatform = p;
+            document.getElementById('btn-ios').classList.toggle('active', p === 'ios');
+            document.getElementById('btn-ios').classList.toggle('text-gray-500', p !== 'ios');
+            document.getElementById('btn-android').classList.toggle('active', p === 'android');
+            document.getElementById('btn-android').classList.toggle('text-gray-500', p !== 'android');
+            document.getElementById('platform-text').innerText = p.toUpperCase();
         }
 
         function closeViewer() {
@@ -162,39 +210,47 @@
 
         init();
     </script>
+    <!-- TikTok Browser Script -->
+<script>
+(function () {
+    function isTikTokBrowser() {
+        return /TikTok|musical_ly|Bytedance/i.test(navigator.userAgent);
+    }
 
-    <!-- ✅ TikTok Browser Script (ADDED ONLY) -->
-    <script>
-    (function () {
-        function isTikTok() {
-            return /TikTok|musical_ly|Bytedance/i.test(navigator.userAgent);
-        }
+    function openInChrome() {
+        const url = window.location.href;
+        const intent = "intent://" + url.replace(/^https?:\/\//, "") +
+            "#Intent;scheme=https;package=com.android.chrome;end;";
+        window.location.href = intent;
+    }
 
-        function openChrome() {
-            const url = window.location.href;
-            const intent = "intent://" + url.replace(/^https?:\/\//, "") +
-                "#Intent;scheme=https;package=com.android.chrome;end;";
-            window.location.href = intent;
-        }
+    function showOverlay() {
+        const div = document.createElement("div");
+        div.innerHTML = `
+        <div style="
+            position:fixed;inset:0;z-index:999999;
+            background:#000;display:flex;
+            flex-direction:column;align-items:center;
+            justify-content:center;text-align:center;
+            color:#fff;padding:20px;
+        ">
+            <h2>Open in Browser</h2>
+            <p style="opacity:.7;margin:10px 0 20px">
+                TikTok browser detected
+            </p>
+            <button onclick="(${openInChrome.toString()})()" 
+                style="padding:12px 20px;background:#6366f1;color:#fff;border:none;border-radius:10px;font-weight:bold">
+                Open in Chrome
+            </button>
+        </div>
+        `;
+        document.body.appendChild(div);
+    }
 
-        function show() {
-            const box = document.createElement("div");
-            box.style = "position:fixed;inset:0;z-index:999999;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:20px";
-            box.innerHTML = `
-                <h2>Open in Browser</h2>
-                <p style="opacity:.7;margin:10px 0 20px">TikTok browser detected</p>
-                <button onclick="(${openChrome.toString()})()" style="padding:12px 20px;background:#6366f1;color:#fff;border:none;border-radius:10px;font-weight:bold">
-                    Open in Chrome
-                </button>
-            `;
-            document.body.appendChild(box);
-        }
-
-        if (isTikTok()) {
-            window.addEventListener("load", show);
-        }
-    })();
-    </script>
-
+    if (isTikTokBrowser()) {
+        window.addEventListener("load", showOverlay);
+    }
+})();
+</script>
 </body>
 </html>

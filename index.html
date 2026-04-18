@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OGAM STORE</title>
+    <title>NEXUS // Neural Repository 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     
@@ -62,6 +62,10 @@
             color: black;
             box-shadow: 0 4px 12px rgba(255,255,255,0.2);
         }
+
+        /* Smooth scroll for the viewer */
+        #app-viewer::-webkit-scrollbar { width: 4px; }
+        #app-viewer::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
     </style>
 </head>
 <body class="p-4 md:p-8">
@@ -97,7 +101,7 @@
 
     <div id="locker-modal" class="fixed inset-0 z-[200] bg-black/95 hidden items-center justify-center p-4">
         <div class="w-full max-w-lg aspect-[4/5] bg-white rounded-[40px] overflow-hidden shadow-2xl relative">
-            <button onclick="closeLocker()" class="absolute top-6 right-6 w-10 h-10 bg-black/5 rounded-full flex items-center justify-center font-bold text-black hover:bg-black/10 transition-colors">✕</button>
+            <button onclick="closeLocker()" class="absolute top-6 right-6 w-10 h-10 bg-black/5 rounded-full flex items-center justify-center font-bold text-black hover:bg-black/10 z-10">✕</button>
             <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0" class="w-full h-full"></iframe>
         </div>
     </div>
@@ -118,6 +122,7 @@
 
         function init() {
             const grid = document.getElementById('grid');
+            grid.innerHTML = ''; // Clear existing
             appData.forEach((app, i) => {
                 grid.innerHTML += `
                     <div class="bento-card ${app.size} p-8 cursor-pointer group flex flex-col justify-between" onclick="openViewer(${i})">
@@ -132,12 +137,12 @@
                             <p class="text-sm text-gray-500 mono leading-relaxed line-clamp-2">${app.desc}</p>
                         </div>
                         <div class="mt-8 pt-6 border-t border-white/5 flex justify-between items-center">
-                            <button onclick="event.stopPropagation(); openLocker();" class="flex items-center gap-2 bg-white/10 hover:bg-indigo-600 text-white px-4 py-2 rounded-xl transition-all active:scale-95">
+                            <button onclick="event.stopPropagation(); openLocker();" class="flex items-center gap-2 bg-white/5 border border-white/10 hover:bg-indigo-600 hover:border-indigo-600 text-white px-5 py-2.5 rounded-xl transition-all active:scale-95 group/btn">
                                 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                                <span class="mono text-[10px] font-bold uppercase">Download</span>
+                                <span class="mono text-[10px] font-bold uppercase tracking-wider">Deploy_OS</span>
                             </button>
                             <div class="flex items-center gap-3 opacity-40 group-hover:opacity-100 transition-opacity">
-                                <span class="text-[10px] mono">V5.4_STABLE</span>
+                                <span class="text-[10px] mono">V6.4_STABLE</span>
                                 <div class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center font-bold">→</div>
                             </div>
                         </div>
@@ -148,7 +153,7 @@
 
         function openViewer(idx) {
             const app = appData[idx];
-            selectedPlatform = 'ios'; // Reset to default on open
+            selectedPlatform = 'ios'; 
             const viewer = document.getElementById('app-viewer');
             
             document.getElementById('viewer-content').innerHTML = `
@@ -168,9 +173,9 @@
                         
                         <div class="flex flex-col gap-4">
                             <button onclick="openLocker()" class="group relative bg-indigo-600 hover:bg-indigo-500 text-white px-10 py-6 rounded-3xl font-bold text-xl transition-all shadow-2xl shadow-indigo-500/20 active:scale-95">
-                                <span class="flex items-center justify-center gap-3">
+                                <span class="flex items-center justify-center gap-3 uppercase tracking-tighter">
                                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                                    DOWNLOAD FOR <span id="platform-text">IOS</span>
+                                    Initialize <span id="platform-text">IOS</span> Build
                                 </span>
                             </button>
                             <p class="text-center mono text-[10px] text-gray-600 tracking-[0.3em] uppercase">Authenticated / SHA-256 Verified</p>
@@ -211,8 +216,15 @@
             setTimeout(() => viewer.classList.add('hidden'), 800);
         }
 
-        function openLocker() { document.getElementById('locker-modal').style.display = 'flex'; }
-        function closeLocker() { document.getElementById('locker-modal').style.display = 'none'; }
+        function openLocker() { 
+            document.getElementById('locker-modal').classList.remove('hidden');
+            document.getElementById('locker-modal').style.display = 'flex'; 
+        }
+
+        function closeLocker() { 
+            document.getElementById('locker-modal').style.display = 'none'; 
+            document.getElementById('locker-modal').classList.add('hidden');
+        }
 
         init();
     </script>

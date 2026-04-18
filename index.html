@@ -3,143 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus Premium | Elite App Hub</title>
+    <title>Nexus | The Architecture of Intelligence</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg: #020205;
+            --bg: #000000;
             --accent: #6366f1;
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.1);
+            --surface: #0a0a0c;
+            --border: rgba(255, 255, 255, 0.08);
         }
 
         body {
             background-color: var(--bg);
-            color: white;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            margin: 0;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
 
-        .bg-glow {
+        /* Animated Mesh Gradient Background */
+        .mesh-gradient {
             position: fixed;
-            width: 60vw;
-            height: 60vw;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, rgba(0,0,0,0) 70%);
-            border-radius: 50%;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
             z-index: -1;
-            filter: blur(80px);
+            filter: blur(100px);
         }
 
-        .premium-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
-            backdrop-filter: blur(15px);
+        /* Professional Bento Card */
+        .bento-card {
+            background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 32px;
-            transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
-        }
-
-        .premium-card:hover {
-            transform: translateY(-12px) scale(1.02);
-            border-color: rgba(99, 102, 241, 0.4);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 20px rgba(99, 102, 241, 0.1);
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: #10b981;
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 10px #10b981;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.4; }
-            100% { opacity: 1; }
-        }
-
-        #app-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.98);
-            backdrop-filter: blur(40px);
-            z-index: 100;
-            display: none;
-            overflow-y: auto;
-        }
-
-        .locker-inner {
-            width: 100%;
-            max-width: 480px;
-            height: 85vh;
-            background: white;
-            border-radius: 35px;
+            border-radius: 24px;
+            position: relative;
             overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.06) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .bento-card:hover::before { opacity: 1; }
+
+        .bento-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        /* Premium Nav */
+        nav {
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            background: rgba(0,0,0,0.7);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #ffffff, #a1a1aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Detail Overlay Custom Scrollbar */
+        #app-overlay::-webkit-scrollbar { width: 6px; }
+        #app-overlay::-webkit-scrollbar-track { background: transparent; }
+        #app-overlay::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+        .app-icon-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        .app-icon-shine::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 4s infinite;
+        }
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
         }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-    <div class="bg-glow" style="top: -10%; left: -10%;"></div>
-    <div class="bg-glow" style="bottom: -10%; right: -10%; background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, rgba(0,0,0,0) 70%);"></div>
+    <div class="mesh-gradient"></div>
 
-    <div class="max-w-6xl mx-auto px-6 py-12 relative">
-        <div class="flex justify-between items-center mb-16 text-xs font-bold tracking-[0.2em] text-gray-500 uppercase">
-            <div class="flex items-center gap-2">
-                <span class="status-dot"></span> SYSTEM ENCRYPTED & SECURE
+    <nav class="fixed top-0 w-full z-[100] px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold tracking-tighter flex items-center gap-2">
+                <div class="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center">N</div>
+                NEXUS <span class="text-indigo-400 font-medium">CORE</span>
             </div>
-            <div>VER. 4.0.26 // 2026</div>
-        </div>
-
-        <header class="text-center mb-24">
-            <h1 class="text-6xl md:text-8xl font-extrabold mb-6 tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-500">
-                Nexus Premium
-            </h1>
-            <p class="text-gray-400 text-xl max-w-2xl mx-auto leading-relaxed">
-                The elite repository for unlocked mobile power. Access professional tools, ad-free environments, and advanced AI models.
-            </p>
-        </header>
-
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-24">
-            <div class="text-center p-6 border-r border-white/5">
-                <div class="text-3xl font-black text-white">124k</div>
-                <div class="text-[10px] text-gray-500 font-bold tracking-widest uppercase mt-1">Daily Users</div>
+            <div class="hidden md:flex gap-8 text-sm font-medium text-gray-400">
+                <a href="#" class="hover:text-white transition-colors">Repository</a>
+                <a href="#" class="hover:text-white transition-colors">Security</a>
+                <a href="#" class="hover:text-white transition-colors">Enterprise</a>
             </div>
-            <div class="text-center p-6 border-r border-white/5">
-                <div class="text-3xl font-black text-indigo-400">99.9%</div>
-                <div class="text-[10px] text-gray-500 font-bold tracking-widest uppercase mt-1">Uptime Rate</div>
-            </div>
-            <div class="text-center p-6 border-r border-white/5">
-                <div class="text-3xl font-black text-white">612</div>
-                <div class="text-[10px] text-gray-500 font-bold tracking-widest uppercase mt-1">Pro Apps</div>
-            </div>
-            <div class="text-center p-6">
-                <div class="text-3xl font-black text-white">Secure</div>
-                <div class="text-[10px] text-gray-500 font-bold tracking-widest uppercase mt-1">SSL Verified</div>
-            </div>
-        </div>
-
-        <div id="grid-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"></div>
-    </div>
-
-    <div id="app-overlay">
-        <div class="max-w-6xl mx-auto px-6 py-16">
-            <button onclick="hideDetails()" class="mb-12 flex items-center gap-3 text-gray-500 hover:text-white font-bold group transition-colors">
-                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-                EXIT TO REPOSITORY
+            <button class="bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-200 transition-all">
+                Sign In
             </button>
-            <div id="overlay-content"></div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="max-w-3xl mb-20">
+                <span class="inline-block px-4 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 text-xs font-bold tracking-widest uppercase mb-6">
+                    Version 2026 Ready
+                </span>
+                <h1 class="text-6xl md:text-8xl font-bold tracking-tighter leading-[0.9] mb-8 gradient-text">
+                    Professional Grade <br>Intelligence Hub.
+                </h1>
+                <p class="text-xl text-gray-400 leading-relaxed max-w-xl">
+                    Experience the next generation of mobile software. Nexus provides ultra-secure, premium-unlocked tools for developers, designers, and creators.
+                </p>
+            </div>
+
+            <div id="grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                </div>
+        </div>
+    </main>
+
+    <div id="app-overlay" class="fixed inset-0 z-[200] bg-black hidden overflow-y-auto">
+        <div class="min-h-screen flex flex-col items-center">
+            <div class="w-full max-w-7xl px-6 py-12 flex justify-between items-center sticky top-0 bg-black/50 backdrop-blur-xl">
+                <button onclick="hideDetails()" class="flex items-center gap-2 text-gray-400 hover:text-white font-semibold transition-all">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 12H5m7 7l-7-7 7-7"/></svg>
+                    Back to Hub
+                </button>
+                <div class="flex gap-4">
+                    <div class="text-right">
+                        <p class="text-xs text-gray-500 font-bold uppercase tracking-widest">Security Status</p>
+                        <p class="text-sm text-green-500 font-bold">Verified Encrypted</p>
+                    </div>
+                </div>
+            </div>
+            <div id="overlay-content" class="w-full max-w-7xl px-6 py-10"></div>
         </div>
     </div>
 
-    <div id="locker-modal" class="fixed inset-0 z-[200] bg-black/90 hidden items-center justify-center p-6" onclick="closeLocker()">
-        <div class="locker-inner" onclick="event.stopPropagation()">
+    <div id="locker-modal" class="fixed inset-0 z-[300] bg-black/95 hidden items-center justify-center p-4 md:p-10" onclick="closeLocker()">
+        <div class="w-full max-w-lg h-[80vh] bg-white rounded-[40px] overflow-hidden shadow-2xl transition-transform" onclick="event.stopPropagation()">
             <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0" class="w-full h-full"></iframe>
         </div>
     </div>
@@ -147,52 +166,40 @@
     <script>
         const appData = [
             { 
-                name: 'CapCut', 
+                name: 'CapCut Pro', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', 
-                desc: 'The definitive video editing suite. Nexus Edition unlocks all 4K templates, AI voice-overs, and removes all export watermarks for professional content creation.', 
-                features: ['Full Template Access', 'AI Smart Cutout', '4K Ultra HD Export', 'No Watermark'], 
+                tagline: 'Cinematic Video Engine',
+                desc: 'The industry standard for mobile post-production. Nexus CapCut unlocks the full creative suite, including AI-driven rotoscoping, 4K Raw export, and ad-free timeline processing.', 
+                features: ['Full Asset Library', 'AI Auto-Reframe', '4K 60FPS Raw', 'No Ad Disruptions'], 
                 rating: '4.9',
-                category: 'Video Design'
+                stats: '1.2B Edits'
             },
             { 
-                name: 'Canva', 
+                name: 'Canva Enterprise', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', 
-                desc: 'Experience Canva Pro without limits. Access the complete Magic Studio AI suite, 100M+ premium assets, and the professional Brand Kit management system.', 
-                features: ['Magic AI Resizer', 'Pro Asset Library', 'Background Eraser', 'Premium Fonts'], 
+                tagline: 'Visual Design Suite',
+                desc: 'Transform your workflow with the complete Magic Studio experience. Nexus provides full access to premium font sets, enterprise brand kits, and infinite cloud storage.', 
+                features: ['Magic Resizer Pro', 'Team Collaboration', '1-Click BG Remove', 'Vector Exports'], 
                 rating: '4.8',
-                category: 'Graphic Design'
+                stats: '200M Active'
             },
             { 
-                name: 'ChatGPT', 
+                name: 'ChatGPT Plus', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', 
-                desc: 'Unleash GPT-4o. This version provides priority access to the worlds most advanced reasoning model, including DALL-E 3 image generation and advanced data analysis.', 
-                features: ['GPT-4o Model', 'DALL-E 3 Enabled', 'Voice Mode Pro', 'Priority Server'], 
+                tagline: 'Neural Intelligence',
+                desc: 'The most advanced reasoning engine on the planet. Nexus GPT provides high-priority access to GPT-4o, DALL-E 3 image generation, and custom GPT environments.', 
+                features: ['Advanced Reasoning', 'DALL-E 3 Native', 'Data Visualization', 'No Rate Limits'], 
                 rating: '4.9',
-                category: 'AI Engine'
+                stats: 'Verified GPT-4o'
             },
             { 
-                name: 'Gemini', 
-                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', 
-                desc: 'Googles multi-modal powerhouse. Seamlessly integrated into the Google ecosystem to manage your documents, emails, and complex research tasks at light speed.', 
-                features: ['Workspace Sync', 'Ultra-Fast Logic', 'Image Recognition', 'Live Research'], 
-                rating: '4.6',
-                category: 'Smart Assistant'
-            },
-            { 
-                name: 'Perplexity', 
-                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', 
-                desc: 'The end of traditional search. Perplexity reads the live internet to give you instant, cited answers with no ads and absolute accuracy.', 
-                features: ['Live Citations', 'Pro Search Mode', 'Claude 3 / GPT-4 Switch', 'Clean UI'], 
-                rating: '4.8',
-                category: 'AI Search'
-            },
-            { 
-                name: 'DeepSeek', 
+                name: 'DeepSeek R1', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', 
-                desc: 'The reasoning model optimized for the technical mind. Superior at solving complex math, generating bug-free code, and analyzing deep logic chains.', 
-                features: ['R1 Reasoning', 'Coding Expert', 'Math Logic Pro', 'Instant Response'], 
+                tagline: 'Logic & Code Specialist',
+                desc: 'A master of mathematical reasoning and code architecture. DeepSeek R1 outperforms traditional models in technical complexity and precision.', 
+                features: ['Code Optimization', 'Complex Logic', 'Math Solve Engine', 'Zero Latency'], 
                 rating: '4.7',
-                category: 'Development'
+                stats: 'Top Dev Choice'
             }
         ];
 
@@ -200,14 +207,31 @@
             const container = document.getElementById('grid-container');
             appData.forEach((app, i) => {
                 container.innerHTML += `
-                    <div class="premium-card p-10 flex flex-col items-center cursor-pointer text-center" onclick="showDetails(${i})">
-                        <img src="${app.logo}" alt="${app.name}" class="w-20 h-20 rounded-2xl mb-6 shadow-xl shadow-black/50">
-                        <h3 class="text-xl font-extrabold tracking-tight">${app.name}</h3>
-                        <div class="mt-3 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-black uppercase tracking-widest text-indigo-400">
-                            ${app.category}
+                    <div class="bento-card p-8 flex flex-col justify-between cursor-pointer group" onclick="showDetails(${i})">
+                        <div>
+                            <div class="w-16 h-16 rounded-2xl mb-6 app-icon-shine">
+                                <img src="${app.logo}" class="w-full h-full object-cover rounded-2xl">
+                            </div>
+                            <h3 class="text-2xl font-bold mb-2 group-hover:text-indigo-400 transition-colors">${app.name}</h3>
+                            <p class="text-gray-500 text-sm font-medium uppercase tracking-widest mb-4">${app.tagline}</p>
+                        </div>
+                        <div class="flex justify-between items-center pt-8 border-t border-white/5">
+                            <span class="text-xs font-bold text-gray-400">${app.stats}</span>
+                            <div class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
+                            </div>
                         </div>
                     </div>
                 `;
+            });
+
+            // Card tracking effect
+            document.querySelectorAll('.bento-card').forEach(card => {
+                card.onmousemove = e => {
+                    const rect = card.getBoundingClientRect();
+                    card.style.setProperty('--x', `${e.clientX - rect.left}px`);
+                    card.style.setProperty('--y', `${e.clientY - rect.top}px`);
+                };
             });
         }
 
@@ -215,52 +239,61 @@
             const app = appData[idx];
             const overlay = document.getElementById('app-overlay');
             document.getElementById('overlay-content').innerHTML = `
-                <div class="grid lg:grid-cols-2 gap-20 items-start">
-                    <div>
-                        <div class="flex items-center gap-8 mb-10">
-                            <img src="${app.logo}" class="w-28 h-28 rounded-[28px] shadow-2xl">
-                            <div>
-                                <h2 class="text-6xl font-black mb-2">${app.name}</h2>
-                                <p class="text-indigo-400 font-bold tracking-widest uppercase text-sm">Nexus Certified Gold</p>
-                            </div>
+                <div class="grid lg:grid-cols-12 gap-16 items-start">
+                    <div class="lg:col-span-7">
+                        <div class="mb-12">
+                            <img src="${app.logo}" class="w-32 h-32 rounded-[40px] shadow-2xl mb-8">
+                            <h2 class="text-6xl md:text-8xl font-black tracking-tighter mb-6">${app.name}</h2>
+                            <p class="text-2xl text-gray-400 leading-relaxed font-light">${app.desc}</p>
                         </div>
-                        <p class="text-2xl text-gray-400 leading-relaxed mb-12 font-light">${app.desc}</p>
-                        <div class="flex flex-col sm:flex-row gap-5">
-                            <button onclick="openLocker()" class="bg-indigo-600 hover:bg-indigo-500 transition-all flex-1 py-6 rounded-2xl font-black text-xl flex items-center justify-center gap-4">
-                                <img src="https://www.vectorlogo.zone/logos/google_play/google_play-icon.svg" class="w-7 h-7"> DOWNLOAD APK
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <button onclick="openLocker()" class="bg-indigo-600 hover:bg-indigo-500 text-white py-6 px-10 rounded-3xl font-bold text-xl flex items-center justify-center gap-4 transition-all">
+                                <img src="https://www.vectorlogo.zone/logos/google_play/google_play-icon.svg" class="w-6 h-6">
+                                Download Pro APK
                             </button>
-                            <button onclick="openLocker()" class="bg-white text-black hover:bg-gray-200 transition-all flex-1 py-6 rounded-2xl font-black text-xl flex items-center justify-center gap-4">
-                                <img src="https://www.vectorlogo.zone/logos/apple/apple-icon.svg" class="w-7 h-7"> GET ON IOS
+                            <button onclick="openLocker()" class="bg-white hover:bg-gray-200 text-black py-6 px-10 rounded-3xl font-bold text-xl flex items-center justify-center gap-4 transition-all">
+                                <img src="https://www.vectorlogo.zone/logos/apple/apple-icon.svg" class="w-6 h-6">
+                                Sideload on iOS
                             </button>
                         </div>
                     </div>
-                    <div class="premium-card p-12">
-                        <h4 class="text-2xl font-bold mb-8 border-b border-white/10 pb-6 uppercase tracking-widest text-gray-500">Premium Unlocks</h4>
-                        <div class="space-y-6">
-                            ${app.features.map(f => `
-                                <div class="flex items-center gap-5">
-                                    <div class="w-6 h-6 rounded-full bg-indigo-500/20 border border-indigo-500 flex items-center justify-center text-indigo-400 text-xs">✓</div>
-                                    <span class="text-xl font-bold text-gray-200">${f}</span>
-                                </div>
-                            `).join('')}
+                    <div class="lg:col-span-5 grid grid-cols-1 gap-4">
+                        <div class="bg-[#111] border border-white/5 p-8 rounded-[32px]">
+                            <h4 class="text-gray-500 font-bold uppercase tracking-widest text-xs mb-8">Exclusive Perks</h4>
+                            <div class="space-y-6">
+                                ${app.features.map(f => `
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-5 h-5 rounded-full bg-green-500/20 border border-green-500/50 flex items-center justify-center text-green-500 text-[10px]">✔</div>
+                                        <span class="text-lg font-semibold">${f}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="bg-[#111] border border-white/5 p-8 rounded-[32px] flex justify-between items-center">
+                            <div>
+                                <p class="text-xs text-gray-500 font-bold uppercase">Performance Rating</p>
+                                <p class="text-2xl font-bold">${app.rating} / 5.0</p>
+                            </div>
+                            <div class="flex gap-1">
+                                ${Array(5).fill().map(() => `<div class="w-2 h-8 bg-indigo-500 rounded-full"></div>`).join('')}
+                            </div>
                         </div>
                     </div>
                 </div>
             `;
             overlay.style.display = 'block';
-            gsap.fromTo(overlay, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.5 });
-            window.scrollTo(0, 0);
+            gsap.fromTo(overlay, { opacity: 0, scale: 1.1 }, { opacity: 1, scale: 1, duration: 0.8, ease: "expo.out" });
         }
 
         function hideDetails() {
-            gsap.to('#app-overlay', { opacity: 0, duration: 0.3, onComplete: () => {
+            gsap.to('#app-overlay', { opacity: 0, scale: 0.9, duration: 0.5, onComplete: () => {
                 document.getElementById('app-overlay').style.display = 'none';
             }});
         }
 
         function openLocker() {
             document.getElementById('locker-modal').style.display = 'flex';
-            gsap.fromTo('.locker-inner', { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5 });
+            gsap.fromTo('#locker-modal div', { scale: 0.9, y: 100 }, { scale: 1, y: 0, duration: 0.6, ease: "expo.out" });
         }
 
         function closeLocker() {
@@ -271,10 +304,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-

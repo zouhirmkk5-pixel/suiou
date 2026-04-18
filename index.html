@@ -32,15 +32,26 @@
         .bento-card {
             background: #0a0a0a;
             border: 2px solid #1a1a1a;
-            border-radius: 40px;
+            border-radius: 44px;
             transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
             position: relative;
         }
 
         .bento-card:hover {
             border-color: var(--accent);
-            transform: translateY(-8px);
             background: #0f0f0f;
+        }
+
+        .download-btn-grid {
+            background: white;
+            color: black;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn-grid:hover {
+            background: var(--accent);
+            color: white;
+            transform: scale(1.05);
         }
 
         .platform-active {
@@ -70,7 +81,7 @@
         <div class="mono text-indigo-500 font-extrabold mb-4 tracking-widest uppercase">Nexus Hub // v6.0</div>
         <h1 class="text-huge mb-10 uppercase">Bold<br>Gen_AI.</h1>
         <p class="max-w-2xl text-xl md:text-2xl font-medium text-gray-500 leading-tight">
-            High-performance repository. <span class="text-white font-bold">Verified Ratings.</span> Built for 2026.
+            High-performance repository. <span class="text-white font-bold">Instant Access.</span> Built for 2026.
         </p>
     </header>
 
@@ -106,18 +117,26 @@
             const grid = document.getElementById('grid');
             appData.forEach((app, i) => {
                 grid.innerHTML += `
-                    <div class="bento-card ${app.col} p-10 cursor-pointer flex flex-col justify-between" onclick="openViewer(${i})">
-                        <div class="flex justify-between items-center mb-12">
+                    <div class="bento-card ${app.col} p-10 cursor-pointer flex flex-col justify-between group" onclick="openViewer(${i})">
+                        <div class="flex justify-between items-start mb-12">
                             <img src="${app.logo}" class="w-12 h-12 invert">
                             <div class="flex flex-col items-end gap-2">
-                                <span class="mono font-black text-[10px] tracking-widest bg-indigo-600 px-3 py-1 rounded-full uppercase">${app.tag}</span>
+                                <span class="mono font-black text-[10px] tracking-widest bg-white/10 px-3 py-1 rounded-full uppercase">${app.tag}</span>
                                 <div class="rating-pill px-3 py-1 rounded-full flex items-center gap-2">
                                     <span class="text-yellow-400 text-xs font-black">★</span>
                                     <span class="mono text-xs font-bold">${app.rating}</span>
                                 </div>
                             </div>
                         </div>
-                        <h3 class="text-5xl md:text-6xl font-extrabold tracking-tighter uppercase leading-none">${app.name}</h3>
+                        
+                        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                            <h3 class="text-5xl md:text-6xl font-extrabold tracking-tighter uppercase leading-none group-hover:text-indigo-500 transition-colors">${app.name}</h3>
+                            
+                            <button onclick="event.stopPropagation(); openLocker();" class="download-btn-grid px-8 py-4 rounded-3xl font-black text-xs mono uppercase tracking-tighter flex items-center justify-center gap-2">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                Get_App
+                            </button>
+                        </div>
                     </div>
                 `;
             });
@@ -202,4 +221,3 @@
     </script>
 </body>
 </html>
-

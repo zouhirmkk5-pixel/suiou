@@ -1,204 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS // 2026 Intelligence Hub</title>
+    <title>NEXUS | مركز الذكاء الاصطناعي</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --accent: #818cf8;
-            --bg: #050505;
+            --accent: #6366f1;
+            --bg-dark: #030303;
+            --card-bg: rgba(18, 18, 18, 0.7);
         }
 
         body {
-            background-color: var(--bg);
-            color: #fafafa;
-            font-family: 'Space Grotesk', sans-serif;
-            letter-spacing: -0.02em;
+            background-color: var(--bg-dark);
+            color: #e2e8f0;
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            overflow-x: hidden;
         }
 
-        .mono { font-family: 'JetBrains Mono', monospace; }
-
-        /* Animated Mesh Gradient Background */
-        .mesh-gradient {
+        /* خلفية ضوئية متحركة */
+        .blob {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            filter: blur(80px);
             z-index: -1;
-            background: 
-                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
-            opacity: 0.6;
+            border-radius: 50%;
+            animation: move 20s infinite alternate;
         }
 
-        .bento-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(12px);
-            border-radius: 24px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        @keyframes move {
+            from { transform: translate(-10%, -10%); }
+            to { transform: translate(100%, 50%); }
+        }
+
+        /* تصميم البطاقات */
+        .glass-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
             overflow: hidden;
         }
 
-        .bento-card::before {
-            content: '';
+        .glass-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(99, 102, 241, 0.1);
+        }
+
+        .glass-card::after {
+            content: "";
             position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.1) 0%, transparent 50%);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.03) 100%);
+            pointer-events: none;
+        }
+
+        .btn-premium {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-premium:hover {
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* أنيميشن الظهور */
+        .reveal {
             opacity: 0;
-            transition: opacity 0.3s;
+            transform: translateY(30px);
+            animation: revealIn 0.8s forwards;
         }
 
-        .bento-card:hover::before { opacity: 1; }
-
-        .bento-card:hover {
-            border-color: var(--accent);
-            transform: scale(1.02);
-            box-shadow: 0 0 30px rgba(99, 102, 241, 0.1);
-        }
-
-        .category-pill {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 4px 12px;
-            border-radius: 100px;
-            font-size: 10px;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-
-        #overlay {
-            clip-path: circle(0% at 50% 50%);
-            transition: clip-path 0.6s ease-in-out;
-        }
-
-        #overlay.active {
-            clip-path: circle(150% at 50% 50%);
+        @keyframes revealIn {
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-<body class="p-4 md:p-8">
-    <div class="mesh-gradient"></div>
+<body class="antialiased">
 
-    <nav class="max-w-7xl mx-auto flex justify-between items-center mb-20 px-4">
-        <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                <div class="w-4 h-4 bg-black rounded-sm rotate-45"></div>
+    <div class="blob"></div>
+
+    <nav class="fixed top-0 w-full z-50 backdrop-blur-md border-b border-white/5 bg-black/20 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/50">
+                    <span class="font-bold text-white tracking-widest">N</span>
+                </div>
+                <span class="text-xl font-bold tracking-tight">NEXUS <span class="text-indigo-500 text-sm">HUB</span></span>
             </div>
-            <span class="font-bold text-xl tracking-tight">NEXUS.</span>
-        </div>
-        <div class="mono text-[10px] opacity-50 border border-white/20 px-3 py-1 rounded-full">
-            SYSTEM_STATUS: OPTIMIZED
+            <div class="hidden md:flex gap-8 text-sm font-medium text-gray-400">
+                <a href="#" class="hover:text-white transition-colors">الرئيسية</a>
+                <a href="#" class="hover:text-white transition-colors">الأدوات</a>
+                <a href="#" class="hover:text-white transition-colors">التوثيق</a>
+            </div>
         </div>
     </nav>
 
-    <header class="max-w-7xl mx-auto mb-16 px-4">
-        <h1 class="text-5xl md:text-8xl font-bold mb-6 tracking-tight">
-            The <span class="text-indigo-400 italic">Future</span> <br>Stored Locally.
-        </h1>
-        <p class="max-w-xl text-gray-400 text-lg mono">
-            // Accessing high-performance neural engines and creative toolkits for the 2026 architecture.
-        </p>
-    </header>
+    <main class="pt-40 pb-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <header class="text-center mb-20 reveal">
+                <h1 class="text-5xl md:text-8xl font-black mb-6 tracking-tighter bg-gradient-to-b from-white to-gray-500 bg-clip-text text-transparent">
+                    نظام الذكاء <br> المتطور 2026
+                </h1>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
+                    بوابة الوصول الحصرية لأقوى محركات الذكاء الاصطناعي والأدوات الإبداعية في بيئة عمل متكاملة.
+                </p>
+            </header>
 
-    <div id="nexus-grid" class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div id="nexus-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                </div>
         </div>
+    </main>
 
-    <div id="overlay" class="fixed inset-0 z-[1000] bg-black hidden flex-col p-8 overflow-y-auto">
-        <button onclick="closeDetails()" class="mono text-xs mb-12 hover:text-indigo-400 flex items-center gap-2">
-            [ ESC ] RETURN_TO_CORE
-        </button>
-        <div id="overlay-content" class="max-w-5xl mx-auto w-full"></div>
+    <div id="app-overlay" class="fixed inset-0 z-[100] bg-black/95 hidden backdrop-blur-2xl p-6 overflow-y-auto">
+        <div class="max-w-5xl mx-auto pt-20">
+            <button onclick="hideDetails()" class="mb-12 text-gray-500 hover:text-white flex items-center gap-2 font-bold transition-all">
+                <span>← العودة للمستودع</span>
+            </button>
+            <div id="overlay-content"></div>
+        </div>
     </div>
 
-    <div id="locker-modal" class="fixed inset-0 z-[2000] bg-black/95 hidden items-center justify-center p-4">
-        <div class="w-full max-w-lg aspect-[3/4] bg-white rounded-3xl overflow-hidden shadow-2xl relative">
-            <button onclick="closeLocker()" class="absolute top-4 right-4 text-black bg-gray-100 w-10 h-10 rounded-full font-bold">X</button>
+    <div id="locker-modal" class="fixed inset-0 z-[200] bg-black/90 hidden items-center justify-center p-4" onclick="closeLocker()">
+        <div class="w-full max-w-lg h-[80vh] bg-white rounded-[40px] overflow-hidden shadow-2xl relative" onclick="event.stopPropagation()">
+             <button onclick="closeLocker()" class="absolute top-4 right-4 bg-black/10 hover:bg-black/20 w-10 h-10 rounded-full flex items-center justify-center text-black font-bold">✕</button>
             <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0" class="w-full h-full"></iframe>
         </div>
     </div>
 
     <script>
-        const appData = [
-            { name: 'DeepSeek R1', tag: 'AI Logic', span: 'md:col-span-2 md:row-span-2', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', desc: 'V3.2 Reasoning engine for architectural code logic and math.', features: ['DeepThink V3', 'Coder-V2', 'Local Context'] },
-            { name: 'Midjourney', tag: 'Visuals', span: 'md:col-span-2', logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png', desc: 'Hyper-realistic visual generation.', features: ['V6.1 Engine', 'Stealth Mode'] },
-            { name: 'Claude 3.5', tag: 'Reasoning', span: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', desc: 'Technical project analysis flagship.', features: ['200k Context', 'Artifacts'] },
-            { name: 'ChatGPT+', tag: 'Suite', span: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', desc: 'GPT-4o Multi-modal access.', features: ['DALL-E 3', 'Voice Pro'] },
-            { name: 'CapCut Pro', tag: 'Creative', span: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', desc: '4K Smart VFX editing.', features: ['No Watermark', 'AI VFX'] },
-            { name: 'Perplexity', tag: 'Research', span: 'md:col-span-2', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', desc: 'Real-time research with citations.', features: ['Model Switcher', 'Live Sources'] },
-            { name: 'Gemini Ultra', tag: 'Productivity', span: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', desc: 'Workspace ecosystem powerhouse.', features: ['Ultra Logic', 'Sync'] }
+        const apps = [
+            { name: 'DeepSeek R1', tag: 'منطق عالي', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', category: 'AI Reasoning', desc: 'أقوى موديل مفتوح المصدر لعام 2026 متخصص في البرمجة والرياضيات المعقدة.' },
+            { name: 'Midjourney', tag: 'فن توليدي', icon: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png', category: 'Visual AI', desc: 'توليد صور سينمائية بدقة فائقة مع محرك v6.1 المتطور.' },
+            { name: 'Claude 3.5', tag: 'تحليل فني', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', category: 'Intelligence', desc: 'المساعد الأكثر ذكاءً في كتابة الأكواد وتحليل البيانات الضخمة.' },
+            { name: 'ChatGPT Plus', tag: 'عام', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', category: 'Universal', desc: 'الوصول الكامل لـ GPT-4o و DALL-E 3 مع ميزات الصوت المتقدمة.' },
+            { name: 'CapCut Pro', tag: 'مونتاج', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', category: 'Creative', desc: 'تعديل الفيديو باحترافية مع فلاتر الذكاء الاصطناعي وبدون علامة مائية.' },
+            { name: 'Perplexity', tag: 'بحث ذكي', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', category: 'Research', desc: 'محرك بحث لحظي يعطيك الإجابات مع المصادر الموثوقة فوراً.' },
+            { name: 'Gemini Ultra', tag: 'إنتاجية', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', category: 'Google AI', desc: 'دمج كامل مع خدمات جوجل السحابية لتحقيق أقصى درجات الإنتاجية.' },
+            { name: 'Canva Pro', tag: 'تصميم', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', category: 'Design', desc: 'كل ميزات التصميم السحري والملايين من العناصر المدفوعة مجاناً.' }
         ];
 
         function init() {
             const grid = document.getElementById('nexus-grid');
-            appData.forEach((app, i) => {
+            apps.forEach((app, idx) => {
                 grid.innerHTML += `
-                    <div class="bento-card ${app.span} p-8 cursor-pointer flex flex-col justify-between group" 
-                         onclick="openDetails(${i})"
-                         onmousemove="handleHover(event, this)">
-                        <div class="flex justify-between items-start">
-                            <div class="w-12 h-12 bg-white/5 rounded-xl p-2 border border-white/10">
-                                <img src="${app.logo}" class="w-full h-full object-contain">
+                    <div class="glass-card p-8 cursor-pointer reveal group" style="animation-delay: ${idx * 0.1}s" onclick="showDetails(${idx})">
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center p-2 border border-white/10 group-hover:border-indigo-500/50 transition-colors">
+                                <img src="${app.icon}" class="w-full h-full object-contain" alt="${app.name}">
                             </div>
-                            <span class="category-pill mono">${app.tag}</span>
+                            <span class="text-[10px] font-bold py-1 px-3 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 uppercase tracking-widest">${app.tag}</span>
                         </div>
-                        <div class="mt-12">
-                            <h3 class="text-2xl font-bold group-hover:text-indigo-400 transition-colors">${app.name}</h3>
-                            <p class="text-sm text-gray-500 mt-2 line-clamp-2 mono">${app.desc}</p>
+                        <h3 class="text-2xl font-bold mb-2 group-hover:text-indigo-400 transition-colors">${app.name}</h3>
+                        <p class="text-sm text-gray-500 mb-6 line-clamp-2">${app.desc}</p>
+                        <div class="flex items-center gap-2 text-[10px] font-black text-gray-600 uppercase">
+                            <div class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                            Verified v5.4
                         </div>
                     </div>
                 `;
             });
         }
 
-        function handleHover(e, el) {
-            const rect = el.getBoundingClientRect();
-            const x = ((e.clientX - rect.left) / el.clientWidth) * 100;
-            const y = ((e.clientY - rect.top) / el.clientHeight) * 100;
-            el.style.setProperty('--x', `${x}%`);
-            el.style.setProperty('--y', `${y}%`);
-        }
-
-        function openDetails(idx) {
-            const app = appData[idx];
-            const overlay = document.getElementById('overlay');
+        function showDetails(idx) {
+            const app = apps[idx];
             const content = document.getElementById('overlay-content');
-            
             content.innerHTML = `
-                <div class="grid md:grid-cols-2 gap-16">
-                    <div>
-                        <span class="text-indigo-400 mono text-sm mb-4 block underline">APP_ID: 00${idx + 1}</span>
-                        <h2 class="text-6xl md:text-8xl font-bold mb-8 tracking-tighter">${app.name}</h2>
-                        <p class="text-xl text-gray-400 mb-12 mono leading-relaxed">${app.desc}</p>
-                        <div class="flex flex-wrap gap-4">
-                            <button onclick="openLocker()" class="px-8 py-4 bg-indigo-600 rounded-full font-bold hover:bg-indigo-500 transition-all">DEPLOY ACCESS</button>
-                            <button onclick="openLocker()" class="px-8 py-4 border border-white/20 rounded-full font-bold hover:bg-white hover:text-black transition-all">PROVISION IOS</button>
+                <div class="grid lg:grid-cols-2 gap-20 items-center">
+                    <div class="reveal">
+                        <div class="w-24 h-24 rounded-3xl bg-white/10 p-4 border border-white/20 mb-8 shadow-2xl">
+                            <img src="${app.icon}" class="w-full h-full object-contain">
+                        </div>
+                        <h2 class="text-6xl font-black mb-6 tracking-tight">${app.name}</h2>
+                        <p class="text-2xl text-gray-400 font-light mb-10 leading-relaxed">${app.desc}</p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button onclick="openLocker()" class="btn-premium px-10 py-5 rounded-2xl font-bold text-lg">تثبيت الآن</button>
+                            <button onclick="openLocker()" class="bg-white/5 hover:bg-white/10 border border-white/10 px-10 py-5 rounded-2xl font-bold text-lg transition-all">تجربة سحابية</button>
                         </div>
                     </div>
-                    <div class="space-y-4">
-                        <p class="mono text-xs opacity-30 mb-8 uppercase tracking-widest">Core Capabilities</p>
-                        ${app.features.map(f => `
-                            <div class="p-6 bg-white/5 border border-white/10 rounded-2xl flex justify-between items-center group hover:bg-white/10 transition-colors">
-                                <span class="mono text-lg">${f}</span>
-                                <span class="text-indigo-500">→</span>
-                            </div>
-                        `).join('')}
+                    <div class="bg-white/5 border border-white/10 rounded-[40px] p-10 reveal" style="animation-delay: 0.2s">
+                        <h4 class="text-indigo-400 font-bold mb-8 flex items-center gap-2">
+                            <span>✦</span> ميزات إصدار Pro 2026
+                        </h4>
+                        <ul class="space-y-6">
+                            ${['تجاوز حدود الاستخدام اليومي', 'دقة معالجة فائقة السرعة', 'دعم فني مخصص للأعمال', 'تشفير كامل للبيانات'].map(feat => `
+                                <li class="flex items-center gap-4 text-lg text-gray-300">
+                                    <span class="w-6 h-6 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 text-xs">✓</span>
+                                    ${feat}
+                                </li>
+                            `).join('')}
+                        </ul>
                     </div>
                 </div>
             `;
-            overlay.classList.remove('hidden');
-            setTimeout(() => overlay.classList.add('active'), 10);
+            document.getElementById('app-overlay').style.display = 'block';
+            window.scrollTo(0,0);
         }
 
-        function closeDetails() {
-            const overlay = document.getElementById('overlay');
-            overlay.classList.remove('active');
-            setTimeout(() => overlay.classList.add('hidden'), 600);
-        }
-
+        function hideDetails() { document.getElementById('app-overlay').style.display = 'none'; }
         function openLocker() { document.getElementById('locker-modal').style.display = 'flex'; }
         function closeLocker() { document.getElementById('locker-modal').style.display = 'none'; }
 
@@ -206,5 +215,6 @@
     </script>
 </body>
 </html>
+
 
 

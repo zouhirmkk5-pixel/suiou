@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus | Intelligence Hub</title>
+    <title>Nexus | The Architecture of Vision</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -21,16 +21,14 @@
             color: #ffffff;
             font-family: 'Plus Jakarta Sans', sans-serif;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Luxury Background Glow */
         .ambient-light {
             position: fixed;
-            width: 70vw;
-            height: 70vw;
+            width: 70vw; height: 70vw;
             background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, rgba(0,0,0,0) 70%);
-            z-index: -1;
-            filter: blur(100px);
+            z-index: -1; filter: blur(100px);
         }
 
         .hero-gradient {
@@ -44,6 +42,7 @@
             border: 1px solid var(--border);
             border-radius: 28px;
             transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+            perspective: 1000px;
         }
 
         .nexus-card:hover {
@@ -52,26 +51,20 @@
             box-shadow: 0 30px 60px rgba(0,0,0,0.6);
         }
 
-        /* Professional App Icon Container */
         .icon-container {
-            width: 64px;
-            height: 64px;
+            width: 64px; height: 64px;
             border-radius: 18px;
             background: #121214;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.05);
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
         #app-overlay {
-            position: fixed;
-            inset: 0;
+            position: fixed; inset: 0;
             background: #000;
-            z-index: 100;
-            display: none;
+            z-index: 100; display: none;
             overflow-y: auto;
         }
 
@@ -80,10 +73,12 @@
             transition: all 0.3s ease;
         }
 
-        .btn-main:hover {
-            filter: brightness(1.2);
-            transform: scale(1.02);
-        }
+        .btn-main:hover { filter: brightness(1.2); transform: scale(1.02); }
+        
+        /* Custom scrollbar for high-end feel */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
     </style>
 </head>
 <body class="antialiased">
@@ -96,8 +91,8 @@
                 <div class="w-9 h-9 bg-indigo-600 rounded-lg flex items-center justify-center text-sm">N</div>
                 NEXUS
             </div>
-            <div class="px-4 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/5 text-indigo-400 text-[10px] font-black tracking-widest uppercase">
-                2026 Professional Core
+            <div class="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-gray-400 text-[10px] font-black tracking-widest uppercase">
+                <span class="text-indigo-400">ACTIVE SESSION:</span> SECURE_04.26
             </div>
         </div>
     </nav>
@@ -106,10 +101,10 @@
         <div class="max-w-7xl mx-auto">
             <header class="mb-24">
                 <h1 class="text-7xl md:text-9xl font-extrabold hero-gradient tracking-tighter leading-[0.9] mb-8">
-                    Architecture <br>of Power.
+                    Creative <br>Intelligence.
                 </h1>
                 <p class="text-2xl text-gray-500 font-light max-w-2xl leading-relaxed">
-                    The repository for high-performance AI and Creative tools. Enterprise-grade, verified, and ad-free.
+                    The 2026 repository for high-performance generative tools. Enterprise-verified and ready for deployment.
                 </p>
             </header>
 
@@ -121,7 +116,7 @@
         <div class="max-w-7xl mx-auto px-8 py-20">
             <button onclick="hideDetails()" class="mb-16 flex items-center gap-4 text-gray-500 hover:text-white font-bold transition-all">
                 <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-                EXIT REPOSITORY
+                EXIT PROTOCOL
             </button>
             <div id="overlay-content"></div>
         </div>
@@ -136,64 +131,63 @@
     <script>
         const appData = [
             { 
+                name: 'Midjourney AI', 
+                logo: 'https://cdn.worldvectorlogo.com/logos/midjourney.svg', 
+                tag: 'Generative Art',
+                desc: 'The gold standard for high-fidelity image generation. This build provides direct API access to v6.1 reasoning, including hyper-realistic textures and stylistic consistency controls.',
+                features: ['V6.1 Ultra Mode', 'Fast GPU Hours', 'Private Stealth Mode', 'High-Res Upscaling'],
+                category: 'Visual AI'
+            },
+            { 
+                name: 'Runway ML Gen-3', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/runway-ml-icon.png', 
+                tag: 'Generative Video',
+                desc: 'Next-generation cinematic video. Transform text or images into high-fidelity video clips with total camera control and temporal consistency.',
+                features: ['Gen-3 Alpha Access', 'Motion Brush Pro', 'Multi-Motion Control', 'No Watermarks'],
+                category: 'Video Gen'
+            },
+            { 
                 name: 'Claude 3.5 Sonnet', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', 
-                tag: 'Reasoning Engine',
-                desc: 'Anthropic’s most advanced reasoning model. Optimized for code generation, document analysis, and human-nuance research.',
-                features: ['Artifacts UI', '200k Context', 'Code Specialist', 'Verified Account'],
+                tag: 'Deep Reasoning',
+                desc: 'Anthropic’s technical masterpiece. Specialized in high-context coding and human-nuance research without the fluff.',
+                features: ['Artifacts UI', '200k Context', 'Code Analysis Pro', 'No Usage Caps'],
                 category: 'AI Logic'
             },
             { 
                 name: 'Alight Motion', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/alight-motion-icon.png', 
                 tag: 'Motion Design',
-                desc: 'Professional-grade animation on mobile. Create complex graphics, composite layers, and cinematic visual effects.',
-                features: ['No Watermark', 'Premium Visual FX', 'Vector Editing', 'Full Sharing'],
+                desc: 'Pro-grade animation. This build unlocks the full graphics engine including all premium filters, sharing tools, and ad-free exporting.',
+                features: ['Keyframe Master', 'Vector Support', 'Premium Visual FX', 'Full Asset Store'],
                 category: 'Animation'
             },
             { 
                 name: 'ChatGPT Plus', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', 
-                tag: 'Neural Hub',
-                desc: 'Access the world’s most popular intelligence engine. High-priority access to GPT-4o and DALL-E 3 visual generation.',
-                features: ['GPT-4o Access', 'DALL-E 3 Native', 'Data Analysis', 'Voice Mode Pro'],
-                category: 'AI Intelligence'
+                tag: 'Neural Intelligence',
+                desc: 'The definitive AI hub. High-priority access to GPT-4o, DALL-E 3, and advanced voice reasoning protocols.',
+                features: ['GPT-4o Native', 'DALL-E 3 Integrated', 'Voice Mode Pro', 'No Rate Limits'],
+                category: 'AI Suite'
             },
             { 
                 name: 'CapCut Pro', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', 
                 tag: 'Video Production',
-                desc: 'The industry standard for social video. Unlock all 4K templates, AI smart tools, and high-bitrate exports.',
-                features: ['4K Raw Export', 'AI Templates', 'No Watermark', 'Premium VFX'],
+                desc: 'Social media dominance. Unlock all 4K raw templates, AI-driven smart tools, and high-bitrate ad-free exports.',
+                features: ['4K Raw Exports', 'AI Auto-VFX', 'Full Template Access', 'No Watermarks'],
                 category: 'Creative'
             },
             { 
                 name: 'Perplexity Pro', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', 
                 tag: 'Search Evolution',
-                desc: 'Experience ad-free, cited search. Real-time answers with source links for professional research and verification.',
-                features: ['Live Web Search', 'Cited Sources', 'Pro Search Mode', 'Model Switching'],
+                desc: 'Real-time answers with source citations. Experience ad-free research with the ability to switch between top LLMs.',
+                features: ['Live Web Search', 'Cited Sources', 'Model Switcher', 'Pro Search Mode'],
                 category: 'Knowledge'
-            },
-            { 
-                name: 'Gemini Ultra', 
-                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', 
-                tag: 'Multi-Modal',
-                desc: 'Google’s powerhouse AI. Seamlessly connects with your Workspace apps like Drive, Docs, and Gmail for maximum speed.',
-                features: ['Google Workspace Sync', 'Ultra Intelligence', 'Live Research', 'App Extensions'],
-                category: 'AI Suite'
-            },
-            { 
-                name: 'Canva Pro', 
-                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', 
-                tag: 'Visual Assets',
-                desc: 'The complete creative suite for non-designers and pros alike. Full access to Magic Studio and enterprise brand assets.',
-                features: ['Magic Resizer', 'Background Remover', '100M+ Assets', 'Pro Font Access'],
-                category: 'Design'
             }
         ];
 
-        // Ensure icons load correctly or provide a branded fallback
         function imgFallback(img, name) {
             img.onerror = null;
             img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1e1e20&color=6366f1&size=256&bold=true`;
@@ -227,23 +221,23 @@
             const overlay = document.getElementById('app-overlay');
             document.getElementById('overlay-content').innerHTML = `
                 <div class="grid lg:grid-cols-2 gap-24 items-start">
-                    <div>
+                    <div class="animate-in fade-in duration-700">
                         <div class="w-32 h-32 rounded-[32px] mb-12 shadow-2xl overflow-hidden border border-white/10 bg-white/5">
                             <img src="${app.logo}" class="w-full h-full object-cover p-4" onerror="imgFallback(this, '${app.name}')">
                         </div>
                         <h2 class="text-7xl md:text-8xl font-black tracking-tighter mb-8 leading-none">${app.name}</h2>
                         <p class="text-2xl text-gray-400 font-light leading-relaxed mb-12">${app.desc}</p>
                         <div class="flex flex-col sm:flex-row gap-6">
-                            <button onclick="openLocker()" class="btn-main px-12 py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-4 text-white">
+                            <button onclick="openLocker()" class="btn-main px-12 py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-4 text-white shadow-xl shadow-indigo-500/20">
                                 DOWNLOAD APK
                             </button>
                             <button onclick="openLocker()" class="bg-white text-black px-12 py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-4 hover:bg-gray-200 transition-all">
-                                INSTALL ON IOS
+                                DEPLOY ON IOS
                             </button>
                         </div>
                     </div>
-                    <div class="bg-[#0e0e11] border border-white/5 p-12 rounded-[40px]">
-                        <h4 class="text-xs font-black tracking-[0.3em] text-gray-500 uppercase mb-10">Nexus Verified Access</h4>
+                    <div class="bg-[#0e0e11] border border-white/5 p-12 rounded-[40px] shadow-2xl">
+                        <h4 class="text-xs font-black tracking-[0.3em] text-gray-500 uppercase mb-10">Nexus Verified Perks</h4>
                         <div class="space-y-8">
                             ${app.features.map(f => `
                                 <div class="flex items-center gap-6">
@@ -267,4 +261,5 @@
     </script>
 </body>
 </html>
+
 

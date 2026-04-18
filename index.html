@@ -3,121 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS // Neural Repository 2026</title>
+    <title>NEXUS // Enterprise Repository</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg: #09090b;
+            --bg: #020617; /* Deep Midnight */
+            --card: rgba(15, 23, 42, 0.6);
+            --border: rgba(148, 163, 184, 0.1);
             --accent: #6366f1;
-            --zinc-800: #27272a;
         }
 
         body {
             background-color: var(--bg);
-            color: #fafafa;
+            color: #f1f5f9;
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
         }
 
         .mono { font-family: 'JetBrains Mono', monospace; }
 
-        /* Subtle mesh for depth */
-        .bg-mesh {
+        /* Elegant background gradient */
+        .bg-glow {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: 
-                radial-gradient(circle at 50% -20%, rgba(99, 102, 241, 0.15), transparent 80%),
-                radial-gradient(circle at 0% 100%, rgba(39, 39, 42, 0.2), transparent 50%);
+                radial-gradient(circle at 50% -10%, rgba(99, 102, 241, 0.15), transparent 60%),
+                radial-gradient(circle at 0% 100%, rgba(15, 23, 42, 0.3), transparent 40%);
             z-index: -1;
         }
 
         .bento-card {
-            background: rgba(24, 24, 27, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border-radius: 16px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--card);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .bento-card:hover {
             border-color: rgba(99, 102, 241, 0.4);
-            background: rgba(24, 24, 27, 0.8);
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
+            transform: translateY(-5px);
+            background: rgba(30, 41, 59, 0.7);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
         }
+
+        /* Professional scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
         #app-viewer {
-            background: rgba(9, 9, 11, 0.98);
-            backdrop-filter: blur(30px);
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.5s ease;
-        }
-
-        #app-viewer.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .platform-btn {
-            transition: all 0.2s ease;
+            background: rgba(2, 6, 23, 0.98);
+            backdrop-filter: blur(40px);
+            transition: opacity 0.4s ease;
         }
 
         .platform-btn.active {
-            background: #27272a;
-            color: white;
-            border-color: #3f3f46;
+            background: white;
+            color: black;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
 <body class="selection:bg-indigo-500/30">
-    <div class="bg-mesh"></div>
+    <div class="bg-glow"></div>
 
-    <nav class="max-w-7xl mx-auto px-6 py-10 flex justify-between items-center">
-        <div class="flex items-center gap-4">
-            <div class="w-8 h-8 bg-white text-black flex items-center justify-center rounded-lg font-black text-sm italic">N</div>
-            <span class="text-sm font-semibold tracking-[0.2em] uppercase opacity-90">Nexus Hub</span>
+    <nav class="max-w-7xl mx-auto px-6 py-12 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 bg-indigo-600 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-900/20">N</div>
+            <span class="text-sm font-semibold tracking-widest uppercase">Nexus Hub</span>
         </div>
-        <div class="flex items-center gap-6">
-            <div class="hidden md:flex gap-4 mono text-[10px] uppercase tracking-widest opacity-40">
-                <span>Secure_Terminal</span>
-                <span>Node_04</span>
+        <div class="flex items-center gap-8">
+            <div class="hidden md:flex gap-6 mono text-[10px] uppercase tracking-[0.3em] opacity-40">
+                <span>System_Online</span>
+                <span>Node_Global</span>
             </div>
-            <div class="h-4 w-[1px] bg-zinc-800"></div>
-            <span class="mono text-[10px] text-indigo-400">v6.4.0_Stable</span>
+            <div class="px-4 py-1.5 border border-slate-800 rounded-full mono text-[10px] text-slate-400">
+                AUTH_SECURE: 256-BIT
+            </div>
         </div>
     </nav>
 
-    <header class="max-w-7xl mx-auto px-6 pt-12 pb-24">
-        <h1 class="text-5xl md:text-7xl font-semibold tracking-tight leading-tight mb-6">
-            Intelligent <span class="text-zinc-500">Infrastructure.</span>
+    <header class="max-w-7xl mx-auto px-6 mb-24">
+        <h1 class="text-5xl md:text-8xl font-medium tracking-tight leading-[1.1] mb-8">
+            The future of <br><span class="text-slate-500 italic">intelligence.</span>
         </h1>
-        <p class="max-w-2xl text-zinc-400 text-lg leading-relaxed">
-            Access the high-performance generative suite. Verified neural nodes for 2026 enterprise deployment.
+        <p class="max-w-xl text-slate-400 text-lg leading-relaxed font-light">
+            Securely access and deploy 2026's most advanced neural frameworks and creative engines through our encrypted repository.
         </p>
     </header>
 
-    <main id="grid" class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-4 mb-20"></main>
+    <main id="grid" class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-5 mb-20"></main>
 
-    <div id="app-viewer" class="fixed inset-0 z-[100] hidden flex-col p-6 md:p-20 overflow-y-auto">
+    <div id="app-viewer" class="fixed inset-0 z-[100] hidden flex-col p-6 md:p-24 overflow-y-auto">
         <div class="max-w-6xl mx-auto w-full">
-            <button onclick="closeViewer()" class="mb-16 flex items-center gap-2 text-zinc-500 hover:text-white transition-colors mono text-[10px] uppercase tracking-widest">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5m7-7l-7 7 7 7"/></svg>
-                Back to Grid
+            <button onclick="closeViewer()" class="mb-16 flex items-center gap-3 text-slate-500 hover:text-white transition-colors mono text-[11px] uppercase tracking-widest group">
+                <span class="transition-transform group-hover:-translate-x-1">←</span> Back to Repository
             </button>
             <div id="viewer-content"></div>
         </div>
     </div>
 
-    <div id="locker-modal" class="fixed inset-0 z-[200] bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
-        <div class="w-full max-w-lg bg-[#121214] rounded-2xl overflow-hidden border border-zinc-800 shadow-2xl relative">
-            <div class="p-4 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50">
-                <span class="mono text-[10px] uppercase tracking-widest text-zinc-500">Security Verification</span>
-                <button onclick="closeLocker()" class="text-zinc-500 hover:text-white transition-colors">✕</button>
+    <div id="locker-modal" class="fixed inset-0 z-[200] bg-slate-950/90 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="w-full max-w-lg bg-slate-900 rounded-3xl overflow-hidden border border-slate-800 shadow-2xl relative">
+            <div class="p-5 border-b border-slate-800 flex justify-between items-center">
+                <span class="mono text-[10px] uppercase tracking-widest text-indigo-400">Safety Check Required</span>
+                <button onclick="closeLocker()" class="text-slate-500 hover:text-white transition-colors">✕</button>
             </div>
-            <div class="aspect-[4/5] w-full bg-black">
+            <div class="aspect-[4/5] bg-black">
                 <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0" class="w-full h-full"></iframe>
             </div>
         </div>
@@ -141,23 +137,23 @@
             const grid = document.getElementById('grid');
             appData.forEach((app, i) => {
                 grid.innerHTML += `
-                    <div class="bento-card ${app.size} p-6 flex flex-col justify-between group cursor-pointer" onclick="openViewer(${i})">
+                    <div class="bento-card ${app.size} p-7 flex flex-col justify-between group cursor-pointer" onclick="openViewer(${i})">
                         <div>
-                            <div class="flex justify-between items-start mb-10">
-                                <div class="w-12 h-12 bg-zinc-900 rounded-xl p-2.5 border border-zinc-800 group-hover:border-zinc-700 transition-colors">
+                            <div class="flex justify-between items-start mb-12">
+                                <div class="w-12 h-12 bg-slate-900/50 rounded-xl p-2.5 border border-slate-800 transition-colors group-hover:border-indigo-500/30">
                                     <img src="${app.logo}" class="w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500">
                                 </div>
-                                <span class="mono text-[9px] font-medium text-zinc-500 border border-zinc-800 px-2 py-0.5 rounded uppercase tracking-widest">${app.tag}</span>
+                                <span class="mono text-[9px] font-semibold text-slate-500 border border-slate-800 px-2.5 py-1 rounded-md uppercase tracking-[0.2em] group-hover:text-indigo-400 group-hover:border-indigo-500/20 transition-colors">${app.tag}</span>
                             </div>
-                            <h3 class="text-xl font-medium mb-2 tracking-tight">${app.name}</h3>
-                            <p class="text-sm text-zinc-500 leading-relaxed line-clamp-3">${app.desc}</p>
+                            <h3 class="text-xl font-medium mb-3 tracking-tight group-hover:text-indigo-100 transition-colors">${app.name}</h3>
+                            <p class="text-sm text-slate-500 leading-relaxed font-light line-clamp-3">${app.desc}</p>
                         </div>
-                        <div class="mt-8 pt-6 border-t border-zinc-800/50 flex justify-between items-center">
-                            <button onclick="event.stopPropagation(); openLocker();" class="text-[10px] mono uppercase tracking-widest bg-zinc-100 text-zinc-900 px-4 py-2 rounded-lg font-bold hover:bg-white transition-colors">
+                        <div class="mt-8 pt-6 border-t border-slate-800/50 flex justify-between items-center">
+                            <button onclick="event.stopPropagation(); openLocker();" class="text-[10px] mono uppercase tracking-widest bg-slate-100 text-slate-950 px-5 py-2.5 rounded-lg font-bold hover:bg-white transition-all active:scale-95">
                                 Deploy Node
                             </button>
-                            <div class="w-8 h-8 rounded-full border border-zinc-800 flex items-center justify-center group-hover:bg-zinc-800 transition-colors">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+                            <div class="w-9 h-9 rounded-full border border-slate-800 flex items-center justify-center text-slate-600 group-hover:bg-slate-800 group-hover:text-white transition-all">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
                             </div>
                         </div>
                     </div>
@@ -169,42 +165,42 @@
             const app = appData[idx];
             const viewer = document.getElementById('app-viewer');
             viewer.classList.remove('hidden');
-            setTimeout(() => viewer.classList.add('active'), 10);
+            viewer.style.opacity = "1";
 
             document.getElementById('viewer-content').innerHTML = `
-                <div class="grid lg:grid-cols-5 gap-16 items-start">
-                    <div class="lg:col-span-3 space-y-8">
-                        <div class="flex items-center gap-6">
-                            <div class="w-20 h-20 bg-zinc-900 border border-zinc-800 rounded-3xl p-4">
+                <div class="grid lg:grid-cols-5 gap-20 items-start">
+                    <div class="lg:col-span-3 space-y-12">
+                        <div class="flex items-center gap-8">
+                            <div class="w-24 h-24 bg-slate-900 border border-slate-800 rounded-[2rem] p-5 shadow-2xl shadow-indigo-500/5">
                                 <img src="${app.logo}" class="w-full h-full object-contain">
                             </div>
                             <div>
-                                <h2 class="text-5xl font-semibold tracking-tight">${app.name}</h2>
-                                <p class="text-indigo-400 mono text-xs mt-2 uppercase tracking-[0.2em]">${app.tag} Node</p>
+                                <h2 class="text-6xl font-medium tracking-tight">${app.name}</h2>
+                                <p class="text-indigo-400 mono text-xs mt-3 uppercase tracking-[0.3em]">Module Verified // 2026 Stable</p>
                             </div>
                         </div>
                         
-                        <p class="text-xl text-zinc-400 leading-relaxed max-w-2xl">${app.desc}</p>
+                        <p class="text-2xl text-slate-400 leading-relaxed font-light max-w-2xl">${app.desc}</p>
 
-                        <div class="flex flex-wrap gap-4 pt-4">
-                            <button onclick="openLocker()" class="px-10 py-5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-semibold transition-all flex items-center gap-3">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14m7-7l-7 7-7-7"/></svg>
-                                Deploy Framework
+                        <div class="flex flex-wrap gap-5 pt-6">
+                            <button onclick="openLocker()" class="px-12 py-5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-semibold transition-all flex items-center gap-3 shadow-xl shadow-indigo-900/40 active:scale-95">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M12 5v14m7-7l-7 7-7-7"/></svg>
+                                Deploy to System
                             </button>
-                            <div class="flex p-1.5 bg-zinc-900 border border-zinc-800 rounded-2xl">
-                                <button onclick="setPlatform('ios')" id="btn-ios" class="platform-btn active px-6 py-3 rounded-xl text-xs font-bold uppercase mono tracking-widest">iOS</button>
-                                <button onclick="setPlatform('android')" id="btn-android" class="platform-btn px-6 py-3 rounded-xl text-xs font-bold uppercase mono tracking-widest text-zinc-500">Android</button>
+                            <div class="flex p-1.5 bg-slate-900 border border-slate-800 rounded-2xl">
+                                <button onclick="setPlatform('ios')" id="btn-ios" class="platform-btn active px-8 py-3 rounded-xl text-xs font-bold uppercase mono tracking-widest transition-all">iOS_Core</button>
+                                <button onclick="setPlatform('android')" id="btn-android" class="platform-btn px-8 py-3 rounded-xl text-xs font-bold uppercase mono tracking-widest text-slate-500 transition-all hover:text-white">Android_OS</button>
                             </div>
                         </div>
                     </div>
 
-                    <div class="lg:col-span-2 bg-zinc-900/50 border border-zinc-800 rounded-[32px] p-8 space-y-8">
-                        <h4 class="mono text-[10px] text-zinc-500 uppercase tracking-widest">Deployment Parameters</h4>
-                        <div class="space-y-4">
+                    <div class="lg:col-span-2 bg-slate-900/30 border border-slate-800/50 rounded-[40px] p-10 space-y-10">
+                        <h4 class="mono text-[11px] text-slate-500 uppercase tracking-widest">Core Specifications</h4>
+                        <div class="space-y-5">
                             ${app.feats.map(f => `
-                                <div class="flex items-center gap-4 p-4 bg-zinc-900 border border-zinc-800 rounded-xl">
-                                    <div class="w-2 h-2 rounded-full bg-indigo-500"></div>
-                                    <span class="text-sm font-medium text-zinc-300">${f}</span>
+                                <div class="flex items-center gap-5 p-5 bg-slate-900/50 border border-slate-800/50 rounded-2xl group hover:border-indigo-500/20 transition-colors">
+                                    <div class="w-2.5 h-2.5 rounded-full bg-indigo-500 shadow-lg shadow-indigo-500/50"></div>
+                                    <span class="text-sm font-medium text-slate-300">${f}</span>
                                 </div>
                             `).join('')}
                         </div>
@@ -215,24 +211,31 @@
 
         function setPlatform(p) {
             selectedPlatform = p;
-            document.querySelectorAll('.platform-btn').forEach(b => b.classList.remove('active', 'text-white'));
-            document.querySelectorAll('.platform-btn').forEach(b => b.classList.add('text-zinc-500'));
+            document.querySelectorAll('.platform-btn').forEach(b => b.classList.remove('active', 'text-black'));
+            document.querySelectorAll('.platform-btn').forEach(b => b.classList.add('text-slate-500'));
             const activeBtn = document.getElementById(`btn-${p}`);
             activeBtn.classList.add('active');
-            activeBtn.classList.remove('text-zinc-500');
+            activeBtn.classList.remove('text-slate-500');
         }
 
         function closeViewer() {
             const viewer = document.getElementById('app-viewer');
-            viewer.classList.remove('active');
-            setTimeout(() => viewer.classList.add('hidden'), 500);
+            viewer.style.opacity = "0";
+            setTimeout(() => viewer.classList.add('hidden'), 400);
         }
 
-        function openLocker() { document.getElementById('locker-modal').classList.remove('hidden'); document.getElementById('locker-modal').classList.add('flex'); }
-        function closeLocker() { document.getElementById('locker-modal').classList.add('hidden'); document.getElementById('locker-modal').classList.remove('flex'); }
+        function openLocker() { 
+            const modal = document.getElementById('locker-modal');
+            modal.classList.remove('hidden'); 
+            modal.classList.add('flex'); 
+        }
+        function closeLocker() { 
+            const modal = document.getElementById('locker-modal');
+            modal.classList.add('hidden'); 
+            modal.classList.remove('flex'); 
+        }
 
         init();
     </script>
 </body>
 </html>
-

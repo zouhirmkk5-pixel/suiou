@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>AI & Pro Apps Hub | Next-Gen Creative Suite</title>
+    <!-- Google Fonts & Smooth -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (free icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0A0C10;
+            color: #EDF2FF;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* main wrapper – initially hidden until unlock */
+        .main-content {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+
+        .main-content.unlocked {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ========= MODAL LOCKER (POPUP) ========= */
+        .locker-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 6, 20, 0.92);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .locker-modal {
+            background: rgba(15, 20, 35, 0.8);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 255, 255, 0.25);
+            border-radius: 2.5rem;
+            padding: 2.2rem 2rem 2.5rem;
+            width: 90%;
+            max-width: 460px;
+            text-align: center;
+            box-shadow: 0 30px 45px -20px rgba(0,0,0,0.8), 0 0 0 1px rgba(0, 255, 255, 0.1);
+            transition: transform 0.3s;
+            animation: floatGlow 0.5s ease-out;
+        }
+
+        @keyframes floatGlow {
+            0% { opacity: 0; transform: scale(0.96) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .locker-modal i {
+            font-size: 3.2rem;
+            color: #0af;
+            text-shadow: 0 0 8px #0af;
+            margin-bottom: 1rem;
+        }
+
+        .locker-modal h2 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            background: linear-gradient(135deg, #FFFFFF, #88ccff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .locker-desc {
+            font-size: 0.9rem;
+            color: #b0c4ff;
+            margin-bottom: 1.8rem;
+        }
+
+        .locker-input {
+            width: 100%;
+            background: rgba(0, 10, 25, 0.7);
+            border: 1.5px solid #2c3f66;
+            border-radius: 60px;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            color: white;
+            font-family: monospace;
+            letter-spacing: 1px;
+            text-align: center;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .locker-input:focus {
+            border-color: #0af;
+            box-shadow: 0 0 12px rgba(0, 170, 255, 0.5);
+        }
+
+        .unlock-btn {
+            margin-top: 1.6rem;
+            width: 100%;
+            background: linear-gradient(95deg, #0a6eff, #00c3ff);
+            border: none;
+            border-radius: 60px;
+            padding: 0.9rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 5px 15px rgba(0, 160, 255, 0.3);
+        }
+
+        .unlock-btn:hover {
+            transform: scale(0.98);
+            background: linear-gradient(95deg, #1a7eff, #20d4ff);
+            box-shadow: 0 8px 22px rgba(0, 170, 255, 0.5);
+        }
+
+        .error-msg {
+            color: #ff7795;
+            font-size: 0.8rem;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        /* HIDE LOCKER when unlocked */
+        .locker-overlay.hidden-locker {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: 0.35s;
+        }
+
+        /* ========= MAIN WEBSITE STYLES (DARK FUTURISTIC) ========= */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Glassmorphism elements */
+        .glass-card {
+            background: rgba(18, 25, 45, 0.55);
+            backdrop-filter: blur(8px);
+            border-radius: 2rem;
+            border: 1px solid rgba(0, 180, 255, 0.2);
+            transition: transform 0.2s ease, border-color 0.2s;
+        }
+
+        /* Hero section */
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-direction: column;
+            padding: 4rem 0 3rem;
+        }
+
+        .hero-badge {
+            background: rgba(0, 170, 255, 0.15);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.2rem;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            color: #7bc9ff;
+            border: 1px solid rgba(0, 200, 255, 0.3);
+            margin-bottom: 1.8rem;
+            display: inline-block;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFFFFF, #44ccff, #0a5eff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.2rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 650px;
+            color: #cbd5ff;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(95deg, #0a6eff, #00c6ff);
+            border: none;
+            padding: 1rem 2.4rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(0, 100, 255, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 28px rgba(0, 150, 255, 0.4);
+            background: linear-gradient(95deg, #1f7aff, #2ad4ff);
+        }
+
+        .btn-outline-light {
+            background: transparent;
+            border: 1.5px solid rgba(0, 200, 255, 0.7);
+            padding: 0.75rem 1.8rem;
+            border-radius: 40px;
+            font-weight: 500;
+            color: #bbecff;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-outline-light:hover {
+            background: rgba(0, 170, 255, 0.2);
+            border-color: #0af;
+        }
+
+        /* Apps Grid Section (Step 2) */
+        .apps-section {
+            padding: 4rem 0 5rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-sub {
+            text-align: center;
+            color: #9aaef5;
+            margin-bottom: 3rem;
+        }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .app-card {
+            background: rgba(12, 20, 35, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 1.8rem;
+            padding: 1.5rem;
+            transition: all 0.25s ease;
+            border: 1px solid rgba(0, 180, 250, 0.25);
+            text-align: center;
+        }
+
+        .app-card:hover {
+            transform: translateY(-6px);
+            border-color: #0af;
+            box-shadow: 0 20px 35px -12px rgba(0, 170, 255, 0.25);
+            background: rgba(18, 30, 55, 0.8);
+        }
+
+        .app-icon {
+            font-size: 2.7rem;
+            background: linear-gradient(145deg, #111a2c, #04142c);
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.2rem;
+            border-radius: 1.5rem;
+            color: #3ecfff;
+            border: 1px solid rgba(0, 200, 255, 0.3);
+        }
+
+        .app-card h3 {
+            font-size: 1.45rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .app-badge {
+            background: rgba(0, 170, 255, 0.2);
+            border-radius: 50px;
+            padding: 0.2rem 1rem;
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #a0dcff;
+        }
+
+        .cta-footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2rem 0 3rem;
+        }
+
+        .cta-large {
+            background: linear-gradient(95deg, #0f2f6e, #0088cc);
+            padding: 1.2rem 2.8rem;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 80px;
+            box-shadow: 0 12px 28px rgba(0, 100, 200, 0.4);
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .cta-large:hover {
+            transform: scale(1.02);
+            background: linear-gradient(95deg, #1a3f7a, #0099e0);
+            box-shadow: 0 16px 32px rgba(0, 150, 255, 0.5);
+        }
+
+        /* Animations */
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero, .apps-grid .app-card, .cta-footer {
+            animation: fadeSlideUp 0.5s ease-out forwards;
+        }
+
+        .app-card {
+            animation-delay: calc(0.03s * var(--i, 1));
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.8rem;
+            color: #5a6e9e;
+            border-top: 1px solid rgba(0, 150, 255, 0.2);
+            margin-top: 1rem;
+        }
+
+        /* responsive */
+        @media (max-width: 780px) {
+            .container {
+                padding: 0 1.2rem;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .apps-grid {
+                gap: 1rem;
+            }
+            .locker-modal {
+                padding: 1.8rem;
+                width: 92%;
+            }
+        }
+
+        /* scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+
+<!-- LOCKER MODAL (POPUP) -->
+<div id="lockerOverlay" class="locker-overlay">
+    <div class="locker-modal">
+        <i class="fas fa-shield-alt"></i>
+        <h2>Enter Access Code</h2>
+        <div class="locker-desc">🔐 Restricted Area — Insert valid code to unlock the hub</div>
+        <input type="password" id="accessCodeInput" class="locker-input" placeholder="••••" maxlength="6" autocomplete="off">
+        <button id="unlockButton" class="unlock-btn"><i class="fas fa-key"></i> Unlock Hub</button>
+        <div id="errorMsg" class="error-msg"></div>
+    </div>
+</div>
+
+<!-- MAIN WEBSITE (Locked until code 1234) -->
+<div id="mainContent" class="main-content">
+    <!-- STEP 1: Hero Section + Explore Apps button -->
+    <div class="hero">
+        <div class="hero-badge">
+            <i class="fas fa-brain"></i> Next-Gen Intelligence
+        </div>
+        <h1>AI & Pro Apps Hub</h1>
+        <p>Unlock the most advanced AI tools & professional creative suites — CapCut, Canva, ChatGPT, Claude, Gemini & more. Elevate your workflow with next‑generation power.</p>
+        <button id="exploreAppsBtn" class="btn-primary">
+            Explore Apps <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+
+    <!-- STEP 2: Apps grid section (initially hidden but we will scroll to it smoothly) -->
+    <div id="appsGridSection" class="apps-section" style="scroll-margin-top: 2rem;">
+        <div class="container">
+            <div class="section-title">✨ Premium AI & Pro Tools</div>
+            <div class="section-sub">Curated collection of industry-leading applications</div>
+            <div class="apps-grid" id="appsGridContainer">
+                <!-- Cards will be populated via JS, but for robustness static data added with js but also rendered via JS to keep consistency -->
+            </div>
+            <div class="cta-footer">
+                <button id="startUsingBtn" class="cta-large">
+                    <i class="fas fa-rocket"></i> Start Using Now
+                </button>
+                <p style="margin-top: 1.2rem; font-size: 0.8rem;">Get instant access to all pro apps & AI assistants</p>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <i class="fas fa-microchip"></i> AI & Pro Apps Hub — Next‑gen ecosystem • Secure access
+    </footer>
+</div>
+
+<script>
+    (function() {
+        // App list for grid
+        const appsList = [
+            { name: "CapCut Pro", icon: "fas fa-video", badge: "Pro Editor" },
+            { name: "Alight Motion", icon: "fas fa-magic", badge: "Motion GFX" },
+            { name: "Canva Pro", icon: "fas fa-palette", badge: "Design Suite" },
+            { name: "ChatGPT Pro", icon: "fas fa-comment-dots", badge: "GPT-4 Turbo" },
+            { name: "Claude AI", icon: "fas fa-robot", badge: "Claude 3.5" },
+            { name: "Perplexity AI", icon: "fas fa-search", badge: "Research" },
+            { name: "Gemini AI", icon: "fas fa-star-of-life", badge: "Multimodal" },
+            { name: "DeepSeek AI", icon: "fas fa-database", badge: "Coding & More" }
+        ];
+
+        // Function to render grid cards
+        function renderAppGrid() {
+            const gridContainer = document.getElementById('appsGridContainer');
+            if (!gridContainer) return;
+            gridContainer.innerHTML = '';
+            appsList.forEach((app, idx) => {
+                const card = document.createElement('div');
+                card.className = 'app-card';
+                card.style.setProperty('--i', idx + 1);
+                card.innerHTML = `
+                    <div class="app-icon"><i class="${app.icon}"></i></div>
+                    <h3>${app.name}</h3>
+                    <div class="app-badge">${app.badge}</div>
+                `;
+                gridContainer.appendChild(card);
+            });
+        }
+
+        // DOM elements
+        const lockerOverlay = document.getElementById('lockerOverlay');
+        const mainContentDiv = document.getElementById('mainContent');
+        const unlockBtn = document.getElementById('unlockButton');
+        const codeInput = document.getElementById('accessCodeInput');
+        const errorMsgDiv = document.getElementById('errorMsg');
+        const exploreBtn = document.getElementById('exploreAppsBtn');
+        const startUsingBtn = document.getElementById('startUsingBtn');
+
+        let isUnlocked = false;
+
+        // Helper unlock function
+        function unlockWebsite() {
+            if (isUnlocked) return;
+            // correct code logic
+            const enteredCode = codeInput.value.trim();
+            if (enteredCode === "1234") {
+                // Success: hide locker, show main content
+                isUnlocked = true;
+                lockerOverlay.classList.add('hidden-locker');
+                mainContentDiv.classList.add('unlocked');
+                errorMsgDiv.innerHTML = '';
+                // optional reset input
+                codeInput.value = '';
+                // tiny confetti? Not required but fine
+                console.log("Access granted — Welcome to AI & Pro Apps Hub");
+            } else {
+                errorMsgDiv.innerHTML = '<i class="fas fa-ban"></i> Invalid access code. Try 1234';
+                // shake effect
+                const modal = document.querySelector('.locker-modal');
+                if(modal) {
+                    modal.style.animation = 'none';
+                    setTimeout(() => { modal.style.animation = 'floatGlow 0.5s ease-out'; }, 10);
+                }
+                codeInput.value = '';
+                codeInput.focus();
+            }
+        }
+
+        // Enter key listener
+        codeInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                unlockWebsite();
+            }
+        });
+
+        unlockBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            unlockWebsite();
+        });
+
+        // IMPORTANT: locker must appear before anything else, and we prevent any interaction until unlocked
+        // Also we prevent any scroll / background interaction while locker is active by overlay covering.
+        // Ensure that main content is initially hidden / not visible.
+        mainContentDiv.classList.remove('unlocked'); // explicitly hidden
+
+        // If someone tries to click on anything behind, no worries overlay blocks pointer events.
+
+        // smooth scroll to apps grid section when clicking "Explore Apps" (only after unlocked)
+        function scrollToApps() {
+            const section = document.getElementById('appsGridSection');
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Also show subtle toast? optional.
+        // Only add listeners after unlock, but we can set them anyway with check that they only fire if unlocked.
+        // But since buttons are inside mainContent, they are not clickable until .main-content is unlocked? Actually they are physically present but invisible (visibility hidden + opacity 0), but still receive click? However .main-content has visibility:hidden so it doesn't capture mouse events? Actually visibility: hidden makes the element invisible and also prevents mouse events on it and children. So users cannot click buttons while locked. Good.
+        // So we don't need additional checks: after unlock, buttons become visible and interactive.
+        
+        // after unlock, we need to ensure render grid is populated (but call after unlock or before? Actually we call render now, but since mainContent hidden no problem)
+        renderAppGrid();
+
+        // Buttons events (will become active after unlocking because they become visible/clickable)
+        if (exploreBtn) {
+            exploreBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (!isUnlocked) return; // extra safety
+                scrollToApps();
+            });
+        }
+
+        if (startUsingBtn) {
+            startUsingBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (!isUnlocked) return;
+                // conversion action: alert or smooth to top? let's show modern feedback and scroll to top hero (but high converting)
+                // For professional: we can scroll to hero and show a small message
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                // subtle flash on hero to indicate ready
+                const heroTitle = document.querySelector('.hero h1');
+                if (heroTitle) {
+                    heroTitle.style.textShadow = '0 0 10px #0af';
+                    setTimeout(() => heroTitle.style.textShadow = '', 500);
+                }
+                // optional: show demo "access granted" console but feels premium
+                alert("🚀 Welcome! All Pro Apps & AI tools are ready. Unlock your productivity.");
+            });
+        }
+
+        // Also after unlock, we could add a little effect: ensure grid is fully rendered if not yet
+        // We call again to ensure fresh cards (redundant but safe)
+        setTimeout(() => {
+            if (isUnlocked) renderAppGrid();
+        }, 100);
+        
+        // If user successfully unlocks, re-render (maybe ensure no missing items)
+        const originalUnlock = unlockWebsite;
+        window.unlockWebsite = function() {
+            originalUnlock();
+            if (isUnlocked) renderAppGrid();
+        };
+        unlockBtn.onclick = (e) => {
+            e.preventDefault();
+            const entered = codeInput.value.trim();
+            if (entered === "1234") {
+                lockerOverlay.classList.add('hidden-locker');
+                mainContentDiv.classList.add('unlocked');
+                isUnlocked = true;
+                errorMsgDiv.innerHTML = '';
+                renderAppGrid();
+                // small extra: to prevent any weird overlay persistence
+            } else {
+                errorMsgDiv.innerHTML = '<i class="fas fa-times-circle"></i> Wrong code — required: 1234';
+                codeInput.value = '';
+                codeInput.focus();
+                const modalEl = document.querySelector('.locker-modal');
+                if(modalEl) modalEl.style.transform = 'translateX(4px)';
+                setTimeout(() => { if(modalEl) modalEl.style.transform = ''; }, 100);
+            }
+        };
+        
+        // override the previous unlockBtn event to match our refined (double event safe)
+        // Remove previous listener to avoid duplicates:
+        const newUnlockBtn = document.getElementById('unlockButton');
+        const newCodeInput = document.getElementById('accessCodeInput');
+        // clone replacement to avoid multiple handlers, but simplest: we redefine once.
+        // Actually we'll just detach all previous and reattach clean:
+        const oldUnlock = unlockBtn;
+        const newBtn = oldUnlock.cloneNode(true);
+        oldUnlock.parentNode.replaceChild(newBtn, oldUnlock);
+        const newErrorMsg = document.getElementById('errorMsg');
+        const finalCodeInput = document.getElementById('accessCodeInput');
+        
+        newBtn.addEventListener('click', () => {
+            const codeVal = finalCodeInput.value.trim();
+            if (codeVal === "1234") {
+                document.getElementById('lockerOverlay').classList.add('hidden-locker');
+                document.getElementById('mainContent').classList.add('unlocked');
+                isUnlocked = true;
+                if(newErrorMsg) newErrorMsg.innerHTML = '';
+                renderAppGrid();
+                // optional: play subtle success
+            } else {
+                if(newErrorMsg) newErrorMsg.innerHTML = '<i class="fas fa-lock"></i> Incorrect code. Use 1234';
+                finalCodeInput.value = '';
+                finalCodeInput.focus();
+            }
+        });
+        
+        finalCodeInput.addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') {
+                e.preventDefault();
+                newBtn.click();
+            }
+        });
+
+        // Pre-render grid anyway for consistency (calls again after)
+        renderAppGrid();
+        
+        // ensure main content is hidden at start
+        if(mainContentDiv) mainContentDiv.classList.remove('unlocked');
+        // locker overlay fully visible
+        const overlay = document.getElementById('lockerOverlay');
+        if(overlay) overlay.classList.remove('hidden-locker');
+        
+        // Additional style: force body scroll hidden while locker active but it's fine
+        // we prevent body scroll by overlay covers, but we also set body overflow: hidden when locker exists? Not mandatory but nice
+        function toggleBodyScroll(disable) {
+            if (disable) document.body.style.overflow = 'hidden';
+            else document.body.style.overflow = '';
+        }
+        toggleBodyScroll(true);
+        // observer to re-enable scroll when locker hidden
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mut) => {
+                if (mut.attributeName === 'class') {
+                    if (overlay.classList.contains('hidden-locker')) {
+                        toggleBodyScroll(false);
+                        observer.disconnect();
+                    }
+                }
+            });
+        });
+        if (overlay) observer.observe(overlay, { attributes: true });
+        
+        // final fallback for explore apps scroll after unlock
+        const exploreFinal = document.getElementById('exploreAppsBtn');
+        if(exploreFinal) {
+            exploreFinal.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (isUnlocked) {
+                    document.getElementById('appsGridSection')?.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
+        const startFinal = document.getElementById('startUsingBtn');
+        if(startFinal) {
+            startFinal.addEventListener('click', () => {
+                if(isUnlocked) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    alert("✨ Full access to Pro Apps & AI suite unlocked! Start creating now.");
+                }
+            });
+        }
+        
+        // In case we need to re-render after unlocking for any missing
+        if (isUnlocked === false) {
+            // grid is rendered but hidden fine
+        }
+    })();
+</script>
+</body>
+</html>

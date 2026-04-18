@@ -57,10 +57,6 @@
             transition: transform 0.4s ease;
         }
 
-        .premium-card:hover .app-img {
-            transform: rotate(-5deg) scale(1.1);
-        }
-
         #app-overlay {
             position: fixed;
             inset: 0;
@@ -96,36 +92,30 @@
             background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
             transition: all 0.3s ease;
         }
-
-        .cta-btn:hover {
-            filter: brightness(1.2);
-            transform: translateY(-2px);
-        }
     </style>
 </head>
 <body>
 
     <div class="bg-glow" style="top: -10%; left: -10%;"></div>
-    <div class="bg-glow" style="bottom: -10%; right: -10%; background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, rgba(0,0,0,0) 70%);"></div>
 
     <div class="max-w-6xl mx-auto px-6 py-20 relative">
         <header class="text-center mb-24">
             <h1 class="text-6xl md:text-8xl font-extrabold mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-indigo-200 to-gray-500">
                 Nexus Premium
             </h1>
-            <p class="text-gray-400 text-xl font-medium">The definitive collection of pro-grade AI and design tools.</p>
+            <p class="text-gray-400 text-xl font-medium">Unlock the peak of mobile performance and creativity.</p>
         </header>
 
         <div id="grid-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10"></div>
     </div>
 
     <div id="app-overlay">
-        <div class="max-w-5xl mx-auto px-6 py-16">
+        <div class="max-w-6xl mx-auto px-6 py-16">
             <button onclick="hideDetails()" class="mb-12 flex items-center gap-3 text-gray-400 hover:text-white font-bold group">
                 <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-all">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
                 </div>
-                DISCOVER MORE
+                BACK TO HUB
             </button>
             <div id="overlay-content"></div>
         </div>
@@ -139,12 +129,60 @@
 
     <script>
         const appData = [
-            { name: 'CapCut', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', desc: 'The #1 video editor for mobile creators. Professional transitions, AI tools, and 4K output.', features: ['Auto-Captioning', 'Keyframe Animation', 'Viral Templates'], rating: '4.9' },
-            { name: 'Canva', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', desc: 'The gold standard in design. Create anything from high-end social graphics to professional docs.', features: ['Magic Studio AI', 'Brand Management', '100M+ Assets'], rating: '4.8' },
-            { name: 'ChatGPT', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', desc: 'The worlds most advanced LLM for creative writing, complex reasoning, and data analysis.', features: ['GPT-4o Vision', 'Voice Interaction', 'DALL-E 3 Integration'], rating: '4.9' },
-            { name: 'Gemini', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', desc: 'Googles multi-modal powerhouse. Built for speed, precision, and integration.', features: ['Google Suite Sync', 'Native Multimodality', 'Ultra-fast Logic'], rating: '4.6' },
-            { name: 'Perplexity', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', desc: 'AI-driven search engine providing instant, cited answers with zero ads.', features: ['Pro Search Mode', 'Real-time Citations', 'Deep Research'], rating: '4.8' },
-            { name: 'DeepSeek', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', desc: 'The breakthrough reasoning model taking the industry by storm with superior coding logic.', features: ['R1 Reasoning Model', 'Math & Code Master', 'Instant Efficiency'], rating: '4.7' }
+            { 
+                name: 'CapCut', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', 
+                desc: 'The definitive video editing suite for modern creators. CapCut offers advanced AI-driven features like auto-captions, background removal, and professional-grade color grading that used to require a desktop PC.', 
+                features: ['4K 60FPS Export', 'No Watermark', 'AI Body VFX', 'Stock Library Pro'], 
+                rating: '4.9',
+                downloads: '500M+',
+                category: 'Video Editor'
+            },
+            { 
+                name: 'Canva', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', 
+                desc: 'Empower your brand with Canva Pro. Access millions of premium stock photos, fonts, and the revolutionary Magic Studio AI that turns simple text prompts into professional layouts instantly.', 
+                features: ['Magic Resizer', 'Background Remover', 'Brand Kits', 'Premium Assets'], 
+                rating: '4.8',
+                downloads: '100M+',
+                category: 'Graphic Design'
+            },
+            { 
+                name: 'ChatGPT', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', 
+                desc: 'Interact with the world’s most powerful AI. ChatGPT Plus brings you the GPT-4o model, offering lightning-fast reasoning, image generation via DALL-E 3, and real-time voice conversations.', 
+                features: ['GPT-4o Access', 'DALL-E 3 Graphics', 'Data Analysis', 'Custom GPTs'], 
+                rating: '4.9',
+                downloads: '150M+',
+                category: 'Artificial Intelligence'
+            },
+            { 
+                name: 'Gemini', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', 
+                desc: 'Google’s native AI experience. Gemini Ultra is deeply integrated into the Google ecosystem, allowing you to draft emails, analyze Drive docs, and plan trips with live flight and hotel data.', 
+                features: ['Google Workspace Sync', 'Multimodal Logic', 'Ultra-Low Latency', 'Live Extensions'], 
+                rating: '4.6',
+                downloads: '50M+',
+                category: 'AI Assistant'
+            },
+            { 
+                name: 'Perplexity', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', 
+                desc: 'The search engine of the future. Perplexity provides direct, cited answers to complex questions, effectively replacing traditional search by reading through the web for you in seconds.', 
+                features: ['Source Citations', 'Pro Search Mode', 'PDF Analysis', 'Ad-Free Logic'], 
+                rating: '4.8',
+                downloads: '10M+',
+                category: 'AI Search'
+            },
+            { 
+                name: 'DeepSeek', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', 
+                desc: 'The specialist’s choice for logic and coding. DeepSeek R1 has set new benchmarks in mathematical reasoning and programming efficiency, making it essential for developers and students.', 
+                features: ['R1 Reasoning', 'Math Specialist', 'Code Generator', 'Open-Weights Speed'], 
+                rating: '4.7',
+                downloads: '5M+',
+                category: 'Research & Code'
+            }
         ];
 
         function init() {
@@ -152,9 +190,9 @@
             appData.forEach((app, i) => {
                 container.innerHTML += `
                     <div class="premium-card p-10 flex flex-col items-center cursor-pointer" onclick="showDetails(${i})">
-                        <img src="${app.logo}" alt="${app.name}" class="app-img mb-6" onerror="this.src='https://ui-avatars.com/api/?name=${app.name}&background=6366f1&color=fff&size=128'">
+                        <img src="${app.logo}" alt="${app.name}" class="app-img mb-6">
                         <h3 class="text-2xl font-bold tracking-tight">${app.name}</h3>
-                        <p class="text-xs text-indigo-400 font-bold mt-2 tracking-widest uppercase">★★★★★ ${app.rating}</p>
+                        <p class="text-xs text-indigo-400 font-bold mt-2 tracking-widest uppercase">${app.category}</p>
                     </div>
                 `;
             });
@@ -164,34 +202,38 @@
             const app = appData[idx];
             const overlay = document.getElementById('app-overlay');
             document.getElementById('overlay-content').innerHTML = `
-                <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div class="grid lg:grid-cols-2 gap-20">
                     <div>
                         <div class="flex items-center gap-8 mb-10">
-                            <img src="${app.logo}" class="w-32 h-32 rounded-[35px] shadow-2xl" onerror="this.src='https://ui-avatars.com/api/?name=${app.name}&background=6366f1&color=fff&size=256'">
+                            <img src="${app.logo}" class="w-32 h-32 rounded-[35px] shadow-2xl">
                             <div>
                                 <h2 class="text-5xl md:text-7xl font-black mb-2">${app.name}</h2>
-                                <p class="text-2xl text-indigo-400 font-bold">Nexus Certified Premium</p>
+                                <div class="flex gap-4 text-indigo-400 font-bold uppercase tracking-widest text-sm">
+                                    <span>★ ${app.rating}</span>
+                                    <span>•</span>
+                                    <span>${app.downloads} Downloads</span>
+                                </div>
                             </div>
                         </div>
-                        <p class="text-2xl text-gray-300 leading-relaxed mb-10 font-light">${app.desc}</p>
+                        <p class="text-2xl text-gray-300 leading-relaxed mb-12 font-light">${app.desc}</p>
                         <div class="flex flex-col sm:flex-row gap-5">
                             <button onclick="openLocker()" class="cta-btn flex-1 py-6 rounded-2xl font-black text-xl flex items-center justify-center gap-4">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg" class="w-8 h-8" alt="Android">
-                                GET ON ANDROID
+                                <img src="https://www.vectorlogo.zone/logos/google_play/google_play-icon.svg" class="w-8 h-8">
+                                DOWNLOAD APK
                             </button>
                             <button onclick="openLocker()" class="bg-white text-black flex-1 py-6 rounded-2xl font-black text-xl flex items-center justify-center gap-4 hover:bg-gray-200">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" class="w-8 h-8" alt="iOS">
+                                <img src="https://www.vectorlogo.zone/logos/apple/apple-icon.svg" class="w-8 h-8">
                                 GET ON IOS
                             </button>
                         </div>
                     </div>
-                    <div class="premium-card p-12">
-                        <h4 class="text-3xl font-bold mb-8 border-b border-white/10 pb-6">Core Features</h4>
-                        <div class="space-y-6">
+                    <div class="premium-card p-12 h-fit">
+                        <h4 class="text-3xl font-bold mb-8 border-b border-white/10 pb-6">Premium Features</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             ${app.features.map(f => `
-                                <div class="flex items-center gap-5">
-                                    <div class="w-8 h-8 rounded-full bg-indigo-500/20 border border-indigo-500 flex items-center justify-center text-indigo-400 font-bold">✓</div>
-                                    <span class="text-xl font-bold text-gray-200">${f}</span>
+                                <div class="flex items-center gap-4">
+                                    <div class="w-6 h-6 rounded-full bg-indigo-500/20 border border-indigo-500 flex items-center justify-center text-indigo-400 text-xs">✓</div>
+                                    <span class="text-lg font-bold text-gray-200">${f}</span>
                                 </div>
                             `).join('')}
                         </div>
@@ -199,31 +241,30 @@
                 </div>
             `;
             overlay.style.display = 'block';
-            gsap.fromTo(overlay, { opacity: 0, scale: 1.1 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power4.out" });
+            gsap.fromTo(overlay, { opacity: 0, scale: 1.05 }, { opacity: 1, scale: 1, duration: 0.4 });
             window.scrollTo(0, 0);
         }
 
         function hideDetails() {
-            gsap.to('#app-overlay', { opacity: 0, scale: 0.95, duration: 0.4, onComplete: () => {
+            gsap.to('#app-overlay', { opacity: 0, duration: 0.3, onComplete: () => {
                 document.getElementById('app-overlay').style.display = 'none';
             }});
         }
 
         function openLocker() {
             document.getElementById('locker-modal').style.display = 'flex';
-            gsap.fromTo('.locker-inner', { y: 100, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "back.out(1.4)" });
+            gsap.fromTo('.locker-inner', { y: 100, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 });
         }
 
         function closeLocker() {
-            gsap.to('.locker-inner', { scale: 0.8, opacity: 0, duration: 0.3, onComplete: () => {
-                document.getElementById('locker-modal').style.display = 'none';
-            }});
+            document.getElementById('locker-modal').style.display = 'none';
         }
 
         init();
     </script>
 </body>
 </html>
+
 
 
 

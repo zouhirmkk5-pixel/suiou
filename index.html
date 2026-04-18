@@ -5,104 +5,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEXUS // Neural Repository 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg: #030303;
+            --bg: #09090b;
             --accent: #6366f1;
-            --card: rgba(255, 255, 255, 0.03);
+            --zinc-800: #27272a;
         }
 
         body {
             background-color: var(--bg);
-            color: #efeff1;
-            font-family: 'Space Grotesk', sans-serif;
-            overflow-x: hidden;
+            color: #fafafa;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         .mono { font-family: 'JetBrains Mono', monospace; }
 
+        /* Subtle mesh for depth */
         .bg-mesh {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: 
-                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.08) 0px, transparent 50%);
+                radial-gradient(circle at 50% -20%, rgba(99, 102, 241, 0.15), transparent 80%),
+                radial-gradient(circle at 0% 100%, rgba(39, 39, 42, 0.2), transparent 50%);
             z-index: -1;
         }
 
         .bento-card {
-            background: var(--card);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(12px);
-            border-radius: 28px;
-            transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
+            background: rgba(24, 24, 27, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .bento-card:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.06);
-            transform: translateY(-8px);
+            border-color: rgba(99, 102, 241, 0.4);
+            background: rgba(24, 24, 27, 0.8);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
         }
 
         #app-viewer {
-            clip-path: circle(0% at 50% 50%);
-            transition: clip-path 0.8s cubic-bezier(0.7, 0, 0.2, 1);
+            background: rgba(9, 9, 11, 0.98);
+            backdrop-filter: blur(30px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s ease;
         }
 
         #app-viewer.active {
-            clip-path: circle(150% at 50% 50%);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .platform-btn {
+            transition: all 0.2s ease;
         }
 
         .platform-btn.active {
-            background: white;
-            color: black;
-            box-shadow: 0 4px 12px rgba(255,255,255,0.2);
+            background: #27272a;
+            color: white;
+            border-color: #3f3f46;
         }
-
-        /* Smooth scroll for the viewer */
-        #app-viewer::-webkit-scrollbar { width: 4px; }
-        #app-viewer::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="selection:bg-indigo-500/30">
     <div class="bg-mesh"></div>
 
-    <nav class="max-w-7xl mx-auto flex justify-between items-center py-8 mb-12">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-indigo-600 text-white flex items-center justify-center rounded-xl font-bold shadow-lg shadow-indigo-500/20">N</div>
-            <span class="text-xl font-bold tracking-tighter uppercase">Nexus // 2026</span>
+    <nav class="max-w-7xl mx-auto px-6 py-10 flex justify-between items-center">
+        <div class="flex items-center gap-4">
+            <div class="w-8 h-8 bg-white text-black flex items-center justify-center rounded-lg font-black text-sm italic">N</div>
+            <span class="text-sm font-semibold tracking-[0.2em] uppercase opacity-90">Nexus Hub</span>
         </div>
-        <div class="mono text-[10px] opacity-40 hidden md:block border border-white/10 px-4 py-1 rounded-full">
-            SYSTEM_ENCRYPTED // CORE_V6.4
+        <div class="flex items-center gap-6">
+            <div class="hidden md:flex gap-4 mono text-[10px] uppercase tracking-widest opacity-40">
+                <span>Secure_Terminal</span>
+                <span>Node_04</span>
+            </div>
+            <div class="h-4 w-[1px] bg-zinc-800"></div>
+            <span class="mono text-[10px] text-indigo-400">v6.4.0_Stable</span>
         </div>
     </nav>
 
-    <header class="max-w-7xl mx-auto mb-20 text-center md:text-left">
-        <h1 class="text-6xl md:text-9xl font-bold tracking-tighter leading-[0.85] mb-8">
-            Deploy <br><span class="text-indigo-500 italic">Intelligence.</span>
+    <header class="max-w-7xl mx-auto px-6 pt-12 pb-24">
+        <h1 class="text-5xl md:text-7xl font-semibold tracking-tight leading-tight mb-6">
+            Intelligent <span class="text-zinc-500">Infrastructure.</span>
         </h1>
-        <p class="max-w-xl text-gray-500 mono text-sm leading-relaxed">
-            Verified repository for 2026 generative tools and high-performance creative engines.
+        <p class="max-w-2xl text-zinc-400 text-lg leading-relaxed">
+            Access the high-performance generative suite. Verified neural nodes for 2026 enterprise deployment.
         </p>
     </header>
 
-    <div id="grid" class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6"></div>
+    <main id="grid" class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-4 mb-20"></main>
 
-    <div id="app-viewer" class="fixed inset-0 z-[100] bg-[#050505] hidden flex-col p-8 md:p-20 overflow-y-auto">
-        <button onclick="closeViewer()" class="mono text-xs text-gray-500 hover:text-white mb-12 flex items-center gap-2 group">
-            <span class="text-lg transition-transform group-hover:-translate-x-2">←</span> RETURN_TO_COLLECTION
-        </button>
-        <div id="viewer-content" class="max-w-6xl mx-auto w-full"></div>
+    <div id="app-viewer" class="fixed inset-0 z-[100] hidden flex-col p-6 md:p-20 overflow-y-auto">
+        <div class="max-w-6xl mx-auto w-full">
+            <button onclick="closeViewer()" class="mb-16 flex items-center gap-2 text-zinc-500 hover:text-white transition-colors mono text-[10px] uppercase tracking-widest">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5m7-7l-7 7 7 7"/></svg>
+                Back to Grid
+            </button>
+            <div id="viewer-content"></div>
+        </div>
     </div>
 
-    <div id="locker-modal" class="fixed inset-0 z-[200] bg-black/95 hidden items-center justify-center p-4">
-        <div class="w-full max-w-lg aspect-[4/5] bg-white rounded-[40px] overflow-hidden shadow-2xl relative">
-            <button onclick="closeLocker()" class="absolute top-6 right-6 w-10 h-10 bg-black/5 rounded-full flex items-center justify-center font-bold text-black hover:bg-black/10 z-10">✕</button>
-            <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0" class="w-full h-full"></iframe>
+    <div id="locker-modal" class="fixed inset-0 z-[200] bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="w-full max-w-lg bg-[#121214] rounded-2xl overflow-hidden border border-zinc-800 shadow-2xl relative">
+            <div class="p-4 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50">
+                <span class="mono text-[10px] uppercase tracking-widest text-zinc-500">Security Verification</span>
+                <button onclick="closeLocker()" class="text-zinc-500 hover:text-white transition-colors">✕</button>
+            </div>
+            <div class="aspect-[4/5] w-full bg-black">
+                <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0" class="w-full h-full"></iframe>
+            </div>
         </div>
     </div>
 
@@ -122,28 +139,25 @@
 
         function init() {
             const grid = document.getElementById('grid');
-            grid.innerHTML = ''; // Clear existing
             appData.forEach((app, i) => {
                 grid.innerHTML += `
-                    <div class="bento-card ${app.size} p-8 cursor-pointer group flex flex-col justify-between" onclick="openViewer(${i})">
+                    <div class="bento-card ${app.size} p-6 flex flex-col justify-between group cursor-pointer" onclick="openViewer(${i})">
                         <div>
-                            <div class="flex justify-between items-start mb-12">
-                                <div class="w-14 h-14 bg-white/5 rounded-2xl p-3 border border-white/10 group-hover:border-indigo-500/50 transition-colors">
-                                    <img src="${app.logo}" class="w-full h-full object-contain">
+                            <div class="flex justify-between items-start mb-10">
+                                <div class="w-12 h-12 bg-zinc-900 rounded-xl p-2.5 border border-zinc-800 group-hover:border-zinc-700 transition-colors">
+                                    <img src="${app.logo}" class="w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500">
                                 </div>
-                                <span class="mono text-[10px] font-bold text-indigo-400 border border-indigo-500/20 px-3 py-1 rounded-full uppercase tracking-widest">${app.tag}</span>
+                                <span class="mono text-[9px] font-medium text-zinc-500 border border-zinc-800 px-2 py-0.5 rounded uppercase tracking-widest">${app.tag}</span>
                             </div>
-                            <h3 class="text-3xl font-bold tracking-tight mb-2 group-hover:text-indigo-400 transition-colors">${app.name}</h3>
-                            <p class="text-sm text-gray-500 mono leading-relaxed line-clamp-2">${app.desc}</p>
+                            <h3 class="text-xl font-medium mb-2 tracking-tight">${app.name}</h3>
+                            <p class="text-sm text-zinc-500 leading-relaxed line-clamp-3">${app.desc}</p>
                         </div>
-                        <div class="mt-8 pt-6 border-t border-white/5 flex justify-between items-center">
-                            <button onclick="event.stopPropagation(); openLocker();" class="flex items-center gap-2 bg-white/5 border border-white/10 hover:bg-indigo-600 hover:border-indigo-600 text-white px-5 py-2.5 rounded-xl transition-all active:scale-95 group/btn">
-                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                                <span class="mono text-[10px] font-bold uppercase tracking-wider">Deploy_OS</span>
+                        <div class="mt-8 pt-6 border-t border-zinc-800/50 flex justify-between items-center">
+                            <button onclick="event.stopPropagation(); openLocker();" class="text-[10px] mono uppercase tracking-widest bg-zinc-100 text-zinc-900 px-4 py-2 rounded-lg font-bold hover:bg-white transition-colors">
+                                Deploy Node
                             </button>
-                            <div class="flex items-center gap-3 opacity-40 group-hover:opacity-100 transition-opacity">
-                                <span class="text-[10px] mono">V6.4_STABLE</span>
-                                <div class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center font-bold">→</div>
+                            <div class="w-8 h-8 rounded-full border border-zinc-800 flex items-center justify-center group-hover:bg-zinc-800 transition-colors">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
                             </div>
                         </div>
                     </div>
@@ -153,80 +167,72 @@
 
         function openViewer(idx) {
             const app = appData[idx];
-            selectedPlatform = 'ios'; 
             const viewer = document.getElementById('app-viewer');
-            
-            document.getElementById('viewer-content').innerHTML = `
-                <div class="grid lg:grid-cols-2 gap-20 items-center">
-                    <div class="space-y-10">
-                        <div class="w-24 h-24 bg-white/5 rounded-[32px] p-5 border border-white/10">
-                            <img src="${app.logo}" class="w-full h-full object-contain">
-                        </div>
-                        <h2 class="text-7xl md:text-8xl font-bold tracking-tighter leading-none">${app.name}</h2>
-                        
-                        <div class="inline-flex p-1 bg-white/5 border border-white/10 rounded-2xl">
-                            <button onclick="setPlatform('ios')" id="btn-ios" class="platform-btn active px-8 py-3 rounded-xl mono text-xs font-bold transition-all">iOS_CORE</button>
-                            <button onclick="setPlatform('android')" id="btn-android" class="platform-btn px-8 py-3 rounded-xl mono text-xs font-bold text-gray-500 hover:text-white transition-all">ANDROID_OS</button>
-                        </div>
+            viewer.classList.remove('hidden');
+            setTimeout(() => viewer.classList.add('active'), 10);
 
-                        <p class="text-2xl text-gray-400 leading-relaxed font-light">${app.desc}</p>
+            document.getElementById('viewer-content').innerHTML = `
+                <div class="grid lg:grid-cols-5 gap-16 items-start">
+                    <div class="lg:col-span-3 space-y-8">
+                        <div class="flex items-center gap-6">
+                            <div class="w-20 h-20 bg-zinc-900 border border-zinc-800 rounded-3xl p-4">
+                                <img src="${app.logo}" class="w-full h-full object-contain">
+                            </div>
+                            <div>
+                                <h2 class="text-5xl font-semibold tracking-tight">${app.name}</h2>
+                                <p class="text-indigo-400 mono text-xs mt-2 uppercase tracking-[0.2em]">${app.tag} Node</p>
+                            </div>
+                        </div>
                         
-                        <div class="flex flex-col gap-4">
-                            <button onclick="openLocker()" class="group relative bg-indigo-600 hover:bg-indigo-500 text-white px-10 py-6 rounded-3xl font-bold text-xl transition-all shadow-2xl shadow-indigo-500/20 active:scale-95">
-                                <span class="flex items-center justify-center gap-3 uppercase tracking-tighter">
-                                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                                    Initialize <span id="platform-text">IOS</span> Build
-                                </span>
+                        <p class="text-xl text-zinc-400 leading-relaxed max-w-2xl">${app.desc}</p>
+
+                        <div class="flex flex-wrap gap-4 pt-4">
+                            <button onclick="openLocker()" class="px-10 py-5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-semibold transition-all flex items-center gap-3">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14m7-7l-7 7-7-7"/></svg>
+                                Deploy Framework
                             </button>
-                            <p class="text-center mono text-[10px] text-gray-600 tracking-[0.3em] uppercase">Authenticated / SHA-256 Verified</p>
+                            <div class="flex p-1.5 bg-zinc-900 border border-zinc-800 rounded-2xl">
+                                <button onclick="setPlatform('ios')" id="btn-ios" class="platform-btn active px-6 py-3 rounded-xl text-xs font-bold uppercase mono tracking-widest">iOS</button>
+                                <button onclick="setPlatform('android')" id="btn-android" class="platform-btn px-6 py-3 rounded-xl text-xs font-bold uppercase mono tracking-widest text-zinc-500">Android</button>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="bg-white/5 border border-white/10 rounded-[48px] p-10 md:p-14 shadow-3xl">
-                        <h4 class="mono text-xs text-indigo-400 uppercase tracking-[0.4em] mb-12">System Features</h4>
-                        <div class="space-y-6">
+                    <div class="lg:col-span-2 bg-zinc-900/50 border border-zinc-800 rounded-[32px] p-8 space-y-8">
+                        <h4 class="mono text-[10px] text-zinc-500 uppercase tracking-widest">Deployment Parameters</h4>
+                        <div class="space-y-4">
                             ${app.feats.map(f => `
-                                <div class="flex items-center gap-6 group/item">
-                                    <div class="w-8 h-8 rounded-full bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold text-xs group-hover/item:bg-indigo-500 group-hover/item:text-white transition-all">✓</div>
-                                    <span class="text-xl font-medium text-gray-200">${f}</span>
+                                <div class="flex items-center gap-4 p-4 bg-zinc-900 border border-zinc-800 rounded-xl">
+                                    <div class="w-2 h-2 rounded-full bg-indigo-500"></div>
+                                    <span class="text-sm font-medium text-zinc-300">${f}</span>
                                 </div>
                             `).join('')}
                         </div>
                     </div>
                 </div>
             `;
-            
-            viewer.classList.remove('hidden');
-            setTimeout(() => viewer.classList.add('active'), 10);
-            window.scrollTo(0,0);
         }
 
         function setPlatform(p) {
             selectedPlatform = p;
-            document.getElementById('btn-ios').classList.toggle('active', p === 'ios');
-            document.getElementById('btn-ios').classList.toggle('text-gray-500', p !== 'ios');
-            document.getElementById('btn-android').classList.toggle('active', p === 'android');
-            document.getElementById('btn-android').classList.toggle('text-gray-500', p !== 'android');
-            document.getElementById('platform-text').innerText = p.toUpperCase();
+            document.querySelectorAll('.platform-btn').forEach(b => b.classList.remove('active', 'text-white'));
+            document.querySelectorAll('.platform-btn').forEach(b => b.classList.add('text-zinc-500'));
+            const activeBtn = document.getElementById(`btn-${p}`);
+            activeBtn.classList.add('active');
+            activeBtn.classList.remove('text-zinc-500');
         }
 
         function closeViewer() {
             const viewer = document.getElementById('app-viewer');
             viewer.classList.remove('active');
-            setTimeout(() => viewer.classList.add('hidden'), 800);
+            setTimeout(() => viewer.classList.add('hidden'), 500);
         }
 
-        function openLocker() { 
-            document.getElementById('locker-modal').classList.remove('hidden');
-            document.getElementById('locker-modal').style.display = 'flex'; 
-        }
-
-        function closeLocker() { 
-            document.getElementById('locker-modal').style.display = 'none'; 
-            document.getElementById('locker-modal').classList.add('hidden');
-        }
+        function openLocker() { document.getElementById('locker-modal').classList.remove('hidden'); document.getElementById('locker-modal').classList.add('flex'); }
+        function closeLocker() { document.getElementById('locker-modal').classList.add('hidden'); document.getElementById('locker-modal').classList.remove('flex'); }
 
         init();
     </script>
 </body>
 </html>
+

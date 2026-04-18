@@ -2,230 +2,437 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS // Neural Repository 2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Nexus | Professional Intelligence Hub</title>
+    <!-- GSAP & Tailwind -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;500;700&family=Inter:wght@400;500&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     
     <style>
-        :root {
-            --bg: #050505;
-            --accent: #4f46e5;
-            --surface: rgba(255, 255, 255, 0.02);
-            --border: rgba(255, 255, 255, 0.06);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            background-color: var(--bg);
-            color: #ffffff;
+            background-color: #050505;
             font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            letter-spacing: -0.01em;
+            color: #eef2ff;
+            scroll-behavior: smooth;
         }
 
-        .heading { font-family: 'Inter Tight', sans-serif; }
-        .mono { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; }
-
-        /* Sophisticated Background */
-        .ambient-glow {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle at 50% -20%, rgba(79, 70, 229, 0.12), transparent 70%),
-                radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.02), transparent 40%);
-            z-index: -1;
+        /* refined glass & borders */
+        .glass-panel {
+            background: rgba(12, 12, 18, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
-        .bento-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            backdrop-filter: blur(32px);
-            border-radius: 24px;
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        .card-subtle {
+            background: #0c0c12;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
 
-        .bento-card:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-8px) scale(1.01);
-            box-shadow: 0 30px 60px -12px rgba(0,0,0,0.5);
+        .card-subtle:hover {
+            border-color: rgba(99, 102, 241, 0.45);
+            background: #101016;
+            transform: translateY(-4px);
+            box-shadow: 0 25px 35px -12px rgba(0, 0, 0, 0.6);
         }
 
-        .btn-primary {
-            background: #ffffff;
-            color: #000000;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 600;
-            transition: all 0.3s ease;
+        .gradient-accent {
+            background: linear-gradient(135deg, #818cf8 0%, #4f46e5 100%);
         }
 
-        .btn-primary:hover {
-            background: var(--accent);
-            color: #ffffff;
-            box-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
+        .badge-glow {
+            background: rgba(79, 70, 229, 0.12);
+            box-shadow: 0 0 6px rgba(99, 102, 241, 0.2);
         }
 
-        #app-viewer {
-            background: rgba(5, 5, 5, 0.95);
-            backdrop-filter: blur(50px);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
+        .prose-link {
+            position: relative;
         }
 
-        #app-viewer.active {
-            opacity: 1;
-            pointer-events: auto;
+        .prose-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: #6366f1;
+            transition: width 0.25s ease;
         }
 
-        .platform-btn.active {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-            color: white;
+        .prose-link:hover::after {
+            width: 100%;
+        }
+
+        /* custom scroll */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d2d3a;
+            border-radius: 8px;
+        }
+
+        /* modal & overlay transitions */
+        #app-overlay, #locker-modal {
+            transition: opacity 0.2s ease, visibility 0.2s;
         }
     </style>
 </head>
-<body class="p-6 md:p-12">
-    <div class="ambient-glow"></div>
+<body class="antialiased">
 
-    <nav class="max-w-7xl mx-auto flex justify-between items-center mb-24">
-        <div class="flex items-center gap-4 group cursor-pointer">
-            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center transition-transform group-hover:rotate-12">
-                <div class="w-4 h-4 bg-black rounded-sm"></div>
+    <!-- subtle radial background -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden">
+        <div class="absolute top-[-20%] left-[-10%] w-[80%] h-[80%] rounded-full bg-indigo-600/5 blur-[120px]"></div>
+        <div class="absolute bottom-[-10%] right-[-5%] w-[70%] h-[70%] rounded-full bg-purple-600/5 blur-[130px]"></div>
+    </div>
+
+    <!-- NAVIGATION - minimal, professional -->
+    <nav class="fixed top-0 w-full z-[100] px-6 md:px-10 py-5 transition-all duration-300 glass-panel border-t-0 border-x-0">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg gradient-accent flex items-center justify-center shadow-md">
+                    <span class="text-white font-black text-sm">NX</span>
+                </div>
+                <span class="text-xl font-semibold tracking-tight text-white">NEXUS</span>
+                <span class="hidden md:inline-block text-[11px] font-medium text-indigo-300/70 ml-2 tracking-wide uppercase border-l border-white/10 pl-3">enterprise hub</span>
             </div>
-            <span class="heading font-bold text-xl tracking-tighter">NEXUS.</span>
-        </div>
-        <div class="hidden md:flex items-center gap-8">
-            <div class="mono opacity-30">STATUS // ENCRYPTED</div>
-            <div class="h-4 w-px bg-white/10"></div>
-            <button class="mono text-[10px] hover:text-indigo-400 transition-colors">OS_TERMINAL</button>
+            <div class="flex items-center gap-5">
+                <div class="hidden md:flex gap-6 text-sm font-medium text-gray-300">
+                    <a href="#" class="hover:text-white transition-colors">Solutions</a>
+                    <a href="#" class="hover:text-white transition-colors">Assets</a>
+                    <a href="#" class="hover:text-white transition-colors">Security</a>
+                </div>
+                <div class="w-px h-5 bg-white/10 hidden md:block"></div>
+                <div class="text-xs px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 font-mono tracking-wide">
+                    v2.6 · SECURE
+                </div>
+            </div>
         </div>
     </nav>
 
-    <header class="max-w-7xl mx-auto mb-32">
-        <h1 class="heading text-7xl md:text-[120px] font-bold tracking-tightest leading-[0.9] mb-12">
-            Intelligence <br><span class="text-white/20 italic">Architected.</span>
-        </h1>
-        <div class="grid md:grid-cols-2 gap-12 items-end">
-            <p class="text-xl text-white/50 leading-relaxed font-light">
-                The definitive repository for 2026 generative protocols. Secure deployment of neural engines for high-performance workflows.
-            </p>
-            <div class="flex justify-end mono text-[10px] text-white/20">
-                SCROLL_TO_INITIALIZE_CORE
+    <main class="pt-36 pb-24 px-6 md:px-10">
+        <div class="max-w-7xl mx-auto">
+            <!-- HERO SECTION - professional clarity -->
+            <div class="mb-32 relative">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-indigo-500/20 bg-indigo-500/5 text-indigo-300 text-[11px] font-semibold tracking-wide mb-8">
+                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+                    Verified Intelligence Ecosystem
+                </div>
+                <h1 class="text-6xl md:text-8xl font-bold tracking-tighter leading-[1.05] text-white max-w-5xl">
+                    Precision tools for<br>
+                    <span class="bg-gradient-to-r from-indigo-300 via-white to-indigo-200 bg-clip-text text-transparent">next‑gen creators.</span>
+                </h1>
+                <div class="max-w-2xl mt-8 space-y-5">
+                    <p class="text-lg text-gray-400 leading-relaxed">
+                        Curated repository of premium AI engines, design suites, and research platforms — fully audited, zero friction deployment.
+                    </p>
+                    <div class="flex flex-wrap gap-5 pt-3">
+                        <div class="flex items-center gap-2 text-sm text-gray-300"><span class="text-indigo-400 text-xl">✓</span> Enterprise-grade access</div>
+                        <div class="flex items-center gap-2 text-sm text-gray-300"><span class="text-indigo-400 text-xl">✓</span> Native integration layer</div>
+                        <div class="flex items-center gap-2 text-sm text-gray-300"><span class="text-indigo-400 text-xl">✓</span> 24/7 secure provisioning</div>
+                    </div>
+                </div>
             </div>
+
+            <!-- TOOL GRID - refined modern cards -->
+            <div class="mb-12 flex justify-between items-end border-b border-white/10 pb-5">
+                <div>
+                    <h2 class="text-2xl font-semibold tracking-tight">Asset directory</h2>
+                    <p class="text-gray-500 text-sm mt-1">Authenticated modules · low latency</p>
+                </div>
+                <div class="text-[10px] font-mono text-gray-500 uppercase tracking-wider bg-white/5 px-3 py-1.5 rounded-full">8 active resources</div>
+            </div>
+
+            <div id="grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
         </div>
-    </header>
+    </main>
 
-    <main id="grid" class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 mb-32"></main>
-
-    <div id="app-viewer" class="fixed inset-0 z-[100] hidden flex-col p-8 md:p-24 overflow-y-auto">
-        <div class="max-w-6xl mx-auto w-full">
-            <button onclick="closeViewer()" class="mono text-white/30 hover:text-white mb-20 flex items-center gap-4 group">
-                <span class="text-xl group-hover:-translate-x-2 transition-transform">←</span> BACK_TO_REPOSITORY
+    <!-- DETAIL OVERLAY (professional modal) -->
+    <div id="app-overlay" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-[200] hidden overflow-y-auto">
+        <div class="max-w-6xl mx-auto px-6 md:px-10 py-14 md:py-20">
+            <button onclick="hideDetails()" class="group flex items-center gap-3 text-gray-400 hover:text-white transition-all mb-14 font-medium text-sm">
+                <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                Back to repository
             </button>
-            <div id="viewer-content"></div>
+            <div id="overlay-content"></div>
         </div>
     </div>
 
-    <div id="locker-modal" class="fixed inset-0 z-[200] bg-black/90 backdrop-blur-2xl hidden items-center justify-center p-6">
-        <div class="w-full max-w-xl bg-[#0a0a0a] rounded-[32px] overflow-hidden border border-white/10 shadow-3xl">
-            <div class="p-6 border-b border-white/5 flex justify-between items-center">
-                <span class="mono text-white/40 uppercase">Verification_Protocol</span>
-                <button onclick="closeLocker()" class="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center">✕</button>
+    <!-- LOCKER IFRAME MODAL -->
+    <div id="locker-modal" class="fixed inset-0 z-[300] bg-black/98 hidden items-center justify-center p-4 md:p-8 transition-all" onclick="closeLocker()">
+        <div class="w-full max-w-3xl h-[85vh] bg-[#0c0c12] rounded-2xl overflow-hidden shadow-2xl border border-white/15" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center px-6 py-4 border-b border-white/10 bg-[#0a0a0f]">
+                <span class="text-sm font-medium text-gray-300">Secure deployment portal · encrypted tunnel</span>
+                <button onclick="closeLocker()" class="text-gray-400 hover:text-white transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
             </div>
-            <div class="aspect-[4/5]">
-                <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0" class="w-full h-full"></iframe>
-            </div>
+            <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0" class="w-full h-full"></iframe>
         </div>
     </div>
 
     <script>
+        // Enhanced dataset with professional icons & realistic descriptions
         const appData = [
-            { name: 'DeepSeek R1', tag: 'Logic', size: 'md:col-span-2 md:row-span-2', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', desc: 'Enterprise-scale reasoning for code architecture and predictive logic.', feats: ['DeepThink V3', 'Bypass Mode', 'SHA-512 Auth'] },
-            { name: 'Midjourney AI', tag: 'Creative', size: 'md:col-span-2', logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png', desc: 'Photorealistic neural rendering with cinematic control protocols.', feats: ['V6.1 Engine', 'Raw Output', 'Stealth Mode'] },
-            { name: 'Claude 3.5', tag: 'Analyst', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', desc: 'Superior technical analysis and contextual artifact generation.', feats: ['200K Context', 'Security Native'] },
-            { name: 'ChatGPT Plus', tag: 'Omni', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', desc: 'Universal intelligence layer for multimodal operational tasks.', feats: ['GPT-4o Native', 'Voice-Realtime'] },
-            { name: 'CapCut Pro', tag: 'Studio', size: 'md:col-span-1', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', desc: 'Advanced AI video synthesis and automated VFX distribution.', feats: ['4K Raw Support', 'No-Watermark'] },
-            { name: 'Perplexity', tag: 'Search', size: 'md:col-span-2', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', desc: 'Real-time neural search with verified source citation logic.', feats: ['Pro Search', 'Citation-Sync'] }
+            { 
+                name: 'DeepSeek R1', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', 
+                tag: 'Reasoning Core',
+                desc: 'Advanced open-weight model with 256k context window, optimized for code synthesis, logic verification and technical documentation.',
+                features: ['DeepThink V3.2', 'Code generation suite', 'Local deployment ready', 'Chain-of-thought logging'],
+                category: 'AI Framework',
+                version: 'v3.2.1'
+            },
+            { 
+                name: 'Midjourney AI', 
+                logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png', 
+                tag: 'Generative Visuals',
+                desc: 'High-fidelity image synthesis engine tailored for brand identity, cinematic concepts, and photorealistic renderings.',
+                features: ['V6.1 parameter tuning', 'Alpha upscaler', 'Style reference bank', 'Fast queue access'],
+                category: 'Creative Suite',
+                version: 'v6.2'
+            },
+            { 
+                name: 'Claude 3.5 Sonnet', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', 
+                tag: 'Intelligence Layer',
+                desc: 'Enterprise LLM specialized in technical writing, multi-step reasoning, and secure enterprise data analysis.',
+                features: ['200k context', 'Artifacts system', 'Computer use beta', 'Privacy certified'],
+                category: 'LLM Platform',
+                version: '3.5'
+            },
+            { 
+                name: 'ChatGPT Plus', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', 
+                tag: 'Unified Workspace',
+                desc: 'Full access to GPT-4o, DALL·E 3, advanced data analytics and real-time browsing for professional workflows.',
+                features: ['GPT-4o turbo', 'Data analyst', 'Voice & vision', 'Custom GPTs'],
+                category: 'AI Suite',
+                version: 'GPT-4o'
+            },
+            { 
+                name: 'CapCut Pro', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', 
+                tag: 'Video Suite',
+                desc: 'Professional editing stack with AI motion tracking, smart color grading, and 4K ProRes exports without watermarks.',
+                features: ['Auto-captioning', 'AI visual effects', 'Multi-layer timeline', 'Stock library access'],
+                category: 'Post-Production',
+                version: 'Pro 4.5'
+            },
+            { 
+                name: 'Perplexity Pro', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', 
+                tag: 'Research OS',
+                desc: 'Real-time answer engine with source-first citations, integrating top LLMs for deep investigative research.',
+                features: ['Pro search', 'Citation anchors', 'File analysis', 'Focus modes'],
+                category: 'Research',
+                version: 'Pro Max'
+            },
+            { 
+                name: 'Gemini Ultra', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', 
+                tag: 'Multimodal Core',
+                desc: 'Google’s most capable reasoning model, deeply integrated with Drive, Gmail, and third-party extensions.',
+                features: ['1M token context', 'Workspace extensions', 'Code execution', 'Native image reasoning'],
+                category: 'Productivity',
+                version: 'Ultra 1.5'
+            },
+            { 
+                name: 'Canva Pro', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', 
+                tag: 'Design Ecosystem',
+                desc: 'Unlimited premium templates, brand consistency tools, and AI-powered design assistant for rapid asset creation.',
+                features: ['Magic Studio', 'Background remover', 'Brand kit', '100M+ assets'],
+                category: 'Visual Design',
+                version: 'Enterprise'
+            }
         ];
 
-        function init() {
-            const grid = document.getElementById('grid');
-            appData.forEach((app, i) => {
-                grid.innerHTML += `
-                    <div class="bento-card ${app.size} p-8 flex flex-col justify-between group cursor-pointer" onclick="openViewer(${i})">
-                        <div>
-                            <div class="flex justify-between items-start mb-16">
-                                <div class="w-14 h-14 bg-white/5 border border-white/10 rounded-2xl p-3 group-hover:border-white/30 transition-all">
-                                    <img src="${app.logo}" class="w-full h-full object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500">
-                                </div>
-                                <span class="mono text-white/30 border border-white/5 px-3 py-1 rounded-full group-hover:text-white transition-colors">${app.tag}</span>
+        // robust fallback for broken images using high quality initials + subtle style
+        function handleImageError(img, name) {
+            img.onerror = null;
+            const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            // create canvas fallback with clean gradient
+            const canvas = document.createElement('canvas');
+            canvas.width = 80;
+            canvas.height = 80;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#18181e';
+            ctx.fillRect(0, 0, 80, 80);
+            ctx.fillStyle = '#6366f1';
+            ctx.font = 'bold 32px "Inter", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(initials, 40, 44);
+            img.src = canvas.toDataURL();
+        }
+
+        function renderCards() {
+            const container = document.getElementById('grid-container');
+            if (!container) return;
+            container.innerHTML = '';
+            appData.forEach((app, idx) => {
+                const card = document.createElement('div');
+                card.className = 'card-subtle rounded-2xl p-6 flex flex-col justify-between cursor-pointer group transition-all duration-300';
+                card.setAttribute('onclick', `showDetails(${idx})`);
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-start justify-between mb-5">
+                            <div class="w-14 h-14 rounded-xl bg-[#12121a] flex items-center justify-center overflow-hidden border border-white/5 shadow-sm">
+                                <img src="${app.logo}" alt="${app.name}" class="w-11 h-11 object-contain" onerror="handleImageError(this, '${app.name}')">
                             </div>
-                            <h3 class="heading text-3xl font-bold tracking-tight mb-3 group-hover:translate-x-1 transition-transform">${app.name}</h3>
-                            <p class="text-sm text-white/40 leading-relaxed font-light line-clamp-2">${app.desc}</p>
+                            <span class="text-[10px] font-mono text-indigo-400/80 bg-indigo-500/10 px-2 py-0.5 rounded-full">${app.version}</span>
                         </div>
-                        <div class="mt-12 flex justify-between items-center border-t border-white/5 pt-6">
-                            <button onclick="event.stopPropagation(); openLocker();" class="btn-primary text-xs uppercase tracking-tighter">Initialize_OS</button>
-                            <div class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
-                            </div>
+                        <p class="text-indigo-400 font-semibold text-[11px] tracking-wider uppercase mb-2">${app.tag}</p>
+                        <h3 class="text-xl font-bold tracking-tight text-white mb-3 group-hover:text-indigo-300 transition">${app.name}</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed line-clamp-2">${app.desc.substring(0, 95)}${app.desc.length > 95 ? '...' : ''}</p>
+                    </div>
+                    <div class="flex justify-between items-center pt-5 mt-4 border-t border-white/5">
+                        <span class="text-[10px] text-gray-500 font-semibold tracking-wider uppercase">${app.category}</span>
+                        <div class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/60 group-hover:bg-indigo-500 group-hover:border-indigo-400 group-hover:text-white transition-all duration-200">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
                         </div>
                     </div>
                 `;
+                container.appendChild(card);
             });
         }
 
-        function openViewer(idx) {
+        // professional detailed view with structured layout
+        function showDetails(idx) {
             const app = appData[idx];
-            const viewer = document.getElementById('app-viewer');
-            viewer.classList.remove('hidden');
-            setTimeout(() => viewer.classList.add('active'), 10);
+            const overlayDiv = document.getElementById('app-overlay');
+            const contentDiv = document.getElementById('overlay-content');
+            if (!overlayDiv || !contentDiv) return;
 
-            document.getElementById('viewer-content').innerHTML = `
-                <div class="grid lg:grid-cols-2 gap-24 items-center">
-                    <div class="space-y-12">
-                        <div class="flex items-center gap-8">
-                            <div class="w-24 h-24 bg-white/5 border border-white/10 rounded-[32px] p-5">
-                                <img src="${app.logo}" class="w-full h-full object-contain">
+            // scroll to top
+            overlayDiv.scrollTop = 0;
+            contentDiv.innerHTML = `
+                <div class="grid lg:grid-cols-5 gap-12 xl:gap-16">
+                    <div class="lg:col-span-3">
+                        <div class="flex items-center gap-5 mb-8">
+                            <div class="w-20 h-20 rounded-2xl bg-[#111116] border border-white/10 flex items-center justify-center p-3">
+                                <img src="${app.logo}" class="w-full h-full object-contain" onerror="handleImageError(this, '${app.name}')" alt="${app.name}">
                             </div>
-                            <h2 class="heading text-7xl font-bold tracking-tighter">${app.name}</h2>
+                            <div>
+                                <p class="text-indigo-400 font-mono text-xs tracking-wider">${app.tag} · ${app.version}</p>
+                                <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-white mt-1">${app.name}</h2>
+                            </div>
                         </div>
-                        <p class="text-3xl text-white/50 leading-tight font-light">${app.desc}</p>
-                        <div class="flex flex-col gap-6">
-                            <button onclick="openLocker()" class="w-full py-6 bg-white text-black rounded-2xl font-bold text-xl hover:bg-indigo-600 hover:text-white transition-all">DEPLOY_STABLE_BUILD</button>
-                            <div class="flex gap-4">
-                                <button class="platform-btn active mono flex-1 py-4 border border-white/10 rounded-xl">iOS_BUILD</button>
-                                <button class="platform-btn mono flex-1 py-4 border border-white/10 rounded-xl text-white/30 hover:text-white">ANDROID_APK</button>
+                        <div class="prose prose-invert max-w-none text-gray-300 mb-10">
+                            <p class="text-xl leading-relaxed text-gray-200 font-light border-l-4 border-indigo-500 pl-6">${app.desc}</p>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6 mb-12">
+                            <div class="bg-[#0c0c12] rounded-2xl p-6 border border-white/5">
+                                <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span> Core capabilities</h4>
+                                <ul class="space-y-3">
+                                    ${app.features.map(f => `<li class="flex items-center gap-3 text-gray-300"><span class="text-indigo-400 font-bold text-lg">—</span> <span class="text-sm font-medium">${f}</span></li>`).join('')}
+                                </ul>
                             </div>
+                            <div class="bg-[#0c0c12] rounded-2xl p-6 border border-white/5">
+                                <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span> Deployment profile</h4>
+                                <ul class="space-y-3 text-sm text-gray-300">
+                                    <li class="flex justify-between border-b border-white/5 pb-2"><span>Auth method</span><span class="text-white font-mono">SSO + token</span></li>
+                                    <li class="flex justify-between border-b border-white/5 pb-2"><span>Latency SLA</span><span class="text-white font-mono">&lt;180ms</span></li>
+                                    <li class="flex justify-between border-b border-white/5 pb-2"><span>Compliance</span><span class="text-white font-mono">SOC2 / GDPR</span></li>
+                                    <li class="flex justify-between"><span>Environment</span><span class="text-white font-mono">Cloud + on-prem ready</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-5">
+                            <button onclick="openLocker()" class="gradient-accent px-8 py-3.5 rounded-xl font-bold text-white shadow-lg shadow-indigo-600/20 hover:shadow-indigo-500/30 transition-all text-sm tracking-wide">Deploy instance →</button>
+                            <button onclick="openLocker()" class="bg-white/5 border border-white/10 px-8 py-3.5 rounded-xl font-medium text-white hover:bg-white/10 transition-all text-sm">Provision credentials</button>
                         </div>
                     </div>
-                    <div class="bg-white/5 border border-white/10 rounded-[48px] p-12 space-y-8">
-                        <div class="mono text-white/20">CORE_CAPABILITIES</div>
-                        <div class="space-y-6">
-                            ${app.feats.map(f => `
-                                <div class="flex items-center gap-6 p-6 bg-white/5 border border-white/5 rounded-2xl">
-                                    <div class="w-3 h-3 rounded-full bg-indigo-500"></div>
-                                    <span class="text-xl font-medium">${f}</span>
-                                </div>
-                            `).join('')}
+                    <div class="lg:col-span-2 bg-[#09090e] rounded-2xl border border-white/10 p-8 h-fit">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="font-semibold text-white text-lg">Resource manifest</h3>
+                            <span class="text-[10px] bg-indigo-500/20 px-2 py-1 rounded-full text-indigo-300">Nexus verified</span>
+                        </div>
+                        <div class="space-y-5">
+                            <div class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-indigo-500/10 flex items-center justify-center mt-0.5"><span class="text-indigo-400 text-xs">✓</span></div>
+                                <div><p class="text-sm font-medium text-white">Zero-trust packaging</p><p class="text-xs text-gray-500">Signed binaries + runtime attestation</p></div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-indigo-500/10 flex items-center justify-center mt-0.5"><span class="text-indigo-400 text-xs">✓</span></div>
+                                <div><p class="text-sm font-medium text-white">Real-time update channel</p><p class="text-xs text-gray-500">Automatic delta patches, no downtime</p></div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-indigo-500/10 flex items-center justify-center mt-0.5"><span class="text-indigo-400 text-xs">✓</span></div>
+                                <div><p class="text-sm font-medium text-white">API-first integration</p><p class="text-xs text-gray-500">REST + WebSocket, rate limit optimized</p></div>
+                            </div>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-white/10">
+                            <p class="text-[10px] text-gray-500 uppercase tracking-wider mb-2">Access tier</p>
+                            <div class="flex items-center justify-between"><span class="text-sm font-bold text-white">Enterprise unlimited</span><span class="text-indigo-400 text-xs font-mono">active license</span></div>
+                            <div class="w-full bg-white/5 h-1.5 rounded-full mt-3"><div class="w-3/4 bg-indigo-500 h-1.5 rounded-full"></div></div>
                         </div>
                     </div>
                 </div>
             `;
+            overlayDiv.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            // smooth gsap fade
+            gsap.fromTo(contentDiv, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' });
         }
 
-        function closeViewer() {
-            const viewer = document.getElementById('app-viewer');
-            viewer.classList.remove('active');
-            setTimeout(() => viewer.classList.add('hidden'), 500);
+        function hideDetails() {
+            const overlay = document.getElementById('app-overlay');
+            if (overlay) {
+                overlay.style.display = 'none';
+                document.body.style.overflow = '';
+            }
         }
 
-        function openLocker() { document.getElementById('locker-modal').style.display = 'flex'; }
-        function closeLocker() { document.getElementById('locker-modal').style.display = 'none'; }
+        function openLocker() {
+            const modal = document.getElementById('locker-modal');
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
 
-        init();
+        function closeLocker() {
+            const modal = document.getElementById('locker-modal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Optional subtle entrance animation on cards
+        function initAnimations() {
+            const cards = document.querySelectorAll('.card-subtle');
+            if (cards.length) {
+                gsap.fromTo(cards, 
+                    { opacity: 0, y: 30 },
+                    { opacity: 1, y: 0, duration: 0.5, stagger: 0.05, ease: 'power2.out', delay: 0.1 }
+                );
+            }
+            // hero fade
+            gsap.fromTo('h1, .inline-flex, .text-gray-400, .flex-wrap', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'back.out(0.4)' });
+        }
+
+        // initialize everything
+        renderCards();
+        setTimeout(() => initAnimations(), 100);
+        window.hideDetails = hideDetails;
+        window.showDetails = showDetails;
+        window.openLocker = openLocker;
+        window.closeLocker = closeLocker;
+        window.handleImageError = handleImageError;
     </script>
 </body>
 </html>
-

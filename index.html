@@ -3,46 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus | The Architecture of Intelligence</title>
+    <title>Nexus | Intelligence Hub</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --bg: #000000;
             --surface: #0a0a0c;
             --border: rgba(255, 255, 255, 0.08);
-            --accent: #6366f1;
+            --indigo: #6366f1;
         }
 
         body {
             background-color: var(--bg);
             color: #ffffff;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             overflow-x: hidden;
-            letter-spacing: -0.02em;
         }
 
-        /* Ambient background glow */
-        .glow-sphere {
+        /* Luxury Background Glow */
+        .ambient-light {
             position: fixed;
-            width: 80vw;
-            height: 80vw;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.06) 0%, rgba(0,0,0,0) 70%);
-            border-radius: 50%;
+            width: 70vw;
+            height: 70vw;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, rgba(0,0,0,0) 70%);
             z-index: -1;
-            filter: blur(120px);
+            filter: blur(100px);
         }
 
-        nav {
-            backdrop-filter: blur(30px);
-            background: rgba(0, 0, 0, 0.7);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .hero-title {
-            background: linear-gradient(to bottom, #ffffff 40%, #52525b 100%);
+        .hero-gradient {
+            background: linear-gradient(to bottom, #ffffff 30%, #71717a 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -50,15 +42,28 @@
         .nexus-card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 32px;
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
+            border-radius: 28px;
+            transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
         }
 
         .nexus-card:hover {
-            transform: translateY(-12px);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+            transform: translateY(-10px);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        /* Professional App Icon Container */
+        .icon-container {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            background: #121214;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
         #app-overlay {
@@ -70,58 +75,41 @@
             overflow-y: auto;
         }
 
-        .btn-gradient {
+        .btn-main {
             background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            transition: all 0.3s ease;
         }
 
-        .locker-container {
-            width: 100%;
-            max-width: 500px;
-            height: 85vh;
-            background: #fff;
-            border-radius: 40px;
-            overflow: hidden;
-        }
-
-        /* App Icon Frame */
-        .icon-box {
-            width: 72px;
-            height: 72px;
-            border-radius: 20px;
-            background: #161618;
-            border: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        .btn-main:hover {
+            filter: brightness(1.2);
+            transform: scale(1.02);
         }
     </style>
 </head>
 <body class="antialiased">
 
-    <div class="glow-sphere" style="top: -20%; left: -10%;"></div>
+    <div class="ambient-light" style="top: -10%; left: -10%;"></div>
 
-    <nav class="fixed top-0 w-full z-[100] px-8 py-5">
+    <nav class="fixed top-0 w-full z-[100] px-8 py-6 backdrop-blur-xl border-b border-white/5 bg-black/40">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="text-2xl font-black tracking-tighter flex items-center gap-3">
-                <span class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white">N</span>
+            <div class="text-2xl font-extrabold tracking-tighter flex items-center gap-3">
+                <div class="w-9 h-9 bg-indigo-600 rounded-lg flex items-center justify-center text-sm">N</div>
                 NEXUS
             </div>
-            <div class="text-xs font-mono text-gray-500 uppercase tracking-widest bg-white/5 px-4 py-1.5 rounded-full border border-white/10">
-                System: <span class="text-indigo-400">Stable v4.2</span>
+            <div class="px-4 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/5 text-indigo-400 text-[10px] font-black tracking-widest uppercase">
+                2026 Professional Core
             </div>
         </div>
     </nav>
 
-    <main class="pt-48 pb-32 px-8">
+    <main class="pt-44 pb-32 px-8">
         <div class="max-w-7xl mx-auto">
-            <header class="max-w-4xl mb-24">
-                <h1 class="text-7xl md:text-9xl font-extrabold hero-title tracking-tighter leading-none mb-10">
-                    The Elite <br>Mobile Layer.
+            <header class="mb-24">
+                <h1 class="text-7xl md:text-9xl font-extrabold hero-gradient tracking-tighter leading-[0.9] mb-8">
+                    Architecture <br>of Power.
                 </h1>
-                <p class="text-2xl text-gray-400 font-light leading-relaxed max-w-2xl">
-                    High-performance tools, verified and unlocked for the professional landscape.
+                <p class="text-2xl text-gray-500 font-light max-w-2xl leading-relaxed">
+                    The repository for high-performance AI and Creative tools. Enterprise-grade, verified, and ad-free.
                 </p>
             </header>
 
@@ -131,18 +119,16 @@
 
     <div id="app-overlay">
         <div class="max-w-7xl mx-auto px-8 py-20">
-            <button onclick="hideDetails()" class="mb-16 flex items-center gap-4 text-gray-500 hover:text-white font-bold transition-all group">
-                <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-                </div>
-                BACK TO HUB
+            <button onclick="hideDetails()" class="mb-16 flex items-center gap-4 text-gray-500 hover:text-white font-bold transition-all">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                EXIT REPOSITORY
             </button>
             <div id="overlay-content"></div>
         </div>
     </div>
 
     <div id="locker-modal" class="fixed inset-0 z-[200] bg-black/98 hidden items-center justify-center p-6" onclick="closeLocker()">
-        <div class="locker-container" onclick="event.stopPropagation()">
+        <div class="w-full max-w-md h-[80vh] bg-white rounded-[40px] overflow-hidden shadow-2xl" onclick="event.stopPropagation()">
             <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0" class="w-full h-full"></iframe>
         </div>
     </div>
@@ -150,66 +136,67 @@
     <script>
         const appData = [
             { 
-                name: 'Claude 3.5', 
+                name: 'Claude 3.5 Sonnet', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', 
-                tag: 'Deep Reasoning',
-                desc: 'Anthropic’s most sophisticated model. Specialized in coding, deep research, and high-context writing.',
-                features: ['Artifacts Enabled', '200k Context Window', 'Python Interpreter', 'Priority Access'],
-                category: 'Research AI'
+                tag: 'Reasoning Engine',
+                desc: 'Anthropic’s most advanced reasoning model. Optimized for code generation, document analysis, and human-nuance research.',
+                features: ['Artifacts UI', '200k Context', 'Code Specialist', 'Verified Account'],
+                category: 'AI Logic'
             },
             { 
                 name: 'Alight Motion', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/alight-motion-icon.png', 
-                tag: 'Motion Graphics',
-                desc: 'The definitive motion design tool. Create complex animations, vector graphics, and visual effects with unlimited layers.',
-                features: ['No Watermark', 'Premium Visual FX', 'Vector Support', 'Custom Keyframes'],
+                tag: 'Motion Design',
+                desc: 'Professional-grade animation on mobile. Create complex graphics, composite layers, and cinematic visual effects.',
+                features: ['No Watermark', 'Premium Visual FX', 'Vector Editing', 'Full Sharing'],
                 category: 'Animation'
             },
             { 
                 name: 'ChatGPT Plus', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', 
-                tag: 'Intelligence Node',
-                desc: 'Access the world’s leading LLM. Includes high-priority access to GPT-4o and DALL-E 3.',
-                features: ['GPT-4o Access', 'DALL-E 3 Native', 'Data Analysis Pro', 'Advanced Voice'],
-                category: 'AI Engine'
-            },
-            { 
-                name: 'Perplexity Pro', 
-                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', 
-                tag: 'Real-time Search',
-                desc: 'Direct, cited answers with zero advertising and live web analysis.',
-                features: ['Source Citations', 'Pro Search Mode', 'File Uploads', 'Switchable Models'],
-                category: 'Knowledge'
-            },
-            { 
-                name: 'Gemini Ultra', 
-                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', 
-                tag: 'Google Ecosystem',
-                desc: 'Multi-modal AI powerhouse integrated with Google Workspace.',
-                features: ['Workspace Sync', 'Image Logic', 'Ultra-fast Speed', 'Live Extensions'],
-                category: 'AI Suite'
+                tag: 'Neural Hub',
+                desc: 'Access the world’s most popular intelligence engine. High-priority access to GPT-4o and DALL-E 3 visual generation.',
+                features: ['GPT-4o Access', 'DALL-E 3 Native', 'Data Analysis', 'Voice Mode Pro'],
+                category: 'AI Intelligence'
             },
             { 
                 name: 'CapCut Pro', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', 
                 tag: 'Video Production',
-                desc: 'Desktop-grade video editing on mobile with 4K raw exports and AI templates.',
-                features: ['4K 60FPS Raw', 'All Pro Templates', 'AI Smart Cutout', 'Ad-Free Editing'],
-                category: 'Video Edit'
+                desc: 'The industry standard for social video. Unlock all 4K templates, AI smart tools, and high-bitrate exports.',
+                features: ['4K Raw Export', 'AI Templates', 'No Watermark', 'Premium VFX'],
+                category: 'Creative'
+            },
+            { 
+                name: 'Perplexity Pro', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', 
+                tag: 'Search Evolution',
+                desc: 'Experience ad-free, cited search. Real-time answers with source links for professional research and verification.',
+                features: ['Live Web Search', 'Cited Sources', 'Pro Search Mode', 'Model Switching'],
+                category: 'Knowledge'
+            },
+            { 
+                name: 'Gemini Ultra', 
+                logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', 
+                tag: 'Multi-Modal',
+                desc: 'Google’s powerhouse AI. Seamlessly connects with your Workspace apps like Drive, Docs, and Gmail for maximum speed.',
+                features: ['Google Workspace Sync', 'Ultra Intelligence', 'Live Research', 'App Extensions'],
+                category: 'AI Suite'
             },
             { 
                 name: 'Canva Pro', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', 
-                tag: 'Visual Design',
-                desc: 'Complete Magic Studio, premium assets, and brand kit management.',
-                features: ['Magic Resizer', 'Background Remover', 'Brand Library', 'Premium Fonts'],
-                category: 'Graphics'
+                tag: 'Visual Assets',
+                desc: 'The complete creative suite for non-designers and pros alike. Full access to Magic Studio and enterprise brand assets.',
+                features: ['Magic Resizer', 'Background Remover', '100M+ Assets', 'Pro Font Access'],
+                category: 'Design'
             }
         ];
 
-        function handleImageError(img, name) {
+        // Ensure icons load correctly or provide a branded fallback
+        function imgFallback(img, name) {
             img.onerror = null;
-            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1e1e1e&color=6366f1&size=256&bold=true`;
+            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1e1e20&color=6366f1&size=256&bold=true`;
         }
 
         function init() {
@@ -218,14 +205,14 @@
                 container.innerHTML += `
                     <div class="nexus-card p-10 flex flex-col justify-between cursor-pointer group" onclick="showDetails(${i})">
                         <div>
-                            <div class="icon-box mb-8">
-                                <img src="${app.logo}" alt="${app.name}" class="w-full h-full object-cover" onerror="handleImageError(this, '${app.name}')">
+                            <div class="icon-container mb-8">
+                                <img src="${app.logo}" alt="${app.name}" class="w-full h-full object-cover p-2" onerror="imgFallback(this, '${app.name}')">
                             </div>
                             <p class="text-indigo-400 font-bold text-[10px] tracking-[0.2em] uppercase mb-2">${app.tag}</p>
-                            <h3 class="text-2xl font-bold tracking-tight mb-4">${app.name}</h3>
+                            <h3 class="text-2xl font-bold tracking-tight mb-4 group-hover:text-indigo-400 transition-colors">${app.name}</h3>
                         </div>
                         <div class="flex justify-between items-center pt-8 border-t border-white/5">
-                            <span class="text-xs text-gray-500 font-bold uppercase tracking-widest">${app.category}</span>
+                            <span class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">${app.category}</span>
                             <div class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
                                 <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
                             </div>
@@ -242,16 +229,16 @@
                 <div class="grid lg:grid-cols-2 gap-24 items-start">
                     <div>
                         <div class="w-32 h-32 rounded-[32px] mb-12 shadow-2xl overflow-hidden border border-white/10 bg-white/5">
-                            <img src="${app.logo}" class="w-full h-full object-cover" onerror="handleImageError(this, '${app.name}')">
+                            <img src="${app.logo}" class="w-full h-full object-cover p-4" onerror="imgFallback(this, '${app.name}')">
                         </div>
                         <h2 class="text-7xl md:text-8xl font-black tracking-tighter mb-8 leading-none">${app.name}</h2>
                         <p class="text-2xl text-gray-400 font-light leading-relaxed mb-12">${app.desc}</p>
                         <div class="flex flex-col sm:flex-row gap-6">
-                            <button onclick="openLocker()" class="btn-gradient px-12 py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-4 text-white">
-                                SIDELOAD APK
+                            <button onclick="openLocker()" class="btn-main px-12 py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-4 text-white">
+                                DOWNLOAD APK
                             </button>
                             <button onclick="openLocker()" class="bg-white text-black px-12 py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-4 hover:bg-gray-200 transition-all">
-                                IOS DEPLOY
+                                INSTALL ON IOS
                             </button>
                         </div>
                     </div>
@@ -280,3 +267,4 @@
     </script>
 </body>
 </html>
+

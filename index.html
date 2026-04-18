@@ -122,7 +122,7 @@
             <p class="text-gray-400 text-xl font-medium">The definitive collection of pro-grade AI and design tools.</p>
         </header>
 
-        <div id="grid-container" class="flex justify-center"></div>
+        <div id="grid-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10"></div>
     </div>
 
     <div id="app-overlay">
@@ -144,22 +144,21 @@
     </div>
 
     <script>
-        // Data updated to only feature Claude
+        // High-Reliability Developer CDN Links (Claude Removed)
         const appData = [
-            { 
-                name: 'Claude', 
-                logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Claude_AI_logo.svg/1024px-Claude_AI_logo.svg.png', 
-                desc: 'Ethical, powerful AI designed for deep research and complex coding projects.', 
-                features: ['200k Context', 'Artifacts Engine', 'Advanced Reasoning'], 
-                rating: '4.7' 
-            }
+            { name: 'CapCut', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', desc: 'The #1 video editor for mobile creators. Professional transitions, AI tools, and 4K output.', features: ['Auto-Captioning', 'Keyframe Animation', 'Viral Templates'], rating: '4.9' },
+            { name: 'Canva', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', desc: 'The gold standard in design. Create anything from high-end social graphics to professional docs.', features: ['Magic Studio AI', 'Brand Management', '100M+ Assets'], rating: '4.8' },
+            { name: 'ChatGPT', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', desc: 'The worlds most advanced LLM for creative writing, complex reasoning, and data analysis.', features: ['GPT-4o Vision', 'Voice Interaction', 'DALL-E 3 Integration'], rating: '4.9' },
+            { name: 'Gemini', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', desc: 'Googles multi-modal powerhouse. Built for speed, precision, and integration.', features: ['Google Suite Sync', 'Native Multimodality', 'Ultra-fast Logic'], rating: '4.6' },
+            { name: 'Perplexity', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', desc: 'AI-driven search engine providing instant, cited answers with zero ads.', features: ['Pro Search Mode', 'Real-time Citations', 'Deep Research'], rating: '4.8' },
+            { name: 'DeepSeek', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', desc: 'The breakthrough reasoning model taking the industry by storm with superior coding logic.', features: ['R1 Reasoning Model', 'Math & Code Master', 'Instant Efficiency'], rating: '4.7' }
         ];
 
         function init() {
             const container = document.getElementById('grid-container');
             appData.forEach((app, i) => {
                 container.innerHTML += `
-                    <div class="premium-card p-10 flex flex-col items-center cursor-pointer w-full max-w-sm" onclick="showDetails(${i})">
+                    <div class="premium-card p-10 flex flex-col items-center cursor-pointer" onclick="showDetails(${i})">
                         <img src="${app.logo}" alt="${app.name}" class="app-img mb-6" onerror="this.src='https://ui-avatars.com/api/?name=${app.name}&background=6366f1&color=fff&size=128'">
                         <h3 class="text-2xl font-bold tracking-tight">${app.name}</h3>
                         <p class="text-xs text-indigo-400 font-bold mt-2 tracking-widest uppercase">★★★★★ ${app.rating}</p>
@@ -183,11 +182,13 @@
                         </div>
                         <p class="text-2xl text-gray-300 leading-relaxed mb-10 font-light">${app.desc}</p>
                         <div class="flex flex-col sm:flex-row gap-5">
-                            <button onclick="openLocker()" class="cta-btn flex-1 py-6 rounded-2xl font-black text-xl flex items-center justify-center gap-3">
-                                <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M17.5 18c.28 0 .5-.22.5-.5v-10c0-.28-.22-.5-.5-.5H6.5c-.28 0-.5.22-.5.5v10c0 .28.22.5.5.5h11zm-11-13h11c1.38 0 2.5 1.12 2.5 2.5v10c0 1.38-1.12 2.5-2.5 2.5h-11C5.12 20 4 18.88 4 17.5v-10C4 6.12 5.12 5 6.5 5z"/></svg> GET ON ANDROID
+                            <button onclick="openLocker()" class="cta-btn flex-1 py-6 rounded-2xl font-black text-xl flex items-center justify-center gap-4">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Play_Store_badge_EN.svg" class="h-8" alt="Android">
+                                GET ON ANDROID
                             </button>
-                            <button onclick="openLocker()" class="bg-white text-black flex-1 py-6 rounded-2xl font-black text-xl flex items-center justify-center gap-3 hover:bg-gray-200">
-                                <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.1 2.48-1.34.03-1.77-.79-3.31-.79-1.53 0-2.01.76-3.31.82-1.33.05-2.32-1.32-3.17-2.55C4.07 17.06 2.5 11.93 4.25 8.9c.87-1.51 2.43-2.46 4.12-2.48 1.28-.02 2.5.87 3.29.87.79 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-.93 2.29z"/></svg> GET ON IOS
+                            <button onclick="openLocker()" class="bg-white text-black flex-1 py-6 rounded-2xl font-black text-xl flex items-center justify-center gap-4 hover:bg-gray-200">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/31/Apple_Logo_Black.svg" class="h-8" alt="iOS">
+                                GET ON IOS
                             </button>
                         </div>
                     </div>
@@ -230,6 +231,7 @@
     </script>
 </body>
 </html>
+
 
 
 

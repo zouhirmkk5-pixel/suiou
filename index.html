@@ -2,712 +2,308 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>NEXUS | 4D Immersive App Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus AI | Premium App Directory</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg: #050505;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --accent: #6366f1;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: #05070f;
-            color: #ffffff;
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             overflow-x: hidden;
+            margin: 0;
         }
 
-        /* 3D Perspective & Depth */
-        .perspective-wrapper {
-            perspective: 1200px;
-            perspective-origin: 50% 0%;
-        }
-
-        /* Floating Orbs for 4D lighting */
+        /* 4D Immersive Background */
         .orb {
             position: fixed;
+            width: 500px;
+            height: 500px;
             border-radius: 50%;
-            filter: blur(70px);
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.5;
-            animation: floatOrb 18s infinite alternate ease-in-out;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.15;
+            animation: move 20s infinite alternate;
         }
 
-        @keyframes floatOrb {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(4%, 6%) scale(1.2); }
+        @keyframes move {
+            from { transform: translate(-10%, -10%) scale(1); }
+            to { transform: translate(20%, 20%) scale(1.2); }
         }
 
-        .orb-1 { width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(0, 180, 255, 0.4), rgba(128, 0, 255, 0.1)); top: -20%; left: -15%; }
-        .orb-2 { width: 40vw; height: 40vw; background: radial-gradient(circle, rgba(255, 80, 200, 0.25), rgba(0, 20, 60, 0)); bottom: -15%; right: -10%; animation-duration: 25s; }
-        .orb-3 { width: 35vw; height: 35vw; background: radial-gradient(circle, rgba(0, 255, 200, 0.2), rgba(10, 20, 50, 0)); top: 40%; left: 60%; animation-duration: 22s; }
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
 
-        canvas#particleField {
+        .glass-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .app-icon {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 18px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+
+        /* Floating Layers */
+        .layer-depth {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        /* Detail Modal */
+        #detail-view {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: 2;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+            display: none;
+            opacity: 0;
+            overflow-y: auto;
         }
 
-        .container {
-            position: relative;
-            z-index: 20;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem 2rem 5rem;
-        }
-
-        /* Glassmorphism Nav / Header */
-        .hero {
-            text-align: center;
-            margin-bottom: 4rem;
-            backdrop-filter: blur(2px);
-        }
-
-        .hero h1 {
-            font-size: clamp(3rem, 8vw, 5.5rem);
-            font-weight: 800;
-            background: linear-gradient(125deg, #FFFFFF 20%, #7AD0FF 50%, #B77CFF 80%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            letter-spacing: -0.02em;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .hero-glow {
-            font-size: 1.2rem;
-            color: #aab4e2;
-            margin-top: 1rem;
-            font-weight: 400;
-            letter-spacing: -0.2px;
-        }
-
-        /* App Grid - Premium 4D Floating Cards */
-        .app-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0 4rem;
-        }
-
-        .app-card {
-            background: rgba(15, 22, 40, 0.65);
-            backdrop-filter: blur(16px);
-            border-radius: 2rem;
-            padding: 1.8rem 0.8rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.45s cubic-bezier(0.2, 0.9, 0.4, 1.2);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 25px 40px -20px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.08);
-            transform: translateY(0) rotateX(0deg);
-            will-change: transform;
-        }
-
-        .app-card:hover {
-            transform: translateY(-14px) rotateX(4deg) scale(1.02);
-            border-color: rgba(0, 210, 255, 0.5);
-            box-shadow: 0 35px 45px -18px black, 0 0 0 1px rgba(0, 210, 255, 0.3);
-            background: rgba(28, 35, 58, 0.85);
-        }
-
-        .app-logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1rem;
-            background: rgba(0,0,0,0.3);
-            border-radius: 24px;
-            display: flex;
+        /* Locker Iframe Overlay */
+        #locker-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 200;
+            display: none;
             align-items: center;
             justify-content: center;
+            padding: 20px;
+        }
+
+        .locker-container {
+            width: 100%;
+            max-width: 500px;
+            height: 600px;
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
             transition: transform 0.2s;
         }
 
-        .app-logo img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.4));
-        }
+        .btn-gradient:active { transform: scale(0.95); }
 
-        .app-card h3 {
-            font-weight: 600;
-            font-size: 1.25rem;
-            margin: 0.75rem 0 0.3rem;
-        }
-
-        .app-card .badge {
-            font-size: 0.7rem;
-            font-weight: 500;
-            background: rgba(0, 210, 255, 0.2);
-            display: inline-block;
-            padding: 0.2rem 0.8rem;
-            border-radius: 40px;
-            letter-spacing: 0.3px;
-        }
-
-        /* Modal Detail Overlay - Premium */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(3, 7, 18, 0.85);
-            backdrop-filter: blur(18px);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0.2s, opacity 0.35s ease;
-        }
-
-        .modal.active {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        .modal-card {
-            background: rgba(10, 16, 28, 0.96);
-            backdrop-filter: blur(28px);
-            border-radius: 3rem;
-            max-width: 1100px;
-            width: 90%;
-            max-height: 85vh;
-            overflow-y: auto;
-            padding: 2rem 2rem 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 40px 70px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(0, 210, 255, 0.2);
-            transform: scale(0.96);
-            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            position: relative;
-        }
-
-        .modal.active .modal-card {
-            transform: scale(1);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 1.2rem;
-            right: 1.8rem;
-            font-size: 1.8rem;
-            cursor: pointer;
-            background: rgba(255,255,255,0.05);
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.2s;
-            font-weight: 300;
-        }
-
-        .modal-close:hover {
-            background: rgba(255, 70, 70, 0.7);
-            transform: scale(1.05);
-        }
-
-        .detail-header {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            align-items: center;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid rgba(255,255,255,0.15);
-            padding-bottom: 1.8rem;
-        }
-
-        .detail-logo-wrapper {
-            background: rgba(0,0,0,0.4);
-            border-radius: 32px;
-            padding: 1rem;
-        }
-
-        .detail-logo {
-            width: 90px;
-            height: 90px;
-            object-fit: contain;
-        }
-
-        .detail-title h2 {
-            font-size: 2.4rem;
-            font-weight: 700;
-            letter-spacing: -0.3px;
-        }
-
-        .rating-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .stars {
-            color: #FFD966;
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-        }
-
-        .rating-value {
-            font-weight: 500;
-        }
-
-        .feature-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin: 1.5rem 0;
-        }
-
-        .feature-chip {
-            background: rgba(0, 210, 255, 0.12);
-            padding: 0.5rem 1.2rem;
-            border-radius: 40px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            border: 0.5px solid rgba(0, 210, 255, 0.3);
-            backdrop-filter: blur(4px);
-        }
-
-        .screenshots-area {
-            display: flex;
-            gap: 1.2rem;
-            flex-wrap: wrap;
-            margin: 1.8rem 0;
-        }
-
-        .screenshot-card {
-            background: linear-gradient(145deg, #12182e, #0a0f20);
-            border-radius: 28px;
-            width: 140px;
-            height: 250px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.2s;
-            font-weight: 500;
-            font-size: 0.8rem;
-            color: #bfc9ff;
-        }
-
-        .screenshot-card .preview-icon {
-            font-size: 2.4rem;
-            margin-bottom: 0.8rem;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 1.5rem;
-            margin: 2rem 0 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .btn-download {
-            border: none;
-            padding: 0.9rem 2rem;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.25s;
-            font-family: inherit;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-android {
-            background: #3DDC84;
-            color: #0a2616;
-            box-shadow: 0 8px 20px rgba(61, 220, 132, 0.3);
-        }
-
-        .btn-ios {
-            background: #007AFF;
-            color: white;
-            box-shadow: 0 8px 20px rgba(0, 122, 255, 0.3);
-        }
-
-        .btn-download:hover {
-            transform: translateY(-3px);
-            filter: brightness(1.08);
-        }
-
-        /* Locker Modal (In-Page, No Redirect) */
-        .locker-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.92);
-            backdrop-filter: blur(20px);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            visibility: hidden;
-            opacity: 0;
-            transition: 0.25s;
-        }
-
-        .locker-overlay.active {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        .locker-window {
-            background: #070b16;
-            border-radius: 2.5rem;
-            width: 92%;
-            max-width: 860px;
-            height: 80%;
-            max-height: 85vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            border: 1px solid rgba(0, 230, 255, 0.5);
-            box-shadow: 0 30px 50px rgba(0,0,0,0.8);
-        }
-
-        .locker-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            background: #02040c;
-            border-bottom: 1px solid #2a2f4a;
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        .locker-close {
-            cursor: pointer;
-            font-size: 1.7rem;
-            line-height: 1;
-            transition: 0.2s;
-            width: 32px;
-            text-align: center;
-        }
-
-        .locker-close:hover {
-            color: #ff7b72;
-        }
-
-        .locker-iframe {
-            flex: 1;
-            width: 100%;
-            border: none;
-            background: #fff;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 4rem;
-            opacity: 0.5;
-            font-size: 0.75rem;
-            letter-spacing: 0.3px;
-        }
-
-        @media (max-width: 680px) {
-            .container {
-                padding: 1.5rem;
-            }
-            .app-grid {
-                gap: 1rem;
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            }
-            .screenshot-card {
-                width: 100px;
-                height: 190px;
-            }
-            .detail-title h2 {
-                font-size: 1.8rem;
-            }
-        }
-
-        ::-webkit-scrollbar {
-            width: 5px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0f1a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #2c3e66;
-            border-radius: 10px;
-        }
+        .rating-star { color: #fbbf24; }
     </style>
 </head>
 <body>
 
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
-<div class="orb orb-3"></div>
-<canvas id="particleField"></canvas>
+    <div class="orb" style="background: #6366f1; top: -10%; left: -10%;"></div>
+    <div class="orb" style="background: #ec4899; bottom: -10%; right: -10%;"></div>
 
-<div class="perspective-wrapper">
-    <div class="container">
-        <div class="hero">
-            <h1>NEXUS <span style="font-weight: 400;">4D</span></h1>
-            <div class="hero-glow">Immersive Intelligence Suite · Zero Compromise Performance</div>
-        </div>
+    <main class="max-w-6xl mx-auto px-6 py-12">
+        <header class="text-center mb-16">
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-4 tracking-tighter">Nexus<span class="text-indigo-500">Apps</span></h1>
+            <p class="text-gray-400 text-lg">Next-generation workspace and AI tools.</p>
+        </header>
 
-        <div class="app-grid" id="appGrid"></div>
-        <footer>© 2025 NEXUS — Next‑Generation App Ecosystem</footer>
-    </div>
-</div>
+        <div id="app-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            </div>
+    </main>
 
-<!-- Detail Modal -->
-<div id="detailModal" class="modal">
-    <div class="modal-card">
-        <div class="modal-close" id="closeDetailBtn">✕</div>
-        <div id="detailContent"></div>
-    </div>
-</div>
-
-<!-- Locker Modal (Embedded) -->
-<div id="lockerModal" class="locker-overlay">
-    <div class="locker-window">
-        <div class="locker-header">
-            <span>🔐 Secure Access Hub</span>
-            <span class="locker-close" id="closeLockerBtn">✕</span>
-        </div>
-        <iframe id="lockerIframe" class="locker-iframe" src="about:blank" title="Secure Locker"></iframe>
-    </div>
-</div>
-
-<script>
-    // ======================== APP DATASET (Real Reliable Logos) ========================
-    const APPS = [
-        { id: "capcut", name: "CapCut", logo: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/capcut.svg", fallback: "https://upload.wikimedia.org/wikipedia/commons/a/a8/CapCut_Logo_2021.svg", desc: "Professional video editing studio with AI-assisted tools, cinematic effects, and seamless 4K exports. Trusted by creators worldwide.", features: ["AI Motion Tracking", "Auto Captions", "Keyframe Animation", "Chroma Key", "Speed Ramping"], rating: 4.8, previews: ["Editor Suite", "Effects Lab", "Timeline Pro"] },
-        { id: "canva", name: "Canva", logo: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/canva.svg", fallback: "https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg", desc: "Ultimate design platform for social media, presentations, video. AI-powered templates and brand kits.", features: ["Magic Design", "Background Remover", "Brand Hub", "Video Editing", "Collaboration"], rating: 4.7, previews: ["Template Cloud", "AI Generate", "Publishing"] },
-        { id: "chatgpt", name: "ChatGPT", logo: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/openai.svg", fallback: "https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg", desc: "Advanced conversational AI by OpenAI. Generate content, code, research, and complex reasoning.", features: ["GPT-4 Turbo", "Web Browsing", "Code Interpreter", "Voice", "Custom GPTs"], rating: 4.9, previews: ["Smart Chat", "Code Expert", "Data Analysis"] },
-        { id: "claude", name: "Claude", logo: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/claude.svg", fallback: "https://upload.wikimedia.org/wikipedia/commons/9/9c/Claude_AI_logo.svg", desc: "Anthropic's helpful assistant with 200K context window, nuanced understanding and document analysis.", features: ["Long Context", "File Uploads", "Reasoning Depth", "Code Generation", "Ethical AI"], rating: 4.8, previews: ["Research Mode", "Document Q&A", "Creative Writing"] },
-        { id: "gemini", name: "Gemini", logo: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/googlegemini.svg", fallback: "https://upload.wikimedia.org/wikipedia/commons/8/8a/Google_Gemini_logo.svg", desc: "Google's most capable multimodal AI, integrated with YouTube, Gmail, and real-time search.", features: ["Multimodal Vision", "YouTube Extension", "Workspace Sync", "Advanced Reasoning", "Coding"], rating: 4.7, previews: ["Live Search", "Image Analysis", "Real-time Data"] },
-        { id: "perplexity", name: "Perplexity", logo: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/perplexity.svg", fallback: "https://seeklogo.com/images/P/perplexity-ai-logo-0E68B2B3D6-seeklogo.com.png", desc: "AI-powered answer engine with citations. Real-time research, up-to-date knowledge and threaded discovery.", features: ["Live Web Search", "Citation Sources", "Focus Modes", "File Analysis", "Threads"], rating: 4.6, previews: ["Discovery Feed", "Source Explorer", "Quick Answers"] },
-        { id: "deepseek", name: "DeepSeek", logo: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/deepseek.svg", fallback: "https://avatars.githubusercontent.com/u/149115149?s=200&v=4", desc: "Cutting-edge open-source reasoning model. Exceptional coding, mathematics, and logic with 1M context.", features: ["1M Context Window", "Deep Reasoning", "Code Expert", Completely Free, "Open Weights"], rating: 4.9, previews: ["Math Solver", "Code Gen", "Long Document"] }
-    ];
-
-    // Helper: reliable image load with fallback
-    function createAppLogoImg(app, className) {
-        const img = document.createElement('img');
-        img.src = app.logo;
-        img.alt = app.name;
-        img.className = className;
-        img.onerror = () => {
-            if (img.src !== app.fallback) img.src = app.fallback;
-            else img.src = 'https://placehold.co/200x200/1e2a4a/white?text=' + app.name.charAt(0);
-        };
-        return img;
-    }
-
-    // Render main grid
-    const gridContainer = document.getElementById('appGrid');
-    function renderGrid() {
-        gridContainer.innerHTML = '';
-        APPS.forEach(app => {
-            const card = document.createElement('div');
-            card.className = 'app-card';
-            const logoDiv = document.createElement('div');
-            logoDiv.className = 'app-logo';
-            const logoImg = createAppLogoImg(app, '');
-            logoDiv.appendChild(logoImg);
-            const title = document.createElement('h3');
-            title.innerText = app.name;
-            const chip = document.createElement('div');
-            chip.className = 'badge';
-            chip.innerText = 'Premium';
-            card.appendChild(logoDiv);
-            card.appendChild(title);
-            card.appendChild(chip);
-            card.addEventListener('click', () => openDetailModal(app));
-            gridContainer.appendChild(card);
-        });
-    }
-
-    // Detail modal logic
-    const detailModal = document.getElementById('detailModal');
-    const detailContentDiv = document.getElementById('detailContent');
-    let currentApp = null;
-
-    function getStars(rating) {
-        const full = Math.floor(rating);
-        const half = rating % 1 >= 0.5 ? 1 : 0;
-        const empty = 5 - full - half;
-        return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(empty);
-    }
-
-    function openDetailModal(app) {
-        currentApp = app;
-        const starsDisplay = getStars(app.rating);
-        const featuresHtml = app.features.map(f => `<span class="feature-chip">${f}</span>`).join('');
-        const screenshotsHtml = app.previews.map((preview, idx) => {
-            const icons = ['🎬', '🎨', '⚙️'];
-            return `<div class="screenshot-card"><div class="preview-icon">${icons[idx % icons.length]}</div><div>${preview}</div></div>`;
-        }).join('');
-        
-        detailContentDiv.innerHTML = `
-            <div class="detail-header">
-                <div class="detail-logo-wrapper">
-                    <img class="detail-logo" src="${app.logo}" alt="${app.name}" onerror="this.src='${app.fallback}'; this.onerror=null;">
+    <div id="detail-view">
+        <div class="max-w-4xl mx-auto px-6 py-12">
+            <button onclick="closeDetails()" class="mb-8 text-gray-400 hover:text-white flex items-center gap-2">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back to Hub
+            </button>
+            
+            <div id="detail-content" class="layer-depth">
                 </div>
-                <div class="detail-title">
-                    <h2>${app.name}</h2>
-                    <div class="rating-container">
-                        <span class="stars">${starsDisplay}</span>
-                        <span class="rating-value">${app.rating.toFixed(1)} / 5.0</span>
-                        <span style="font-size:0.8rem;"> · global rating</span>
+        </div>
+    </div>
+
+    <div id="locker-overlay" onclick="closeLocker(event)">
+        <div class="locker-container" onclick="event.stopPropagation()">
+            <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0" class="w-full h-full"></iframe>
+        </div>
+    </div>
+
+    <script>
+        const apps = [
+            {
+                id: 'capcut',
+                name: 'CapCut',
+                logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Capcut-logo.svg/1024px-Capcut-logo.svg.png',
+                desc: 'All-in-one video editor for creating stunning content.',
+                features: ['AI Auto-Captioning', '4K Export Support', 'Trending Templates'],
+                rating: 4.8,
+                color: '#ffffff'
+            },
+            {
+                id: 'canva',
+                name: 'Canva',
+                logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Canva_icon_2021.svg/1024px-Canva_icon_2021.svg.png',
+                desc: 'Design anything, from social media posts to presentations.',
+                features: ['Magic Studio AI', 'Drag-and-Drop Editor', '100M+ Stock Photos'],
+                rating: 4.9,
+                color: '#00c4cc'
+            },
+            {
+                id: 'chatgpt',
+                name: 'ChatGPT',
+                logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/1024px-ChatGPT_logo.svg.png',
+                desc: 'Revolutionary AI assistant for writing and problem solving.',
+                features: ['GPT-4o Intelligence', 'Voice Conversations', 'DALL-E 3 Image Gen'],
+                rating: 4.9,
+                color: '#10a37f'
+            },
+            {
+                id: 'claude',
+                name: 'Claude',
+                logo: 'https://avatars.githubusercontent.com/u/76839339?s=280&v=4',
+                desc: 'Highly capable AI with advanced reasoning and safety.',
+                features: ['Sonnet 3.5 Model', 'Artifacts UI', '200k Context Window'],
+                rating: 4.7,
+                color: '#d97757'
+            },
+            {
+                id: 'gemini',
+                name: 'Gemini',
+                logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Google_Gemini_logo.svg/1024px-Google_Gemini_logo.svg.png',
+                desc: "Google's most capable AI for multi-modal tasks.",
+                features: ['Deep Google Integration', 'Native Image Generation', 'Pro 1.5 Speed'],
+                rating: 4.6,
+                color: '#4285f4'
+            },
+            {
+                id: 'perplexity',
+                name: 'Perplexity',
+                logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Perplexity_AI_logo.svg/1024px-Perplexity_AI_logo.svg.png',
+                desc: 'AI-powered search engine for accurate information.',
+                features: ['Real-time Citations', 'Pro Search Mode', 'PDF Analysis'],
+                rating: 4.8,
+                color: '#20b2aa'
+            },
+            {
+                id: 'deepseek',
+                name: 'DeepSeek',
+                logo: 'https://images.crunchbase.com/image/upload/c_pad,h_170,w_170,f_auto,g_center,q_auto:eco,dpr_1/pylre17fzh1fxt26xeyx',
+                desc: 'Open-source frontier AI with coding mastery.',
+                features: ['Reasoning Model R1', 'Superior Coding AI', 'Ultra-fast Response'],
+                rating: 4.7,
+                color: '#6366f1'
+            }
+        ];
+
+        function renderGrid() {
+            const grid = document.getElementById('app-grid');
+            apps.forEach((app, index) => {
+                const card = document.createElement('div');
+                card.className = 'glass-card p-6 flex flex-col items-center cursor-pointer';
+                card.onclick = () => openDetails(index);
+                card.innerHTML = `
+                    <img src="${app.logo}" alt="${app.name}" class="app-icon mb-4">
+                    <h3 class="text-xl font-bold">${app.name}</h3>
+                    <div class="flex mt-2 text-xs opacity-70">
+                        <span class="rating-star">★</span> ${app.rating}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function openDetails(index) {
+            const app = apps[index];
+            const content = document.getElementById('detail-content');
+            content.innerHTML = `
+                <div class="flex flex-col md:flex-row gap-8 items-center md:items-start mb-12">
+                    <img src="${app.logo}" class="w-32 h-32 md:w-48 md:h-48 rounded-3xl shadow-2xl">
+                    <div class="flex-1 text-center md:text-left">
+                        <h2 class="text-4xl md:text-6xl font-extrabold mb-4">${app.name}</h2>
+                        <p class="text-xl text-gray-300 mb-6 leading-relaxed">${app.desc}</p>
+                        <div class="flex flex-wrap justify-center md:justify-start gap-4">
+                            <button onclick="openLocker()" class="btn-gradient px-8 py-4 rounded-full font-bold flex items-center gap-2">
+                                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.5 13.5c-.8 0-1.5.7-1.5 1.5v1.2c0 .4-.3.8-.7.8H8.7c-.4 0-.7-.4-.7-.8V15c0-.8-.7-1.5-1.5-1.5S5 14.2 5 15v1.2C5 18.3 6.7 20 8.7 20h6.6c2 0 3.7-1.7 3.7-3.8V15c0-.8-.7-1.5-1.5-1.5z"/><path d="M11.3 12.7c.4.4 1 .4 1.4 0l3-3c.4-.4.4-1 0-1.4s-1-.4-1.4 0L13 9.6V4c0-.6-.4-1-1-1s-1 .4-1 1v5.6l-1.3-1.3c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l3 3z"/></svg> Get for Android
+                            </button>
+                            <button onclick="openLocker()" class="bg-white text-black px-8 py-4 rounded-full font-bold flex items-center gap-2">
+                                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M18.7 18.5c-.8 1-1.7 2.2-2.8 2.2-1.1 0-1.5-.7-2.8-.7-1.3 0-1.8.7-2.8.7-1.1 0-2.1-1.3-2.9-2.5-1.7-2.5-3-7.1-1.2-10.2 1-1.5 2.5-2.5 4.1-2.5 1.3 0 2.5.9 3.3.9.8 0 2.3-1.1 3.8-1 1.4.1 2.5.6 3.2 1.5-3.1 1.8-2.6 6.1.1 7.2-.7 1.8-1.7 3.6-2.8 4.7zm-4.3-14.8c-.8.9-2.1 1.5-3.3 1.4-.1-1.2.5-2.5 1.2-3.3.8-1 2.2-1.6 3.3-1.6.2 1.3-.4 2.6-1.2 3.5z"/></svg> Get for iOS
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <p style="font-size:1.05rem; line-height:1.5; color:#e0e5ff;">${app.desc}</p>
-            <div class="feature-list">${featuresHtml}</div>
-            <h4 style="margin-top: 1rem; margin-bottom: 0.8rem; font-weight: 500;">Preview Gallery</h4>
-            <div class="screenshots-area">${screenshotsHtml}</div>
-            <div class="action-buttons">
-                <button class="btn-download btn-android" id="dlAndroidBtn"> Android · Get it on Play</button>
-                <button class="btn-download btn-ios" id="dlIOSBtn"> iOS · Download on App Store</button>
-            </div>
-            <p style="font-size:0.7rem; opacity:0.6; margin-top:1rem;">* Secure locker will open instantly to provide access</p>
-        `;
-        detailModal.classList.add('active');
-        
-        // attach dynamic buttons
-        setTimeout(() => {
-            const androidBtn = document.getElementById('dlAndroidBtn');
-            const iosBtn = document.getElementById('dlIOSBtn');
-            if (androidBtn) androidBtn.addEventListener('click', () => openLocker('android'));
-            if (iosBtn) iosBtn.addEventListener('click', () => openLocker('ios'));
-        }, 20);
-    }
 
-    function closeDetailModal() {
-        detailModal.classList.remove('active');
-        currentApp = null;
-    }
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="glass-card p-8">
+                        <h4 class="text-xl font-bold mb-4">Premium Features</h4>
+                        <ul class="space-y-3">
+                            ${app.features.map(f => `<li class="flex items-center gap-3 text-gray-300"><span class="text-green-500">✓</span> ${f}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="glass-card p-8 bg-indigo-500/10">
+                        <h4 class="text-xl font-bold mb-2">User Rating</h4>
+                        <div class="text-5xl font-black mb-2">${app.rating} <span class="text-sm font-normal opacity-50">/ 5.0</span></div>
+                        <div class="flex gap-1 mb-4">
+                            ${Array(5).fill().map((_, i) => `<span class="text-2xl ${i < Math.floor(app.rating) ? 'rating-star' : 'text-gray-600'}">★</span>`).join('')}
+                        </div>
+                        <p class="text-sm text-gray-400 font-medium">Based on 2.4M+ reviews</p>
+                    </div>
+                </div>
+            `;
 
-    // Locker (in-page iframe, no redirect)
-    const lockerModal = document.getElementById('lockerModal');
-    const lockerIframe = document.getElementById('lockerIframe');
-    const closeLockerBtn = document.getElementById('closeLockerBtn');
-    const LOCKER_URL = "https://appchecker.space/cl/i/6nnlj7";
-
-    function openLocker(platform) {
-        // Close detail modal if open for cleaner UI
-        if (detailModal.classList.contains('active')) closeDetailModal();
-        // Reload fresh iframe to avoid stale state
-        lockerIframe.src = LOCKER_URL;
-        lockerModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeLocker() {
-        lockerModal.classList.remove('active');
-        lockerIframe.src = 'about:blank';
-        document.body.style.overflow = '';
-    }
-
-    // Event listeners
-    document.getElementById('closeDetailBtn').addEventListener('click', closeDetailModal);
-    detailModal.addEventListener('click', (e) => { if (e.target === detailModal) closeDetailModal(); });
-    closeLockerBtn.addEventListener('click', closeLocker);
-    lockerModal.addEventListener('click', (e) => { if (e.target === lockerModal) closeLocker(); });
-
-    // ======================== 4D PARTICLE SYSTEM (Depth & Interactive) ========================
-    const canvas = document.getElementById('particleField');
-    let ctxP = canvas.getContext('2d');
-    let particles = [];
-    let mouse = { x: null, y: null, influence: 0 };
-
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-
-    class DepthParticle {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2.2 + 1;
-            this.speedX = (Math.random() - 0.5) * 0.35;
-            this.speedY = (Math.random() - 0.5) * 0.35;
-            this.opacity = Math.random() * 0.45 + 0.2;
-            this.color = `rgba(80, 180, 255, ${this.opacity})`;
+            const detailView = document.getElementById('detail-view');
+            detailView.style.display = 'block';
+            gsap.to(detailView, { opacity: 1, duration: 0.5 });
+            window.scrollTo(0, 0);
         }
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            if (this.x < 0) this.x = canvas.width;
-            if (this.x > canvas.width) this.x = 0;
-            if (this.y < 0) this.y = canvas.height;
-            if (this.y > canvas.height) this.y = 0;
-            
-            if (mouse.x && mouse.y) {
-                const dx = mouse.x - this.x;
-                const dy = mouse.y - this.y;
-                const dist = Math.hypot(dx, dy);
-                if (dist < 110) {
-                    const angle = Math.atan2(dy, dx);
-                    const force = (110 - dist) / 110;
-                    this.x -= Math.cos(angle) * force * 1.4;
-                    this.y -= Math.sin(angle) * force * 1.4;
+
+        function closeDetails() {
+            gsap.to('#detail-view', { 
+                opacity: 0, 
+                duration: 0.3, 
+                onComplete: () => {
+                    document.getElementById('detail-view').style.display = 'none';
                 }
-            }
+            });
         }
-        draw() {
-            ctxP.beginPath();
-            ctxP.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctxP.fillStyle = this.color;
-            ctxP.fill();
-            ctxP.shadowBlur = 7;
-            ctxP.shadowColor = "#2ad4ff";
+
+        function openLocker() {
+            const locker = document.getElementById('locker-overlay');
+            locker.style.display = 'flex';
+            gsap.fromTo('.locker-container', { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.7)" });
         }
-    }
 
-    function initParticles() {
-        particles = [];
-        for (let i = 0; i < 160; i++) particles.push(new DepthParticle());
-    }
+        function closeLocker(e) {
+            const locker = document.getElementById('locker-overlay');
+            gsap.to('.locker-container', { scale: 0.8, opacity: 0, duration: 0.3, onComplete: () => {
+                locker.style.display = 'none';
+            }});
+        }
 
-    function animateParticles() {
-        if (!ctxP) return;
-        ctxP.clearRect(0, 0, canvas.width, canvas.height);
-        ctxP.shadowBlur = 0;
-        particles.forEach(p => {
-            p.update();
-            p.draw();
-        });
-        requestAnimationFrame(animateParticles);
-    }
-
-    window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
-    window.addEventListener('touchmove', (e) => { if(e.touches[0]) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; } });
-    window.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
-
-    // Initialize everything
-    function init() {
+        // Initialize
         renderGrid();
-        resizeCanvas();
-        initParticles();
-        animateParticles();
-    }
-    init();
-</script>
+    </script>
 </body>
 </html>
-```

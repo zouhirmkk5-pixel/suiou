@@ -3,50 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>NEXUS | Cyber Intelligence Hub</title>
+    <title>NEXUS | Professional Intelligence Hub</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background-color: #010101;
+            background-color: #000000;
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
+            color: #ffffff;
         }
-
+        /* Cyber grid background */
         .cyber-grid {
-            background-image: 
-                linear-gradient(rgba(99, 102, 241, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(99, 102, 241, 0.08) 1px, transparent 1px);
+            background-image: linear-gradient(rgba(99, 102, 241, 0.06) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(99, 102, 241, 0.06) 1px, transparent 1px);
             background-size: 50px 50px;
             position: fixed;
             inset: 0;
             pointer-events: none;
             z-index: 0;
         }
-
+        /* Glassmorphism core */
         .glass-panel {
-            background: rgba(10, 10, 20, 0.65);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(99, 102, 241, 0.25);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            background: rgba(8, 8, 14, 0.7);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
-
         .glass-card {
-            background: rgba(12, 12, 18, 0.75);
+            background: rgba(10, 10, 16, 0.8);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            transition: all 0.4s cubic-bezier(0.2, 0.95, 0.4, 1.1);
             position: relative;
             overflow: hidden;
         }
-
         .glass-card::before {
             content: '';
             position: absolute;
@@ -54,167 +47,137 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.15), transparent);
-            transition: left 0.6s ease;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.08), transparent);
+            transition: left 0.7s ease;
             pointer-events: none;
         }
-
-        .glass-card:hover::before {
-            left: 100%;
+        .glass-card:hover::before { left: 100%; }
+        .glass-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
-
-        .neon-text {
-            text-shadow: 0 0 8px rgba(99, 102, 241, 0.7), 0 0 20px rgba(99, 102, 241, 0.4);
-        }
-
+        /* Neon accents */
         .neon-border {
-            box-shadow: 0 0 12px rgba(99, 102, 241, 0.5), inset 0 0 6px rgba(99, 102, 241, 0.2);
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.3), inset 0 0 4px rgba(99, 102, 241, 0.1);
         }
-
-        .btn-cyber {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        /* Professional CTA buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
             border: none;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
-
-        .btn-cyber:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 24px rgba(99, 102, 241, 0.8);
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4);
         }
-
-        .btn-cyber:active {
-            transform: scale(0.97);
-        }
-
-        .btn-outline-cyber {
+        .btn-primary:active { transform: translateY(1px); }
+        .btn-secondary {
             background: transparent;
-            border: 1.5px solid rgba(99, 102, 241, 0.8);
-            transition: all 0.2s ease;
-            box-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
+            border: 1.5px solid rgba(99, 102, 241, 0.6);
+            transition: all 0.25s ease;
         }
-
-        .btn-outline-cyber:active {
-            transform: scale(0.96);
+        .btn-secondary:hover {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
         }
-
-        .pulse-glow {
-            animation: pulseGlow 2s infinite;
+        .btn-secondary:active { transform: translateY(1px); }
+        /* Rotating arrow */
+        .icon-arrow {
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
-
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(99, 102, 241, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
-        }
-
-        .rotate-icon {
-            transition: transform 0.3s ease;
-        }
-
-        .group:hover .rotate-icon {
-            transform: rotate(45deg);
-        }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #050505;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #6366f1;
-            border-radius: 10px;
-        }
-        
+        .group:hover .icon-arrow { transform: translateX(4px); }
+        /* Custom scroll */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #0a0a0c; }
+        ::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 10px; }
         .line-clamp-2 {
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
-        
-        @keyframes zoom-in-95 {
-            from { transform: scale(0.95); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-        
-        .animate-in {
-            animation: zoom-in-95 0.2s ease-out;
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
     </style>
 </head>
-<body class="text-white">
+<body>
 
     <div class="cyber-grid"></div>
-    <div class="fixed inset-0 bg-gradient-radial from-indigo-900/5 via-transparent to-transparent pointer-events-none"></div>
+    <div class="fixed inset-0 bg-gradient-to-tr from-indigo-950/5 via-transparent to-transparent pointer-events-none"></div>
 
-    <!-- Glassmorphic Navbar -->
-    <nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[90%] max-w-7xl z-[100] glass-panel rounded-2xl px-6 py-3 border border-indigo-500/30 shadow-2xl">
-        <div class="flex justify-between items-center">
+    <!-- Glass Navbar -->
+    <nav class="fixed top-0 left-0 w-full z-[100] glass-panel border-b border-indigo-500/20 px-6 md:px-10 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center text-xl font-black shadow-lg neon-border">N</div>
-                <span class="text-2xl font-extrabold tracking-tighter bg-gradient-to-r from-white to-indigo-300 bg-clip-text text-transparent">NEXUS</span>
+                <div class="w-9 h-9 bg-indigo-600 rounded-lg flex items-center justify-center text-base font-black tracking-tight">NX</div>
+                <span class="text-xl font-extrabold tracking-tight gradient-text">NEXUS</span>
             </div>
-            <div class="hidden md:flex gap-8 text-sm font-semibold text-gray-300">
-                <a href="#" class="hover:text-indigo-400 transition-colors">AI SUITE</a>
-                <a href="#" class="hover:text-indigo-400 transition-colors">CREATIVE HUB</a>
-                <a href="#" class="hover:text-indigo-400 transition-colors">LEADERBOARD</a>
+            <div class="hidden md:flex gap-9 text-sm font-medium text-gray-400">
+                <a href="#" class="hover:text-indigo-400 transition-colors">Intelligence</a>
+                <a href="#" class="hover:text-indigo-400 transition-colors">Creative Suite</a>
+                <a href="#" class="hover:text-indigo-400 transition-colors">Enterprise</a>
             </div>
-            <div class="px-4 py-1.5 rounded-full border border-indigo-500/40 bg-indigo-500/10 text-indigo-300 text-[11px] font-black tracking-widest backdrop-blur-sm">
-                ⚡ LIVE ACCESS v5.4
+            <div class="px-4 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/5 text-indigo-400 text-[10px] font-bold tracking-wider uppercase">
+                Core Access v5.4
             </div>
         </div>
     </nav>
 
-    <main class="relative z-10 pt-36 pb-24 px-6 md:px-10">
+    <main class="relative z-10 pt-36 pb-28 px-6 md:px-10">
         <div class="max-w-7xl mx-auto">
             <!-- Hero Section -->
             <div class="mb-28 text-center md:text-left">
-                <div class="inline-flex items-center gap-2 bg-indigo-500/10 backdrop-blur-sm border border-indigo-500/30 rounded-full px-5 py-2 mb-8">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                <div class="inline-flex items-center gap-2 bg-indigo-500/5 backdrop-blur-sm border border-indigo-500/20 rounded-full px-4 py-1.5 mb-8">
+                    <span class="relative flex h-1.5 w-1.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-60"></span>
+                        <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-indigo-500"></span>
                     </span>
-                    <span class="text-indigo-300 text-xs font-mono tracking-wider">NEXUS NETWORK — 2,847+ ACTIVE DEPLOYS</span>
+                    <span class="text-indigo-300 text-[11px] font-mono tracking-wider">NEXUS NETWORK — SECURE DEPLOYMENT</span>
                 </div>
                 <h1 class="text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[1.05] mb-6">
-                    <span class="bg-gradient-to-r from-white via-indigo-200 to-indigo-500 bg-clip-text text-transparent">Creative</span><br>
-                    <span class="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent neon-text">Intelligence.</span>
+                    <span class="gradient-text">Creative</span><br>
+                    <span class="bg-gradient-to-r from-indigo-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">Intelligence.</span>
                 </h1>
-                <p class="text-xl md:text-2xl text-gray-400 max-w-2xl font-light leading-relaxed mb-10">
-                    Next-gen AI reasoning & editing engines — verified, unlocked, ready to deploy. Join the underground creative revolution.
+                <p class="text-xl md:text-2xl text-gray-500 max-w-2xl font-light leading-relaxed mb-10">
+                    Enterprise-grade repository for 2026 generative AI, advanced reasoning engines, and professional creative tools.
                 </p>
                 <div class="flex flex-wrap gap-5 justify-center md:justify-start">
-                    <button onclick="openLocker()" class="btn-cyber px-8 py-4 rounded-2xl font-bold text-lg flex items-center gap-3 group pulse-glow">
-                        <span>⚡ EXPLORE NEXUS VAULT</span>
-                        <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    <button onclick="openLocker()" class="btn-primary px-8 py-4 rounded-xl font-semibold text-base flex items-center gap-2 group">
+                        <span>Explore Nexus Vault</span>
+                        <svg class="w-4 h-4 icon-arrow" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                     </button>
-                    <button onclick="openLocker()" class="btn-outline-cyber px-8 py-4 rounded-2xl font-bold text-lg backdrop-blur-sm flex items-center gap-2">
-                        <span>📱 INSTALL ON iOS</span>
+                    <button onclick="openLocker()" class="btn-secondary px-8 py-4 rounded-xl font-semibold text-base">
+                        Provision Access
                     </button>
                 </div>
             </div>
 
-            <!-- Featured Apps Section -->
+            <!-- Featured Tools Section -->
             <div class="mb-24">
                 <div class="flex items-center gap-3 mb-8">
-                    <div class="w-10 h-10 bg-indigo-500/20 rounded-xl flex items-center justify-center border border-indigo-400/40"><span class="text-indigo-400 text-xl">✦</span></div>
-                    <h2 class="text-3xl md:text-4xl font-black tracking-tight">FEATURED <span class="text-indigo-400">POWER TOOLS</span></h2>
-                    <div class="flex-1 h-px bg-gradient-to-r from-indigo-500/50 to-transparent"></div>
+                    <div class="w-8 h-8 bg-indigo-500/15 rounded-lg flex items-center justify-center border border-indigo-500/30">
+                        <span class="text-indigo-400 text-sm font-bold">★</span>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-white">Featured <span class="text-indigo-400">Tools</span></h2>
+                    <div class="flex-1 h-px bg-gradient-to-r from-indigo-500/30 to-transparent"></div>
                 </div>
                 <div id="featured-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
             </div>
 
-            <!-- Full App Grid -->
+            <!-- Complete Repository Grid -->
             <div>
                 <div class="flex items-center gap-3 mb-8">
-                    <div class="w-10 h-10 bg-purple-500/20 rounded-xl flex items-center justify-center border border-purple-400/40"><span class="text-purple-400 text-xl">⌘</span></div>
-                    <h2 class="text-3xl md:text-4xl font-black tracking-tight">COMPLETE <span class="text-purple-400">REPOSITORY</span></h2>
+                    <div class="w-8 h-8 bg-purple-500/15 rounded-lg flex items-center justify-center border border-purple-500/30">
+                        <span class="text-purple-400 text-sm font-bold">⌘</span>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-white">Complete <span class="text-purple-400">Repository</span></h2>
                 </div>
                 <div id="grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"></div>
             </div>
@@ -222,37 +185,37 @@
     </main>
 
     <!-- Footer -->
-    <footer class="relative z-10 border-t border-indigo-500/20 glass-panel mt-20 py-12 px-6 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+    <footer class="relative z-10 border-t border-indigo-500/20 glass-panel mt-20 py-10 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-5">
             <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-xl font-black shadow-lg">NX</div>
-                <div class="text-xs text-gray-500 tracking-wider">© 2026 NEXUS INTELLIGENCE HUB — ENTERPRISE GRADE ACCESS</div>
+                <div class="w-9 h-9 rounded-lg bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-sm font-bold">NX</div>
+                <div class="text-[11px] text-gray-500 tracking-wide">© 2026 NEXUS INTELLIGENCE HUB — ENTERPRISE VERIFIED</div>
             </div>
             <div class="flex gap-6">
-                <button onclick="openLocker()" class="text-sm font-bold bg-indigo-500/10 hover:bg-indigo-500/30 transition-all px-6 py-2 rounded-full border border-indigo-500/40 flex items-center gap-2">
-                    <span>🔓 INSTALL NOW</span>
+                <button onclick="openLocker()" class="text-xs font-semibold bg-indigo-500/10 hover:bg-indigo-500/20 transition-all px-5 py-2 rounded-full border border-indigo-500/30">
+                    Deploy Access
                 </button>
-                <button onclick="scrollToTop()" class="text-sm font-bold text-gray-400 hover:text-white transition-all">BACK TO TOP ↑</button>
+                <button onclick="scrollToTop()" class="text-xs font-semibold text-gray-500 hover:text-white transition-all">Back to Top ↑</button>
             </div>
         </div>
     </footer>
 
     <!-- App Detail Overlay -->
-    <div id="app-overlay" class="fixed inset-0 bg-black/90 backdrop-blur-xl z-[200] hidden overflow-y-auto transition-all duration-500">
-        <div class="max-w-6xl mx-auto px-6 py-12 md:py-20">
-            <button onclick="hideDetails()" class="group mb-12 flex items-center gap-3 text-gray-400 hover:text-white font-semibold transition-all text-lg">
-                <svg class="w-6 h-6 rotate-icon group-hover:-translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"/></svg>
-                BACK TO VAULT
+    <div id="app-overlay" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-[200] hidden overflow-y-auto">
+        <div class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+            <button onclick="hideDetails()" class="group mb-12 flex items-center gap-2 text-gray-400 hover:text-white font-medium transition-all text-sm">
+                <svg class="w-5 h-5 group-hover:-translate-x-1 transition" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                Back to Repository
             </button>
-            <div id="overlay-content" class="glass-panel rounded-3xl p-8 md:p-12 border-indigo-500/40"></div>
+            <div id="overlay-content" class="glass-panel rounded-2xl p-8 md:p-10 border-indigo-500/30"></div>
         </div>
     </div>
 
     <!-- Locker Modal -->
-    <div id="locker-modal" class="fixed inset-0 z-[300] bg-black/95 hidden items-center justify-center p-4" onclick="closeLocker()">
-        <div class="w-full max-w-3xl h-[85vh] bg-gradient-to-br from-gray-900 to-black rounded-3xl overflow-hidden shadow-2xl border border-indigo-500/50 relative" onclick="event.stopPropagation()">
+    <div id="locker-modal" class="fixed inset-0 z-[300] bg-black/98 hidden items-center justify-center p-4" onclick="closeLocker()">
+        <div class="w-full max-w-3xl h-[85vh] bg-[#0a0a0c] rounded-2xl overflow-hidden shadow-2xl border border-indigo-500/40 relative" onclick="event.stopPropagation()">
             <div class="absolute top-4 right-4 z-10">
-                <button onclick="closeLocker()" class="bg-black/60 backdrop-blur rounded-full p-2 border border-white/20 text-white hover:bg-indigo-600 transition">✕</button>
+                <button onclick="closeLocker()" class="bg-black/70 backdrop-blur rounded-full p-2 border border-white/15 text-white/70 hover:text-white transition">✕</button>
             </div>
             <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0" class="w-full h-full"></iframe>
         </div>
@@ -264,15 +227,15 @@
                 name: 'DeepSeek R1', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png', 
                 tag: 'Deep Reasoning',
-                desc: 'The leading open-source model for 2026. This build includes DeepThink V3 logic, specialized for complex code architecture and mathematics.',
-                features: ['V3.2 Reasoning', 'Coder-V2 Native', 'Bypass Logic Mode', 'Full Local Context'],
+                desc: 'Advanced open-source reasoning model featuring DeepThink V3 logic. Optimized for complex code architecture, mathematical proofs, and analytical workflows.',
+                features: ['V3.2 Reasoning Engine', 'Coder-V2 Native', 'Bypass Logic Mode', 'Full Local Context'],
                 category: 'AI Logic'
             },
             { 
                 name: 'Midjourney AI', 
                 logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png', 
                 tag: 'Generative Art',
-                desc: 'Hyper-realistic visual generation with v6.1 reasoning. Perfect for high-fidelity branding and cinematic concept art.',
+                desc: 'High-fidelity visual generation with v6.1 architecture. Engineered for cinematic concept art, branding assets, and photorealistic renders.',
                 features: ['V6.1 Engine', 'Fast GPU Access', 'Stealth Generation', 'High-Res Upscaling'],
                 category: 'Visual AI'
             },
@@ -280,23 +243,23 @@
                 name: 'Claude 3.5 Sonnet', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png', 
                 tag: 'Reasoning Hub',
-                desc: 'Anthropic’s technical flagship. Unmatched performance in technical writing and massive project analysis.',
-                features: ['Artifacts UI', '200k Context', 'Safe Logic Guard', 'Verified Access'],
+                desc: 'Enterprise-grade technical intelligence platform. Exceptional performance in technical documentation, code analysis, and large-scale project management.',
+                features: ['Artifacts UI', '200k Context Window', 'Safety Architecture', 'Verified Access'],
                 category: 'Intelligence'
             },
             { 
                 name: 'ChatGPT Plus', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', 
                 tag: 'Universal AI',
-                desc: 'Full access to GPT-4o, DALL-E 3, and advanced voice protocols with real-time web vision.',
-                features: ['GPT-4o Native', 'DALL-E 3 Visuals', 'Advanced Voice', 'Search Pro'],
+                desc: 'Full-spectrum access to GPT-4o, DALL-E 3, and advanced reasoning protocols with real-time web integration and multimodal analysis.',
+                features: ['GPT-4o Native', 'DALL-E 3 Integration', 'Advanced Voice', 'Search Pro'],
                 category: 'AI Suite'
             },
             { 
                 name: 'CapCut Pro', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', 
                 tag: 'Video Edit',
-                desc: 'Social dominance tool. Unlock all 4K raw templates, AI-driven smart VFX, and high-bitrate exports.',
+                desc: 'Professional video editing suite with AI-driven VFX, 4K raw exports, and premium asset library for content creators and production teams.',
                 features: ['4K Raw Output', 'AI VFX Suite', 'Premium Assets', 'No Watermark'],
                 category: 'Creative'
             },
@@ -304,7 +267,7 @@
                 name: 'Perplexity Pro', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', 
                 tag: 'Knowledge Search',
-                desc: 'Real-time research with source verification. Switch between the world’s top reasoning models on the fly.',
+                desc: 'Real-time research platform with source verification and multi-model switching. Designed for analysts, researchers, and knowledge workers.',
                 features: ['Live Citations', 'Source Deep-Dive', 'Model Switcher', 'Ad-Free Logic'],
                 category: 'Research'
             },
@@ -312,7 +275,7 @@
                 name: 'Gemini Ultra', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', 
                 tag: 'Multi-Modal',
-                desc: 'Google’s powerhouse. Deep integration with the entire Workspace ecosystem for maximum productivity.',
+                desc: 'Google\'s most advanced multimodal intelligence platform. Native integration with Workspace ecosystem for maximum productivity.',
                 features: ['Workspace Sync', 'Ultra Logic', 'Live Research', 'App Extensions'],
                 category: 'Productivity'
             },
@@ -320,7 +283,7 @@
                 name: 'Canva Pro', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', 
                 tag: 'Visual Assets',
-                desc: 'Enterprise-grade creative suite. Full Magic Studio access with 100M+ premium assets and branding tools.',
+                desc: 'Professional design ecosystem with Magic Studio AI, unlimited premium assets, and enterprise branding tools for creative teams.',
                 features: ['Magic Resizer', 'AI Background Edit', 'Brand Kit Pro', '100M+ Assets'],
                 category: 'Design'
             }
@@ -328,7 +291,32 @@
 
         function imgFallback(img, name) {
             img.onerror = null;
-            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1a1a24&color=6366f1&size=256&bold=true&font-size=0.45`;
+            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0f0f14&color=6366f1&size=256&bold=true&font-size=0.42`;
+        }
+
+        // Build featured section (first 4 apps)
+        function buildFeatured() {
+            const container = document.getElementById('featured-container');
+            if (!container) return;
+            container.innerHTML = '';
+            const featured = appData.slice(0, 4);
+            featured.forEach((app, idx) => {
+                const card = document.createElement('div');
+                card.className = 'glass-card rounded-2xl p-6 transition-all cursor-pointer group';
+                card.setAttribute('onclick', `showDetails(${idx})`);
+                card.innerHTML = `
+                    <div class="relative mb-5">
+                        <div class="w-16 h-16 rounded-xl bg-black/60 border border-indigo-500/30 p-2.5 flex items-center justify-center">
+                            <img src="${app.logo}" class="w-full object-contain" onerror="imgFallback(this, '${app.name}')">
+                        </div>
+                        ${idx === 0 ? '<div class="absolute -top-2 -right-2 bg-indigo-600 text-[9px] font-bold px-2 py-0.5 rounded-full shadow-md">Lead</div>' : ''}
+                    </div>
+                    <h3 class="text-lg font-bold mb-1.5 group-hover:text-indigo-400 transition-colors">${app.name}</h3>
+                    <p class="text-gray-400 text-sm mb-4 line-clamp-2">${app.desc.substring(0, 70)}...</p>
+                    <button onclick="event.stopPropagation(); openLocker()" class="w-full py-2 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 font-semibold text-xs transition border border-indigo-500/20">Deploy →</button>
+                `;
+                container.appendChild(card);
+            });
         }
 
         // Build full grid
@@ -338,50 +326,25 @@
             container.innerHTML = '';
             appData.forEach((app, i) => {
                 const card = document.createElement('div');
-                card.className = 'glass-card rounded-3xl p-8 flex flex-col justify-between cursor-pointer group transition-all duration-300 hover:translate-y-[-6px] hover:border-indigo-400/70';
+                card.className = 'glass-card rounded-2xl p-7 flex flex-col justify-between cursor-pointer group transition-all duration-300';
                 card.setAttribute('onclick', `showDetails(${i})`);
                 card.innerHTML = `
                     <div>
-                        <div class="w-20 h-20 rounded-2xl bg-black/50 border border-indigo-500/30 flex items-center justify-center mb-7 p-3">
+                        <div class="w-16 h-16 rounded-xl bg-black/60 border border-indigo-500/30 flex items-center justify-center mb-6 p-2.5">
                             <img src="${app.logo}" alt="${app.name}" class="w-full h-full object-contain" onerror="imgFallback(this, '${app.name}')">
                         </div>
-                        <p class="text-indigo-400 font-bold text-[11px] tracking-[0.2em] uppercase mb-2 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500 inline-block"></span> ${app.tag}</p>
-                        <h3 class="text-2xl font-extrabold tracking-tight mb-4 group-hover:text-indigo-400 transition-colors">${app.name}</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed line-clamp-2 mb-4">${app.desc.substring(0, 90)}...</p>
+                        <p class="text-indigo-400 font-bold text-[10px] tracking-[0.2em] uppercase mb-2 flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-indigo-500"></span> ${app.tag}</p>
+                        <h3 class="text-xl font-extrabold tracking-tight mb-3 group-hover:text-indigo-400 transition-colors">${app.name}</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed line-clamp-2 mb-4">${app.desc.substring(0, 95)}...</p>
                     </div>
-                    <div class="flex justify-between items-center pt-6 border-t border-white/10 mt-4">
-                        <span class="text-[10px] text-gray-500 font-bold uppercase tracking-widest bg-white/5 px-2 py-1 rounded-full">${app.category}</span>
-                        <div class="w-10 h-10 rounded-full border border-indigo-500/30 flex items-center justify-center group-hover:bg-indigo-600 group-hover:border-indigo-400 transition-all duration-200 rotate-icon group-hover:shadow-[0_0_12px_#6366f1]">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" class="text-indigo-400 group-hover:text-white"><path d="M12 4v16m8-8H4"/></svg>
+                    <div class="flex justify-between items-center pt-5 border-t border-white/8 mt-2">
+                        <span class="text-[10px] text-gray-500 font-semibold uppercase tracking-wider bg-white/5 px-2.5 py-1 rounded-full">${app.category}</span>
+                        <div class="w-8 h-8 rounded-full border border-indigo-500/30 flex items-center justify-center group-hover:bg-indigo-600 group-hover:border-indigo-400 transition-all duration-200">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" class="text-indigo-400 group-hover:text-white"><path d="M12 4v16m8-8H4"/></svg>
                         </div>
                     </div>
                 `;
                 container.appendChild(card);
-            });
-        }
-
-        // Build featured section (first 4 apps)
-        function buildFeatured() {
-            const featuredContainer = document.getElementById('featured-container');
-            if (!featuredContainer) return;
-            featuredContainer.innerHTML = '';
-            const featuredApps = appData.slice(0, 4);
-            featuredApps.forEach((app, idx) => {
-                const card = document.createElement('div');
-                card.className = 'glass-card rounded-3xl p-6 transition-all cursor-pointer group';
-                card.setAttribute('onclick', `showDetails(${idx})`);
-                card.innerHTML = `
-                    <div class="relative mb-5">
-                        <div class="w-20 h-20 rounded-2xl bg-black/50 border border-indigo-500/40 p-3 flex items-center justify-center">
-                            <img src="${app.logo}" class="w-full object-contain" onerror="imgFallback(this, '${app.name}')">
-                        </div>
-                        ${idx === 0 ? '<div class="absolute -top-2 -right-2 bg-indigo-600 text-[9px] font-black px-2 py-1 rounded-full shadow-lg">#1 AI</div>' : ''}
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">${app.name}</h3>
-                    <p class="text-gray-400 text-sm mb-5">${app.desc.substring(0, 60)}...</p>
-                    <button onclick="event.stopPropagation(); openLocker()" class="w-full py-2.5 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/40 text-indigo-300 font-bold text-sm transition flex items-center justify-center gap-2">ACTIVATE →</button>
-                `;
-                featuredContainer.appendChild(card);
             });
         }
 
@@ -392,28 +355,28 @@
             contentDiv.innerHTML = `
                 <div class="grid lg:grid-cols-2 gap-12 items-start">
                     <div>
-                        <div class="w-36 h-36 rounded-[32px] mb-10 shadow-2xl overflow-hidden border-2 border-indigo-500/40 bg-black/60 flex items-center justify-center p-5">
+                        <div class="w-28 h-28 rounded-2xl mb-8 shadow-2xl overflow-hidden border border-indigo-500/30 bg-black/50 flex items-center justify-center p-4">
                             <img src="${app.logo}" class="w-full h-full object-contain" onerror="imgFallback(this, '${app.name}')">
                         </div>
-                        <h2 class="text-6xl md:text-7xl font-black tracking-tighter mb-6 leading-none bg-gradient-to-r from-white to-indigo-300 bg-clip-text text-transparent">${app.name}</h2>
-                        <p class="text-xl text-gray-300 font-light leading-relaxed mb-10">${app.desc}</p>
-                        <div class="flex flex-wrap gap-5">
-                            <button onclick="openLocker()" class="btn-cyber px-8 py-4 rounded-2xl font-black text-lg shadow-xl shadow-indigo-500/30 flex items-center gap-2">🚀 INSTALL NOW</button>
-                            <button onclick="openLocker()" class="bg-white/5 border border-white/20 px-8 py-4 rounded-2xl font-black text-lg hover:bg-white/10 transition-all">⚡ QUICK DEPLOY</button>
+                        <h2 class="text-5xl md:text-6xl font-black tracking-tighter mb-5 leading-none gradient-text">${app.name}</h2>
+                        <p class="text-lg text-gray-400 font-light leading-relaxed mb-8">${app.desc}</p>
+                        <div class="flex flex-wrap gap-4">
+                            <button onclick="openLocker()" class="btn-primary px-7 py-3.5 rounded-xl font-semibold text-sm shadow-lg shadow-indigo-500/20">Deploy Access</button>
+                            <button onclick="openLocker()" class="btn-secondary px-7 py-3.5 rounded-xl font-semibold text-sm">Provision License</button>
                         </div>
                     </div>
-                    <div class="bg-black/40 backdrop-blur-md border border-indigo-500/30 p-8 rounded-[40px] shadow-2xl">
-                        <div class="flex items-center gap-2 mb-8"><div class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div><span class="text-xs font-black tracking-wider text-indigo-300">NEXUS VERIFIED FEATURES</span></div>
-                        <div class="space-y-6">
-                            ${app.features.map(f => `<div class="flex items-center gap-4"><div class="w-7 h-7 rounded-full bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 text-sm font-black">✓</div><span class="text-lg font-semibold text-gray-200">${f}</span></div>`).join('')}
+                    <div class="bg-black/30 backdrop-blur-md border border-indigo-500/20 p-7 rounded-2xl shadow-xl">
+                        <div class="flex items-center gap-2 mb-6"><div class="w-1.5 h-1.5 rounded-full bg-indigo-500"></div><span class="text-[10px] font-bold tracking-wider text-indigo-300 uppercase">Verified Features</span></div>
+                        <div class="space-y-5">
+                            ${app.features.map(f => `<div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-[10px] font-bold">✓</div><span class="text-base font-medium text-gray-200">${f}</span></div>`).join('')}
                         </div>
-                        <div class="mt-12 pt-6 border-t border-indigo-500/20 text-center text-indigo-300 text-sm font-mono">⚡ Ready for immediate activation</div>
+                        <div class="mt-8 pt-5 border-t border-indigo-500/15 text-center text-indigo-400/70 text-xs font-mono">Enterprise-grade · Ready for deployment</div>
                     </div>
                 </div>
             `;
             overlay.style.display = 'block';
             document.body.style.overflow = 'hidden';
-            gsap.fromTo(contentDiv, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" });
+            gsap.fromTo(contentDiv, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" });
         }
 
         function hideDetails() {
@@ -424,7 +387,7 @@
         function openLocker() {
             const modal = document.getElementById('locker-modal');
             modal.style.display = 'flex';
-            gsap.fromTo(modal.children[0], { scale: 0.95, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(0.6)" });
+            gsap.fromTo(modal.children[0], { scale: 0.96, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(0.5)" });
         }
 
         function closeLocker() {
@@ -435,15 +398,14 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Initialize everything when page loads
+        // Initialize everything
         window.addEventListener('DOMContentLoaded', () => {
             buildFeatured();
             buildFullGrid();
             
-            // GSAP animations
-            gsap.from('nav', { y: -60, opacity: 0, duration: 0.8, ease: 'power2.out' });
-            gsap.from('.text-7xl', { scale: 0.9, opacity: 0, duration: 1, delay: 0.2, ease: 'back.out(0.4)' });
-            gsap.from('.glass-card', { y: 60, opacity: 0, duration: 0.7, stagger: 0.08, delay: 0.3 });
+            gsap.from('nav', { y: -50, opacity: 0, duration: 0.7, ease: 'power2.out' });
+            gsap.from('.text-7xl', { scale: 0.96, opacity: 0, duration: 0.9, delay: 0.15, ease: 'power2.out' });
+            gsap.from('.glass-card', { y: 40, opacity: 0, duration: 0.6, stagger: 0.06, delay: 0.25 });
         });
     </script>
 </body>

